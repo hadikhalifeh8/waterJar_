@@ -86,6 +86,23 @@ static Database? _db; // variable  private
       )
      ''');
 
+
+                // إسم الزبون
+          batch.execute('''  
+      CREATE TABLE "customers" (
+        "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT ,
+        "name" TEXT NOT NULL UNIQUE,
+        "phone" TEXT NOT NULL UNIQUE,
+        "town_id" INTEGER NOT NULL,
+        "district_id" INTEGER NOT NULL,
+
+        "FOREIGN KEY (town_id) REFERENCES towns (id) ON DELETE NO ACTION ON UPDATE NO ACTION,"
+        "FOREIGN KEY (district_id) REFERENCES district (id) ON DELETE NO ACTION ON UPDATE NO ACTION,"
+
+        
+      )
+     ''');
+
   
 
      await batch.commit();
@@ -104,13 +121,18 @@ _onUpgrade(Database db, int oldVersion, int newVersion)async {
       //           "ALTER TABLE test ADD COLUMN mobile TEXT");
 
 
-    //        // إسم الحي
+    //        // إسم الزبون
     //       await  db.execute('''  
-    //   CREATE TABLE "district" (
+    //   CREATE TABLE "customers" (
     //     "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT ,
     //     "name" TEXT NOT NULL UNIQUE,
-    //     "town_id" INTEGER NOT NULL, 
+    //     "phone" TEXT NOT NULL UNIQUE,
+    //     "town_id" INTEGER NOT NULL,
+    //     "district_id" INTEGER NOT NULL,
+
     //     "FOREIGN KEY (town_id) REFERENCES towns (id) ON DELETE NO ACTION ON UPDATE NO ACTION,"
+    //     "FOREIGN KEY (district_id) REFERENCES district (id) ON DELETE NO ACTION ON UPDATE NO ACTION,"
+
         
     //   )
     //  ''');

@@ -51,7 +51,7 @@ class ViewDrivers extends StatelessWidget {
                             onDelete: (){{controller.removeData(controller.driver[index].id);} } ,
                             iconEdit: Icons.edit, 
                             iconDelete: Icons.delete_forever_sharp
-                            ),
+                            ), 
 
                        
                               

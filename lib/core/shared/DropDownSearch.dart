@@ -14,6 +14,8 @@ final List<SelectedListItem> listdata;
 final TextEditingController dropDownSelectedName;
 final TextEditingController dropDownSelectedID;
 
+final void Function(String?)? onTownChanged;
+
 
 
 
@@ -23,7 +25,9 @@ final TextEditingController dropDownSelectedID;
        required this.title,
        required this.listdata,
        required this.dropDownSelectedName,
-       required this.dropDownSelectedID
+       required this.dropDownSelectedID,
+        this.onTownChanged,
+
         }) : super(key: key);
 
   @override
@@ -70,7 +74,14 @@ class _CustomDropDownSearchState extends State<CustomDropDownSearch> {
 
           print("---***////++++++++_************* DropDownState Name: is ${widget.dropDownSelectedName.text} ");
           print("---***////++++++++_************* DropDownState ID: is ${widget.dropDownSelectedID.text} ");
+          
 
+
+           // Call the onTownChanged callback when a town is selected
+      if (widget.onTownChanged != null) {
+        // const Text("choose District");
+        widget.onTownChanged!(widget.dropDownSelectedID.text);
+      }  
 
           
         },

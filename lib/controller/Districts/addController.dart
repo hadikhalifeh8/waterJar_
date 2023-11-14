@@ -19,7 +19,7 @@ class AddDistrictController extends GetxController {
 
 
 
-  StatusRequest? statusRequest;
+  StatusRequest statusRequest = StatusRequest.none;
 
   GlobalKey<FormState> formState = GlobalKey<FormState>();
 
@@ -93,45 +93,45 @@ if (townsId == null || townsId!.text.isEmpty) {
 
       List<Map> existingrecords = await sqlDb.readData
                             ('''
-                             SELECT * FROM district WHERE name = "${name.text}"
+                             SELECT * FROM district WHERE name = '${name.text}'
                             ''');
           if(existingrecords.isNotEmpty) {
              statusRequest = StatusRequest.failure;
         Get.defaultDialog(title: "Warning", middleText: "name already exists");
           }else{
-                  int response =await sqlDb.insertData 
-                                     ('''
-                                     INSERT INTO district ('name', 'town_id')
-                                     VALUES ("${name.text}", ${townsId!.text})
-                                  ''');
+                  int response =await sqlDb.insertData('''
+                 INSERT INTO district('name', 'town_id')
+                 VALUES('${name.text}', '${townsId!.text}')
+              ''');
+              
 
-          statusRequest = handlingData("// $response //");
+                    print("=*//*--================ $response");   
+                                   
+           statusRequest = handlingData(response);
+           if(StatusRequest.success == statusRequest)
+           {
+             if(response > 0)
+             {
+               ViewDistreictsController controller = Get.put(ViewDistreictsController());
+               controller.readData();
+               Get.offAllNamed(AppRoute.districtview);
 
-        if (StatusRequest.success == statusRequest) {
-          if (response > 0) {
-
-            ViewDistreictsController controller = Get.put(ViewDistreictsController());
-            print("*---------=== success + $response");
-            controller.readData();
-            Get.offAllNamed(AppRoute.districtview);
-
-            Get.rawSnackbar(
+                  Get.rawSnackbar(
               titleText: const Text("Success", style: TextStyle(color: Colors.white)),
               messageText: const Text("Data added Successfully", style: TextStyle(color: Colors.white)),
               backgroundColor: Colors.green.shade400,
-            );
-          } else {
-            print("Status.FAILED");
-            statusRequest = StatusRequest.failure;
-            Get.defaultDialog(title: "Warning", middleText: "An error occurred while adding data");
-          }
-        }     
-                             
+            );  
+
+             }
+           }
+          
+                  
           }                
 
-update();    
 
+ update();
     }
+    
   }
 
 

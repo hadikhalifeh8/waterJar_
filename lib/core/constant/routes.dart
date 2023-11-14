@@ -24,6 +24,11 @@ class AppRoute {
   static const String districtview = "/districtview";
 
 
+  // Customers
+  static const String customeradd = "/customeradd";
+
+
+
 
   
 

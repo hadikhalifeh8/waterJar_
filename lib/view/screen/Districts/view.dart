@@ -20,8 +20,7 @@ class ViewDistreicts extends StatelessWidget {
         title: const Text("View All Districts"),
         centerTitle: true,
       ),
-      body:    ListView(   
-        children: [
+      body:   
 
          // CustomTitlesOFNames(),
 
@@ -31,7 +30,14 @@ class ViewDistreicts extends StatelessWidget {
 
       HandlingDataView(
                         statusRequest: controller.statusRequest, 
-                       widget:       ListView.builder(
+                    widget:
+                        ListView(   
+                            children: [
+
+                             Stack(
+                          children: [
+                       
+                              ListView.builder(
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
 
@@ -49,8 +55,11 @@ class ViewDistreicts extends StatelessWidget {
 
             onDelete: () {  controller.removeData(controller.district[index].id.toString());},
             
-            ),
+            ), 
          ),
+           ])
+                          
+              ]),
                        
                        )
         
@@ -61,7 +70,7 @@ class ViewDistreicts extends StatelessWidget {
             
           
       
-      ]),
+      
 
         floatingActionButton: FloatingActionButton(onPressed: (){
                                    controller.goToaddPage();

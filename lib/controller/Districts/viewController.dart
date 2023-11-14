@@ -29,20 +29,16 @@ class ViewDistreictsController extends GetxController {
 
   Future readData() async{
     district.clear(); // for delete refresh
+     update();
     statusRequest = StatusRequest.loading;
-    update();
+   
 
     // List<Map> response = await sqlDb.readData("SELECT * FROM district WHERE id = ");
-    List<Map> response = await sqlDb.readData
-                                          ('''
-
+    List<Map> response = await sqlDb.readData('''
   SELECT district.id, district.name, district.town_id, towns.id as town_id, towns.name as town_name
   FROM district
   JOIN towns ON district.town_id = towns.id;
-          
-    
-                       
-                                        ''');
+        ''');
 
       print("***************##############************* Controler $response ");
 
@@ -61,13 +57,15 @@ class ViewDistreictsController extends GetxController {
                         return response;
              }else{
                print("No data");
-        update();
+               update();
+   
     return  statusRequest = StatusRequest.failure;
 
              }
-             
+            
            }
            update();
+            
 
   }
 
@@ -86,7 +84,7 @@ class ViewDistreictsController extends GetxController {
 
               district.removeWhere((element) => element.id.toString() == id_!.toString() );
              
-             update();
+            //  update();
 
 
               print("========***** DELETED $response + $id_");

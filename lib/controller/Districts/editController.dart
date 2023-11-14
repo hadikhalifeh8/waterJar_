@@ -131,6 +131,7 @@ class EditDistrictController extends GetxController{
             print("Update Successful");
             ViewDistreictsController controller = Get.put(ViewDistreictsController());
              controller.readData();
+             print("Update readData");
             Get.offAllNamed(AppRoute.districtview);
 
              Get.rawSnackbar(
@@ -140,25 +141,24 @@ class EditDistrictController extends GetxController{
             );
 
 
-         }else {
-            print("Update Failed");
-          }
+         }
       }
-      }else{
+      }
+      // else{
         
-       print("The Same Data");
-      ViewDistreictsController controller = Get.put(ViewDistreictsController());
-      controller.readData();
-      Get.offAllNamed(AppRoute.districtview);
+      //  print("The Same Data");
+      // ViewDistreictsController controller = Get.put(ViewDistreictsController());
+      // controller.readData();
+      // Get.offAllNamed(AppRoute.districtview);
       
-      Get.rawSnackbar(
-              titleText: const Text("Success", style: TextStyle(color: Colors.white)),
-              messageText: const Text("Data are the Same", style: TextStyle(color: Colors.white)),
-              backgroundColor: Colors.green.shade400,
-            );
-      }
+      // Get.rawSnackbar(
+      //         titleText: const Text("Success", style: TextStyle(color: Colors.white)),
+      //         messageText: const Text("Data are the Same", style: TextStyle(color: Colors.white)),
+      //         backgroundColor: Colors.green.shade400,
+      //       );
+      // }
 
-  
+  update();
 
           }
           update();

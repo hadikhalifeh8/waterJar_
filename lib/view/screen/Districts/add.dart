@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:water_jar/controller/Districts/addController.dart';
+import 'package:water_jar/core/class/handlingDataView.dart';
 import 'package:water_jar/core/functions/validationinput.dart';
 import 'package:water_jar/core/shared/DropDownSearch.dart';
 import 'package:water_jar/view/widget/Districts/CustomTextFormDistrict.dart';
@@ -28,7 +29,9 @@ class AddDistrict extends StatelessWidget {
              GetBuilder<AddDistrictController>(builder: (controller) => 
              
 
-              Form(
+      HandlingDataView(
+        statusRequest: controller.statusRequest,
+         widget:         Form(
 
                 key: controller.formState,
                 child: ListView(children: [
@@ -93,7 +96,7 @@ class AddDistrict extends StatelessWidget {
                       // ),
               
                 ],),
-              ) ,
+              ) ,)
              
              ),
     );
