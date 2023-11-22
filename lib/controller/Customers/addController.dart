@@ -1,7 +1,9 @@
 import 'package:drop_down_list/model/selected_list_item.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:water_jar/controller/Customers/viewController.dart';
 import 'package:water_jar/core/class/statusRequest.dart';
+import 'package:water_jar/core/constant/routes.dart';
 import 'package:water_jar/core/functions/handlingDataController.dart';
 import 'package:water_jar/core/functions/sqldb.dart';
 import 'package:water_jar/data/model/customersModel.dart';
@@ -83,19 +85,28 @@ class AddCustomerController extends GetxController{
       return  statusRequest = StatusRequest.failure;
   }
 
+  void resetDistrictDropDown() {
+districtsName.text = "";
+districtsId.text = ""; // Set the ID to an appropriate default value or an empty string
+}
+
 
 
 
     // Add this function to update districts based on the selected town
-  void onTownChanged(String? townId) async {
+   onTownChanged(String? townId) async {
     if (townId != null && townId.isNotEmpty) {
       dropdownListOFDistricts.clear(); // Clear existing districts
-   
+      resetDistrictDropDown();
+      
+
       update(); // Update the UI
+     
       
 
       // Call getDistrictsData with the selected townId
       await getDistrictsData(townId);
+      
     }
   }
 
@@ -117,6 +128,7 @@ class AddCustomerController extends GetxController{
 SELECT id, name  FROM district WHERE town_id = "${townsId.text}"
                         ''');
                         print("townsId is = ${townsId.text}");
+                        
 
       print("***************##############************* Districts Controler $response ");
 
@@ -166,62 +178,63 @@ SELECT id, name  FROM district WHERE town_id = "${townsId.text}"
 
 
 
-//    insertData() async {
+   insertData() async {
 
-//     if (townsId == null || townsId.text.isEmpty || districtsId == null || districtsId.text.isEmpty) {
-//   return Get.snackbar("warning", "select a town AND district",backgroundColor: Colors.red, colorText: Colors.white);
-// }
+    if ( townsId.text.isEmpty ||  districtsId.text.isEmpty) {
+  return Get.snackbar("warning", "select a town AND district",backgroundColor: Colors.red, colorText: Colors.white);
+}
 
-//     if(formState.currentState!.validate())
-//     {
-//       statusRequest = StatusRequest.loading;
-//       update();
+    if(formState.currentState!.validate())
+    {
+      statusRequest = StatusRequest.loading;
+      update();
 
 
 
-//       List<Map> existingrecords = await sqlDb.readData
-//                             ('''
-//                              SELECT * FROM customers WHERE name = "${name.text}" OR phone = "${phone.text}"
-//                             ''');
-//           if(existingrecords.isNotEmpty) {
-//              statusRequest = StatusRequest.failure;
-//         Get.defaultDialog(title: "Warning", middleText: "Phone number or name already exists");
-//           }else{
-//                   int response =await sqlDb.insertData 
-//                                      ('''
-//                                      INSERT INTO customers ('name', 'town_id', 'district_id')
-//                                      VALUES ("${name.text}", ${townsId.text}, ${districtsId.text})
-//                                   ''');
+      List<Map> existingrecords = await sqlDb.readData ('''
+           SELECT * FROM customers WHERE name = "${name.text}" OR phone = "${phone.text}"
+                            ''');
+          if(existingrecords.isNotEmpty) {
+             statusRequest = StatusRequest.failure;
+        Get.defaultDialog(title: "Warning", middleText: "Phone number or name already exists");
+          }else{
+                  int response =await sqlDb.insertData 
+                                     ('''
+                                     INSERT INTO customers ('name', 'phone', 'town_id', 'district_id')
+                                     VALUES ("${name.text}", ${phone.text}, ${townsId.text}, ${districtsId.text})
+                                  ''');
 
-//           statusRequest = handlingData("// $response //");
+          statusRequest = handlingData("// $response //");
 
-//         if (StatusRequest.success == statusRequest) {
-//           if (response > 0) {
+        if (StatusRequest.success == statusRequest) {
+          if (response > 0) {
 
-//             // ViewDistreictsController controller = Get.put(ViewDistreictsController());
-//             // print("*---------=== success + $response");
-//             // controller.readData();
-//             // Get.offAllNamed(AppRoute.districtview);
+            ViewCustomerController controller = Get.put(ViewCustomerController());
+            print("*---------=== success + $response");
+            controller.readDatas();
+            Get.offAllNamed(AppRoute.customerview);
 
-//             Get.rawSnackbar(
-//               titleText: const Text("Success", style: TextStyle(color: Colors.white)),
-//               messageText: const Text("Data added Successfully", style: TextStyle(color: Colors.white)),
-//               backgroundColor: Colors.green.shade400,
-//             );
-//           } else {
-//             print("Status.FAILED");
-//             statusRequest = StatusRequest.failure;
-//             Get.defaultDialog(title: "Warning", middleText: "An error occurred while adding data");
-//           }
-//         }     
+            Get.rawSnackbar(
+              titleText: const Text("Success", style: TextStyle(color: Colors.white)),
+              messageText: const Text("Data added Successfully", style: TextStyle(color: Colors.white)),
+              backgroundColor: Colors.green.shade400,
+            );
+          } else {
+            print("Status.FAILED");
+            statusRequest = StatusRequest.failure;
+            Get.defaultDialog(title: "Warning", middleText: "An error occurred while adding data");
+          }
+        }
+        update();     
                              
-//           }                
+          }                
 
-// update();    
+update();    
 
-//     }
+    }
+     print("------------- failed");
 
-//   }
+  }
   
 
 

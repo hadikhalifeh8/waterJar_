@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:water_jar/controller/Customers/addController.dart';
+import 'package:water_jar/controller/Customers/editController.dart';
 import 'package:water_jar/core/class/handlingDataView.dart';
 import 'package:water_jar/core/functions/validationinput.dart';
 import 'package:water_jar/core/shared/DropDownSearch.dart';
@@ -8,22 +8,22 @@ import 'package:water_jar/view/widget/Customers/CustomTextFormCustomer.dart';
 import 'package:water_jar/view/widget/Drivers/CustomButton.dart';
 
 
-class AddCustomer extends StatelessWidget {
-  const AddCustomer({super.key});
+class EditCustomer extends StatelessWidget {
+  const EditCustomer({super.key});
 
   @override
   Widget build(BuildContext context) {
-     Get.lazyPut(() =>AddCustomerController());
+     Get.lazyPut(() =>EditCustomerController());
 
     
     return Scaffold(appBar: AppBar(
 
-      title: const Text("Add Customer"),
+      title: const Text("Update Customer"),
       centerTitle: true,
     ),
 
     body:
-          GetBuilder<AddCustomerController>(builder: (controller) => 
+          GetBuilder<EditCustomerController>(builder: (controller) => 
 
           HandlingDataRequest(
             
@@ -70,8 +70,8 @@ class AddCustomer extends StatelessWidget {
                            listdata: controller.dropdownListOFTowns,
                 dropDownSelectedName: controller.townsName,
                  dropDownSelectedID: controller.townsId,
-                   onTownChanged: controller.onTownChanged, // Pass the onTownChanged callback
-                 
+                  districtFirstappearInedit: controller.districtFirstappearInEdit(controller.customersModel!.id.toString()), // Pass the onTownChanged callback
+                  onTownChanged: controller.onTownChanged, // Pass the onTownChanged callback
               
                  
                  ),
@@ -83,7 +83,7 @@ class AddCustomer extends StatelessWidget {
                            listdata: controller.dropdownListOFDistricts,
                 dropDownSelectedName: controller.districtsName,
                  dropDownSelectedID: controller.districtsId, 
-                
+                 // hintTextDistrict: "enter distric"
                  
                  ),
      
@@ -95,7 +95,7 @@ class AddCustomer extends StatelessWidget {
      
      CustomButton(
                   onPressed_: (){
-                     controller.insertData();
+                     controller.updateData(controller.customersModel!.id.toString());
                     }, 
                   text_: "Submit",
                   ),

@@ -15,6 +15,11 @@ final TextEditingController dropDownSelectedName;
 final TextEditingController dropDownSelectedID;
 
 final void Function(String?)? onTownChanged;
+final void Function(String?)? districtFirstappearInedit;
+
+
+
+
 
 
 
@@ -27,6 +32,11 @@ final void Function(String?)? onTownChanged;
        required this.dropDownSelectedName,
        required this.dropDownSelectedID,
         this.onTownChanged,
+        this.districtFirstappearInedit,
+
+
+        
+
 
         }) : super(key: key);
 
@@ -78,11 +88,21 @@ class _CustomDropDownSearchState extends State<CustomDropDownSearch> {
 
 
            // Call the onTownChanged callback when a town is selected
-      if (widget.onTownChanged != null) {
+      if (widget.onTownChanged != null ) {
         // const Text("choose District");
         widget.onTownChanged!(widget.dropDownSelectedID.text);
-      }  
+        
+ print("---***////++++++++_******* onTownChanged DropDownState Name: is ${widget.dropDownSelectedName.text} ");
+  print("---***////++++++++_********* onTownChanged DropDownState ID: is ${widget.dropDownSelectedID.text} ");
+      }
 
+
+
+       // Update the hintText when a town is selected
+         
+            // title = "Choose District";
+        
+ 
           
         },
        // enableMultipleSelection: true,
@@ -109,6 +129,11 @@ class _CustomDropDownSearchState extends State<CustomDropDownSearch> {
                  () {
                     FocusScope.of(context).unfocus();
                     // onTextFieldTap();
+
+
+  if (widget.districtFirstappearInedit != null) {
+    widget.onTownChanged!(widget.dropDownSelectedID.text);
+  }
                     
                     showDropDownSearch();
                   },
@@ -132,6 +157,9 @@ class _CustomDropDownSearchState extends State<CustomDropDownSearch> {
                           InkWell(onTap: (){
                             FocusScope.of(context).unfocus();
                     // onTextFieldTap();
+                    if (widget.onTownChanged != null) {
+  widget.onTownChanged!(widget.dropDownSelectedID.text);
+}
                     
                     showDropDownSearch();
                           }, 

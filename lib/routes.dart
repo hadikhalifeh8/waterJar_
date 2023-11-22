@@ -2,6 +2,8 @@ import 'package:get/get_navigation/src/routes/get_route.dart';
 import 'package:water_jar/core/constant/routes.dart';
 import 'package:water_jar/core/middleware/myMiddleware.dart';
 import 'package:water_jar/view/screen/Customers/add.dart';
+import 'package:water_jar/view/screen/Customers/edit.dart';
+import 'package:water_jar/view/screen/Customers/view.dart';
 import 'package:water_jar/view/screen/Districts/add.dart';
 import 'package:water_jar/view/screen/Districts/edit.dart';
 import 'package:water_jar/view/screen/Districts/view.dart';
@@ -19,7 +21,7 @@ import 'package:water_jar/view/screen/test1.dart';
 
 List<GetPage<dynamic>>? routes = [
 
-   GetPage(name:  "/", page: () => const AddCustomer(), middlewares: [MyMidlleware()]),
+   GetPage(name:  "/", page: () => const ViewCustomers(), middlewares: [MyMidlleware()]),
     GetPage(name:  AppRoute.test1, page: () => const Test1(),),
 
     GetPage(name:  AppRoute.orderadd, page: () => const AddOrder(),),
@@ -43,6 +45,9 @@ List<GetPage<dynamic>>? routes = [
     
     // Customers
     GetPage(name:  AppRoute.customeradd, page: () => const AddCustomer(),),
+    GetPage(name:  AppRoute.customeredit, page: () => const EditCustomer(),),
+    GetPage(name:  AppRoute.customerview, page: () => const ViewCustomers(),),
+
     
 
 

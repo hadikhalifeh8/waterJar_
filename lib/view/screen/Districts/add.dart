@@ -29,7 +29,7 @@ class AddDistrict extends StatelessWidget {
              GetBuilder<AddDistrictController>(builder: (controller) => 
              
 
-      HandlingDataView(
+      HandlingDataRequest(
         statusRequest: controller.statusRequest,
          widget:         Form(
 

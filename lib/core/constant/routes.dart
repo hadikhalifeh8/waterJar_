@@ -26,6 +26,9 @@ class AppRoute {
 
   // Customers
   static const String customeradd = "/customeradd";
+  static const String customeredit = "/customeredit";
+  static const String customerview = "/customerview";
+
 
 
 

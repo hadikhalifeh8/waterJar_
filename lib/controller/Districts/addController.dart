@@ -122,10 +122,12 @@ if (townsId == null || townsId!.text.isEmpty) {
               backgroundColor: Colors.green.shade400,
             );  
 
-             }
-           }
-          
-                  
+             }else {
+            print("Status.FAILED");
+            statusRequest = StatusRequest.failure;
+            Get.defaultDialog(title: "Warning", middleText: "An error occurred while adding data");
+          }
+           }     
           }                
 
 
