@@ -48,7 +48,7 @@ class ViewDistreicts extends StatelessWidget {
             id: controller.district[index].id.toString(),
              districtName: controller.district[index].name.toString(), 
              townName: controller.district[index].townName.toString(), 
-           iconDataEdit: Icons.edit, 
+          // iconDataEdit: Icons.edit, 
            iconDataDelete: Icons.delete_forever_rounded,
            
             onEdit: () { controller.goToEditPage(controller.district[index]); }, 

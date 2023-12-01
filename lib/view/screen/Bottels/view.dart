@@ -1,27 +1,31 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:water_jar/controller/Drivers/viewController.dart';
-import 'package:water_jar/controller/Towns/viewController.dart';
-import 'package:water_jar/core/class/handlingDataView.dart';
-import 'package:water_jar/view/widget/Drivers/CustomListTileDrivers.dart';
-import 'package:water_jar/view/widget/Town/CustomListTileTown.dart';
+import 'package:water_jar/controller/Bottels/viewController.dart';
+import 'package:water_jar/controller/Company/viewCompany.dart';
 
-class ViewTowns extends StatelessWidget {
-  const ViewTowns({super.key});
+
+import 'package:water_jar/core/class/handlingDataView.dart';
+import 'package:water_jar/view/widget/Bottels/CustomListTileBottels.dart';
+import 'package:water_jar/view/widget/Company/CustomListTileCompany.dart';
+
+
+
+class ViewBottels extends StatelessWidget {
+  const ViewBottels({super.key});
 
   @override
   Widget build(BuildContext context) {
-    ViewTownsController controller = Get.put(ViewTownsController());
+    ViewBottelsController controller = Get.put(ViewBottelsController());
     return Scaffold(
       appBar: AppBar(
-               title: const Text("View All Towns"),
+               title: const Text("Bottels"),
                centerTitle: true,
       ),
 
       body: 
        
        
-            GetBuilder<ViewTownsController>(builder: (controller) =>
+            GetBuilder<ViewBottelsController>(builder: (controller) =>
             
             HandlingDataView(
               
@@ -42,24 +46,29 @@ class ViewTowns extends StatelessWidget {
                                                       shrinkWrap: true,
                                                       physics: const NeverScrollableScrollPhysics(),
                                                       
-                                                      itemCount: controller.towns.length,
+                                                      itemCount: controller.bottels.length,
                                                       itemBuilder: (context, index) =>
-                          
-                          
-                      CustomListTileTown(
-                                    
-                                    title_: controller.towns[index].name.toString(), 
-                                  
-                                    leading_: controller.towns[index].id.toString(),
+                        CustomListTileBottels(
+                                   
+                                   
+                                    leading_: controller.bottels[index].id.toString(),
+                                    name_: controller.bottels[index].name.toString(),                              
+                                    company_: controller.bottels[index].companyName.toString(),
+                                    price_: controller.bottels[index].price!.toStringAsFixed(2),
 
-                                    onEdit: (){controller.goToEditPage(controller.towns[index]);},
+
+
+
+
+                                    onEdit: (){
+                                      controller.goToEditPage(controller.bottels[index]);},
           
+
+
                                       iconDelete: Icons.delete_forever, 
                                        onDelete: () { 
-                                        controller.deleteData(controller.towns[index].id.toString());
+                                        controller.removeData(controller.bottels[index].id.toString());
                                         },
-
-
                                           ),
                                         
                                               

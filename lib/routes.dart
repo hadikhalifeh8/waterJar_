@@ -1,6 +1,13 @@
 import 'package:get/get_navigation/src/routes/get_route.dart';
 import 'package:water_jar/core/constant/routes.dart';
 import 'package:water_jar/core/middleware/myMiddleware.dart';
+import 'package:water_jar/view/screen/Admin/home.dart';
+import 'package:water_jar/view/screen/Bottels/add.dart';
+import 'package:water_jar/view/screen/Bottels/edit.dart';
+import 'package:water_jar/view/screen/Bottels/view.dart';
+import 'package:water_jar/view/screen/Company/add.dart';
+import 'package:water_jar/view/screen/Company/edit.dart';
+import 'package:water_jar/view/screen/Company/view.dart';
 import 'package:water_jar/view/screen/Customers/add.dart';
 import 'package:water_jar/view/screen/Customers/edit.dart';
 import 'package:water_jar/view/screen/Customers/view.dart';
@@ -13,6 +20,7 @@ import 'package:water_jar/view/screen/Drivers/edit.dart';
 import 'package:water_jar/view/screen/Drivers/view.dart';
 import 'package:water_jar/view/screen/Order/add.dart';
 import 'package:water_jar/view/screen/Towns/add.dart';
+import 'package:water_jar/view/screen/Towns/edit.dart';
 
 import 'package:water_jar/view/screen/Towns/view.dart';
 import 'package:water_jar/view/screen/test1.dart';
@@ -21,19 +29,24 @@ import 'package:water_jar/view/screen/test1.dart';
 
 List<GetPage<dynamic>>? routes = [
 
-   GetPage(name:  "/", page: () => const ViewCustomers(), middlewares: [MyMidlleware()]),
+   GetPage(name:  "/", page: () => const HomeAdminPage(), middlewares: [MyMidlleware()]),
+
     GetPage(name:  AppRoute.test1, page: () => const Test1(),),
+    
+    GetPage(name:  AppRoute.home, page: () => const HomeAdminPage(),),
+
 
     GetPage(name:  AppRoute.orderadd, page: () => const AddOrder(),),
     
     // DRIVERS
     GetPage(name:  AppRoute.driveradd, page: () => const AddDriver(),),
-    GetPage(name:  AppRoute.driversview, page: () => const ViewDrivers(),),
     GetPage(name:  AppRoute.driveredit, page: () => const EditDriver(),),
+    GetPage(name:  AppRoute.driversview, page: () => const ViewDrivers(),),
 
 
     // TOWNS
     GetPage(name:  AppRoute.townadd, page: () => const AddTown(),),
+    GetPage(name:  AppRoute.townedit, page: () => const EditTown(),),
     GetPage(name:  AppRoute.townview, page: () => const ViewTowns(),),
     
 
@@ -47,6 +60,34 @@ List<GetPage<dynamic>>? routes = [
     GetPage(name:  AppRoute.customeradd, page: () => const AddCustomer(),),
     GetPage(name:  AppRoute.customeredit, page: () => const EditCustomer(),),
     GetPage(name:  AppRoute.customerview, page: () => const ViewCustomers(),),
+
+
+    // Company
+    GetPage(name:  AppRoute.companyadd, page: () => const AddCompany(),),
+    GetPage(name:  AppRoute.companyedit, page: () => const EditCompany(),),
+    GetPage(name:  AppRoute.companyview, page: () => const ViewCompanies(),),
+
+
+
+    // Botels
+    GetPage(name:  AppRoute.bottelsadd, page: () => const AddBottels(),),
+    GetPage(name:  AppRoute.bottelsedit, page: () => const EditBottels(),),
+    GetPage(name:  AppRoute.bottelsview, page: () => const ViewBottels(),),
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     
 

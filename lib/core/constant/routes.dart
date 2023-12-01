@@ -1,4 +1,9 @@
 class AppRoute {
+
+  // Admin Home Page
+  static const String home = "/home";
+
+
   // Days Page
   static const String viewdays = "/viewdays";
 
@@ -16,6 +21,7 @@ class AppRoute {
 
   // Towns
   static const String townadd = "/townadd";
+  static const String townedit = "/townedit";
   static const String townview = "/townview";
 
   //District
@@ -28,6 +34,19 @@ class AppRoute {
   static const String customeradd = "/customeradd";
   static const String customeredit = "/customeredit";
   static const String customerview = "/customerview";
+
+
+    // Company
+  static const String companyadd = "/companyadd";
+  static const String companyedit = "/companyedit";
+  static const String companyview = "/companyview";
+
+
+
+    // Bottels
+  static const String bottelsadd = "/bottelsadd";
+  static const String bottelsedit = "/bottelsedit";
+  static const String bottelsview = "/bottelsview";
 
 
 

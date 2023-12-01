@@ -4,27 +4,27 @@ import 'package:water_jar/core/class/statusRequest.dart';
 import 'package:water_jar/core/constant/routes.dart';
 import 'package:water_jar/core/functions/handlingDataController.dart';
 import 'package:water_jar/core/functions/sqldb.dart';
+import 'package:water_jar/data/model/companyModels.dart';
 import 'package:water_jar/data/model/townsModel.dart';
 
-class ViewTownsController extends GetxController{
+class ViewCompaniesController extends GetxController{
  
   SqlDb sqlDb = SqlDb();
-  List<TownsModel> towns = [];
-
+    List<CompanyModels> company = [];
   StatusRequest statusRequest = StatusRequest.none;
 
-  TownsModel? townsModel;
+  CompanyModels? companyModels;
 
 
 
 
 
  Future readData() async {
-      towns.clear();
+      company.clear();
        update();
     statusRequest = StatusRequest.loading;
 
-    List<Map> response = await sqlDb.readData("SELECT * FROM towns");
+    List<Map> response = await sqlDb.readData("SELECT * FROM company");
 
       print("***************##############************* Controler $response ");
 
@@ -35,11 +35,11 @@ class ViewTownsController extends GetxController{
      {       
             if(response.length > 0)
             {
-              List listTowns = response;
-            towns.addAll(listTowns.map((e) => TownsModel.fromJson(e)));  
+              List listCompanies = response;
+            company.addAll(listCompanies.map((e) => CompanyModels.fromJson(e)));  
 
             update();
-            print("yes has town data");
+            print("yes has companies data");
             return response;
             }else{
         print("No data");
@@ -55,13 +55,15 @@ class ViewTownsController extends GetxController{
   }
 
 
+
+
  deleteData(String id_) async {
 
-  int response = await sqlDb.deleteData("DELETE  FROM towns WHERE id = ${id_.toString()}");
+  int response = await sqlDb.deleteData("DELETE  FROM company WHERE id = ${id_.toString()}");
 
     if(response > 0) {
 
-              towns.removeWhere((element) => element.id.toString() == id_.toString() );
+              company.removeWhere((element) => element.id.toString() == id_.toString() );
              
              update();
 
@@ -80,22 +82,24 @@ class ViewTownsController extends GetxController{
  }
 
 
+
+
+
   goToaddPage()
   {
-    Get.toNamed(AppRoute.townadd);
+    Get.toNamed(AppRoute.companyadd);
     
   }
 
 
-      goToEditPage(TownsModel townsModel)
+
+    goToEditPage(CompanyModels companyModels)
   {
-    Get.toNamed(AppRoute.townedit, 
-                           arguments: {
-
-                           "townsModel_" :townsModel, 
-
-
-  });
+    Get.toNamed(AppRoute.companyedit, 
+                   arguments: {
+                    "companyModel_" : companyModels,
+                   }
+                      );
   }
 
 

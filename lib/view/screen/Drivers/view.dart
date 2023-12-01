@@ -49,7 +49,7 @@ class ViewDrivers extends StatelessWidget {
                             leading_: controller.driver[index].phone.toString(),
                             onEdit:(){controller.goToEditPage(controller.driver[index]);}  , 
                             onDelete: (){{controller.removeData(controller.driver[index].id);} } ,
-                            iconEdit: Icons.edit, 
+                           // iconEdit: Icons.edit, 
                             iconDelete: Icons.delete_forever_sharp
                             ), 
 

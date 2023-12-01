@@ -22,4 +22,15 @@ class AppImageAsset {
  static const String offline= "$rootlottieStatusRequest/offline.json";
 
 
+ // Dashboard Admin
+   static const String driver ="$rootImages/driver.png.png"; 
+  static const String town ="$rootImages/towns.png";
+  static const String district ="$rootImages/districts.png";
+  static const String company ="$rootImages/companies.png";
+  static const String customer ="$rootImages/customers.png";
+  static const String bottel ="$rootImages/bottles.png";
+
+
+
+
 }

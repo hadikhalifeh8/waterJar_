@@ -258,7 +258,7 @@ Future getDistrictsData(String townId) async {
                  {
                     print("Update Successful");
             ViewCustomerController controller = Get.put(ViewCustomerController());
-             controller.readDatas();
+             controller.readData();
              print("Update readData");
             Get.offAllNamed(AppRoute.customerview);
 

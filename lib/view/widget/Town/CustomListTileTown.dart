@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class CustomListTileTown extends StatelessWidget {
       final String title_;
   final String leading_;
-  //final void Function()? onEdit;
+  final void Function()? onEdit;
   final void Function()? onDelete;
  // final IconData? iconEdit;
   final IconData? iconDelete;
@@ -12,7 +12,7 @@ class CustomListTileTown extends StatelessWidget {
   const CustomListTileTown({super.key, 
   required this.title_,
    required this.leading_,
-   // this.onEdit,
+    required this.onEdit,
     required this.onDelete, 
     // this.iconEdit,
     required  this.iconDelete
@@ -20,26 +20,29 @@ class CustomListTileTown extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return     Card(
-                          child: ListTile(
-                          title: Text(title_),
-                          leading: Text(leading_),
-                          
-                          trailing: Row( 
-                             mainAxisSize: MainAxisSize.min,
+    return     InkWell(
+      onTap: onEdit,
+      child: Card(
+                            child: ListTile(
+                            title: Text(title_),
+                            leading: Text(leading_),
                             
-                            children: [
-                            // IconButton(onPressed: onEdit,
-
-                            // icon:  Icon(iconEdit, color: Colors.blue,)
-                            // ),
-
-
-                             IconButton(onPressed: onDelete,
-                             
-                              icon:  Icon(iconDelete, color: Colors.red,)),
-                          ],),
-                                              ),
-                        );
+                            trailing: Row( 
+                               mainAxisSize: MainAxisSize.min,
+                              
+                              children: [
+                              // IconButton(onPressed: onEdit,
+    
+                              // icon:  Icon(iconEdit, color: Colors.blue,)
+                              // ),
+    
+    
+                               IconButton(onPressed: onDelete,
+                               
+                                icon:  Icon(iconDelete, color: Colors.red,)),
+                            ],),
+                                                ),
+                          ),
+    );
   }
 }

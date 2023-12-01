@@ -211,7 +211,7 @@ SELECT id, name  FROM district WHERE town_id = "${townsId.text}"
 
             ViewCustomerController controller = Get.put(ViewCustomerController());
             print("*---------=== success + $response");
-            controller.readDatas();
+            controller.readData();
             Get.offAllNamed(AppRoute.customerview);
 
             Get.rawSnackbar(

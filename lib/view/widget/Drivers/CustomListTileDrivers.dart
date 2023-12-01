@@ -5,7 +5,7 @@ class CustomListTileDrivers extends StatelessWidget {
   final String leading_;
   final void Function()? onEdit;
   final void Function()? onDelete;
-  final IconData? iconEdit;
+ // final IconData? iconEdit;
   final IconData? iconDelete;
 
 
@@ -14,32 +14,28 @@ class CustomListTileDrivers extends StatelessWidget {
    required this.leading_,
     required this.onEdit,
     required this.onDelete, 
-    required this.iconEdit,
+    //required this.iconEdit,
     required  this.iconDelete
       });
 
   @override
   Widget build(BuildContext context) {
-    return     Card(
-                          child: ListTile(
-                          title: Text(title_),
-                          leading: Text(leading_),
-                          
-                          trailing: Row( 
-                             mainAxisSize: MainAxisSize.min,
+    return     InkWell(
+      onTap: onEdit,
+      child: Card(
+                            child: ListTile(
+                            title: Text(title_),
+                            leading: (Container(padding: EdgeInsets.only(top:4),child: Text(leading_))),
                             
-                            children: [
-                            IconButton(onPressed: onEdit,
-
-                            icon:  Icon(iconEdit, color: Colors.blue,)
-                            ),
-
-
-                             IconButton(onPressed: onDelete,
-                             
-                              icon:  Icon(iconDelete, color: Colors.red,)),
-                          ],),
-                                              ),
-                        );
+                            trailing: 
+    
+    
+                               IconButton(onPressed: onDelete,
+                               
+                                icon:  Icon(iconDelete, color: Colors.red,)),
+                            
+                                                ),
+                          ),
+    );
   }
 }

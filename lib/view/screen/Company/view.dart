@@ -1,27 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:water_jar/controller/Drivers/viewController.dart';
+import 'package:water_jar/controller/Company/viewCompany.dart';
+
 import 'package:water_jar/controller/Towns/viewController.dart';
 import 'package:water_jar/core/class/handlingDataView.dart';
-import 'package:water_jar/view/widget/Drivers/CustomListTileDrivers.dart';
+import 'package:water_jar/view/widget/Company/CustomListTileCompany.dart';
+
 import 'package:water_jar/view/widget/Town/CustomListTileTown.dart';
 
-class ViewTowns extends StatelessWidget {
-  const ViewTowns({super.key});
+class ViewCompanies extends StatelessWidget {
+  const ViewCompanies({super.key});
 
   @override
   Widget build(BuildContext context) {
-    ViewTownsController controller = Get.put(ViewTownsController());
+    ViewCompaniesController controller = Get.put(ViewCompaniesController());
     return Scaffold(
       appBar: AppBar(
-               title: const Text("View All Towns"),
+               title: const Text("Companies"),
                centerTitle: true,
       ),
 
       body: 
        
        
-            GetBuilder<ViewTownsController>(builder: (controller) =>
+            GetBuilder<ViewCompaniesController>(builder: (controller) =>
             
             HandlingDataView(
               
@@ -42,24 +44,25 @@ class ViewTowns extends StatelessWidget {
                                                       shrinkWrap: true,
                                                       physics: const NeverScrollableScrollPhysics(),
                                                       
-                                                      itemCount: controller.towns.length,
+                                                      itemCount: controller.company.length,
                                                       itemBuilder: (context, index) =>
-                          
-                          
-                      CustomListTileTown(
+                        CustomListTileCompany(
                                     
-                                    title_: controller.towns[index].name.toString(), 
+                                    companyName: controller.company[index].name.toString(), 
                                   
-                                    leading_: controller.towns[index].id.toString(),
+                                    leading_: controller.company[index].id.toString(),
 
-                                    onEdit: (){controller.goToEditPage(controller.towns[index]);},
+
+
+
+                                    onEdit: (){controller.goToEditPage(controller.company[index]);},
           
+
+
                                       iconDelete: Icons.delete_forever, 
                                        onDelete: () { 
-                                        controller.deleteData(controller.towns[index].id.toString());
+                                        controller.deleteData(controller.company[index].id.toString());
                                         },
-
-
                                           ),
                                         
                                               

@@ -99,7 +99,28 @@ static Database? _db; // variable  private
         "FOREIGN KEY (town_id) REFERENCES towns (id) ON DELETE NO ACTION ON UPDATE NO ACTION,"
         "FOREIGN KEY (district_id) REFERENCES district (id) ON DELETE NO ACTION ON UPDATE NO ACTION,"
 
+      )
+     ''');
+
+
+       //  إسم البلده
+           batch.execute('''  
+      CREATE TABLE "company" ( 
+        "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT ,
+        "name" TEXT NOT NULL UNIQUE
         
+      )
+     ''');
+
+         // أنواع جرار المياه
+          batch.execute('''  
+      CREATE TABLE "bottels" (
+        "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT ,
+        "name" TEXT NOT NULL UNIQUE,
+        "company_id" INTEGER NOT NULL,
+        "price" FLOAT BY DEFAULT "0" NOT NULL,
+
+         "FOREIGN KEY (company_id) REFERENCES company (id) ON DELETE NO ACTION ON UPDATE NO ACTION,"
       )
      ''');
 
@@ -117,23 +138,30 @@ _onUpgrade(Database db, int oldVersion, int newVersion)async {
 
      print("=========================== _onUpgrade");
 
+
+
+    //             //  إسم البلده
+    //        await db.execute('''  
+    //   CREATE TABLE "company" ( 
+    //     "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT ,
+    //     "name" TEXT NOT NULL UNIQUE
+        
+    //   )
+    //  ''');
+
       // await db.execute(
       //           "ALTER TABLE test ADD COLUMN mobile TEXT");
 
 
-    //        // إسم الزبون
+    //        // أنواع جرار المياه
     //       await  db.execute('''  
-    //   CREATE TABLE "customers" (
+    //   CREATE TABLE "bottels" (
     //     "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT ,
     //     "name" TEXT NOT NULL UNIQUE,
-    //     "phone" TEXT NOT NULL UNIQUE,
-    //     "town_id" INTEGER NOT NULL,
-    //     "district_id" INTEGER NOT NULL,
+    //     "company_id" INTEGER NOT NULL,
+    //     "price" FLOAT BY DEFAULT "0" NOT NULL,
 
-    //     "FOREIGN KEY (town_id) REFERENCES towns (id) ON DELETE NO ACTION ON UPDATE NO ACTION,"
-    //     "FOREIGN KEY (district_id) REFERENCES district (id) ON DELETE NO ACTION ON UPDATE NO ACTION,"
-
-        
+    //      "FOREIGN KEY (company_id) REFERENCES company (id) ON DELETE NO ACTION ON UPDATE NO ACTION,"
     //   )
     //  ''');
 

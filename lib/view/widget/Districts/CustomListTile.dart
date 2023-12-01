@@ -7,7 +7,7 @@ class CustomListTile extends StatelessWidget {
 
  final void Function()? onEdit;
  final void Function()? onDelete;
- final IconData iconDataEdit;
+ //final IconData iconDataEdit;
  final IconData iconDataDelete;
 
 
@@ -19,7 +19,7 @@ class CustomListTile extends StatelessWidget {
                           required this.districtName, 
                           required this.townName, 
                            
-                          required this.iconDataEdit, 
+                          //required this.iconDataEdit, 
                           required this.iconDataDelete,
 
                           required this.onEdit,
@@ -29,36 +29,32 @@ class CustomListTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return  
-    Card(
-              child: ListTile(
-               
-                leading: Text(id,textAlign: TextAlign.start,),
+          InkWell(
+            onTap: onEdit,
+            child: Card(
+                child: ListTile(
                  
-                 title: Row(
-                              mainAxisSize: MainAxisSize.min,
-                   children: [
-                              Text(districtName,textAlign: TextAlign.start),
-                         const Spacer(),
-                              Text(townName,textAlign: TextAlign.start),
-                   ],
-                 ),
-            
-                 trailing: 
-                    Row(
-                    mainAxisSize: MainAxisSize.min,
-                  //  crossAxisAlignment: CrossAxisAlignment.end,
-
-
+                  leading: Text(id,textAlign: TextAlign.start,),
+                   
+                   title: Row(
+                                mainAxisSize: MainAxisSize.min,
                      children: [
-                       IconButton(onPressed: onEdit, icon: Icon(iconDataEdit, color: Colors.blue,)),
-                     
-                       IconButton(onPressed: onDelete, icon: Icon(iconDataDelete, color: Colors.red,)),
+                                Text(districtName,textAlign: TextAlign.start),
+                           const Spacer(),
+                                Text(townName,textAlign: TextAlign.start),
                      ],
                    ),
-                 ),
-            
               
-            
-    );
+                   trailing: 
+                  
+                       
+                         IconButton(onPressed: onDelete, icon: Icon(iconDataDelete, color: Colors.red,)),
+                       
+                   ),
+              
+                
+              
+              ),
+          );
   }
 }

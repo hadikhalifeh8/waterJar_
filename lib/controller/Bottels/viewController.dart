@@ -4,34 +4,33 @@ import 'package:water_jar/core/class/statusRequest.dart';
 import 'package:water_jar/core/constant/routes.dart';
 import 'package:water_jar/core/functions/handlingDataController.dart';
 import 'package:water_jar/core/functions/sqldb.dart';
-import 'package:water_jar/data/model/customersModel.dart';
+import 'package:water_jar/data/model/bottelsModel.dart';
+import 'package:water_jar/data/model/districtsModel.dart';
 
-class ViewCustomerController extends GetxController {
+class ViewBottelsController extends GetxController {
+
+  SqlDb sqlDb = SqlDb();
+  List<BottelsModel> bottels = [];
+  StatusRequest statusRequest = StatusRequest.none;
 
 
-SqlDb sqlDb = SqlDb();
-List<CustomersModel> customers = [];
-StatusRequest statusRequest = StatusRequest.none;
+
+
 
 
 
 
   Future readData() async{
-    customers.clear(); // for delete refresh
+    bottels.clear(); // for delete refresh
      update();
     statusRequest = StatusRequest.loading;
    
 
     // List<Map> response = await sqlDb.readData("SELECT * FROM district WHERE id = ");
     List<Map> response = await sqlDb.readData('''
-  SELECT customers.id, customers.name, customers.phone, customers.town_id, customers.district_id,
-         towns.id as town_id, towns.name as town_name,
-         district.id as district_id, district.name as district_name, district.town_id as town_id
-
-  FROM customers
-  JOIN towns ON customers.town_id = towns.id
-  JOIN district ON customers.district_id =  district.id
-
+  SELECT bottels.id, bottels.name, bottels.company_id, bottels.price, company.id as company_id, company.name as company_name
+  FROM bottels
+  JOIN company ON bottels.company_id = company.id;
         ''');
 
       print("***************##############************* Controler $response ");
@@ -42,12 +41,12 @@ StatusRequest statusRequest = StatusRequest.none;
            {
              if(response.length > 0)
              {
-                    List listDistrict  = response;
+                    List listBottels  = response;
             
-            customers.addAll(listDistrict.map((e) => CustomersModel.fromJson(e)));
+            bottels.addAll(listBottels.map((e) => BottelsModel.fromJson(e)));
                      
                      update();
-                      print("yes has Customers data");
+                      print("yes has data");
                         return response;
              }else{
                print("No data");
@@ -58,23 +57,25 @@ StatusRequest statusRequest = StatusRequest.none;
              }
             
            }
-            update();    
+           update();
+            
+
   }
 
 
 
-
+  
   removeData(id_) async {
   
 
         int response = await sqlDb.deleteData
                  ('''
-                    DELETE FROM customers 
+                    DELETE FROM bottels 
                     WHERE id = ${id_.toString()}
                 ''');
              if(response > 0) {
 
-              customers.removeWhere((element) => element.id.toString() == id_!.toString() );
+              bottels.removeWhere((element) => element.id.toString() == id_!.toString() );
              
             //  update();
 
@@ -102,33 +103,33 @@ StatusRequest statusRequest = StatusRequest.none;
 
 
 
-
-
-
-  goToaddPage()
+     goToaddPage()
   {
-    Get.toNamed(AppRoute.customeradd);
+    Get.toNamed(AppRoute.bottelsadd);
   }
 
 
-  goToEditPage(CustomersModel customersModel)
+
+
+
+    goToEditPage(BottelsModel bottelsModel)
   {
-    Get.toNamed(AppRoute.customeredit, 
-                   arguments: {
-                    "customersModel_" : customersModel,
-                   }
-                      );
+    Get.toNamed(AppRoute.bottelsedit, 
+                           arguments: {
+
+                           "bottelsModel_" :bottelsModel, 
+
+
+  });
   }
 
-  @override
+
+   
+   @override
   void onInit() {
-
-    update();
     readData();
-    print("This is Custommerssss Details");
     super.onInit();
   }
-
 
 
 }

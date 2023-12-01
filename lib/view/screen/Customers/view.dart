@@ -154,7 +154,7 @@ class ViewCustomers extends StatelessWidget {
                             town_: controller.customers[index].townName.toString(),
                             district_: controller.customers[index].districtName.toString(),
                             onEdit:(){controller.goToEditPage(controller.customers[index]);}  , 
-                            onDelete: (){ controller.goToEditPage(controller.customers[index]);} ,
+                            onDelete: (){ controller.removeData(controller.customers[index].id.toString());} ,
                            // iconEdit: Icons.edit, 
                             iconDelete: Icons.delete_forever_sharp
                             ), 
