@@ -3,8 +3,10 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:water_jar/controller/Days/addController.dart';
 import 'package:water_jar/controller/Days/viewController.dart';
+import 'package:water_jar/controller/Orders/viewController.dart';
 import 'package:water_jar/core/constant/imageasset.dart';
 import 'package:water_jar/view/widget/Days/CustomNameOfDays.dart';
+import 'package:water_jar/view/widget/Orders/CustomButton.dart';
 
 class ViewDays extends StatelessWidget {
   const ViewDays({super.key});
@@ -13,6 +15,7 @@ class ViewDays extends StatelessWidget {
   Widget build(BuildContext context) {
     ViewDaysController controller = Get.put(ViewDaysController());
       AddDaysController addcontroller = Get.put(AddDaysController());
+      // ViewOrdersController controllerDel = Get.put(ViewOrdersController());
     return Scaffold( appBar: 
       AppBar(   
                   title: const Text("Days"), 
@@ -20,7 +23,8 @@ class ViewDays extends StatelessWidget {
                    
                    
                    
-                   leading: IconButton(onPressed: (){
+           leading: IconButton(
+                onPressed: (){
                     addcontroller.insertData();
                    }, 
                    icon: Icon(Icons.add_box_outlined)
@@ -56,7 +60,9 @@ class ViewDays extends StatelessWidget {
                 } , 
             
             
-            svgPicture_:  SvgPicture.asset(controller.day[index].image.toString()),);
+            svgPicture_:  SvgPicture.asset(controller.day[index].image.toString()),
+            );
+            
                 
                 
                 
@@ -69,6 +75,14 @@ class ViewDays extends StatelessWidget {
 
                     
                   },),
+
+                      //        CustomButtonOrder(
+                      //  onPressed_: (){controllerDel.removeData();},
+                      //  text_: "delete Orders",
+                      //  ),
+                  
+                  
+                  
                  
                   ],),                  
                   

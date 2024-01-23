@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:water_jar/controller/Drivers/viewController.dart';
 import 'package:water_jar/core/class/handlingDataView.dart';
+import 'package:water_jar/core/constant/routes.dart';
 import 'package:water_jar/view/widget/Drivers/CustomListTileDrivers.dart';
 
 class ViewDrivers extends StatelessWidget {
@@ -15,7 +16,9 @@ class ViewDrivers extends StatelessWidget {
 
       appBar: AppBar(
                 title: const Text("Drivers"),
-                centerTitle: true,),
+                centerTitle: true,
+                leading: IconButton(onPressed: (){Get.back();}, icon: const Icon(Icons.arrow_back)),
+                ),
 
                 
                  body: 

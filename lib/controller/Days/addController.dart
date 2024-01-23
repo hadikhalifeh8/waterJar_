@@ -32,7 +32,7 @@ class AddDaysController extends GetxController {
                 if(response > 0) {
                   
                   ViewDaysController controller = Get.put(ViewDaysController());
-                  controller.getData();
+                  controller.getDaysData();
                   
                   Get.offAllNamed(AppRoute.viewdays);
                 }
@@ -44,7 +44,7 @@ class AddDaysController extends GetxController {
 
       @override
   void onInit() {
-    // insertData();
+    
     super.onInit();
   }
 

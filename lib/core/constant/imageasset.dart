@@ -23,12 +23,20 @@ class AppImageAsset {
 
 
  // Dashboard Admin
-   static const String driver ="$rootImages/driver.png.png"; 
+  static const String driver ="$rootImages/driver.png"; 
   static const String town ="$rootImages/towns.png";
   static const String district ="$rootImages/districts.png";
   static const String company ="$rootImages/companies.png";
   static const String customer ="$rootImages/customers.png";
   static const String bottel ="$rootImages/bottles.png";
+  static const String logout ="$rootImages/logout.png";
+
+
+  // Admin Register / Login
+  static const String adminLogin ="$rootImages/adminlogin.png";
+  static const String AdminRegister ="$rootImages/adminregister.png";
+
+
 
 
 

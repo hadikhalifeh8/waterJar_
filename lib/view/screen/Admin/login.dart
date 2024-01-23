@@ -1,52 +1,49 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:water_jar/controller/Admin/loginController.dart';
 import 'package:water_jar/controller/Drivers/addController.dart';
-import 'package:water_jar/controller/Drivers/editController.dart';
 import 'package:water_jar/core/class/handlingDataView.dart';
+import 'package:water_jar/core/constant/imageasset.dart';
+import 'package:water_jar/core/constant/routes.dart';
 import 'package:water_jar/core/functions/validationinput.dart';
+import 'package:water_jar/view/widget/Admin/CustomTextRegisterORLogin.dart';
 import 'package:water_jar/view/widget/Drivers/CustomButton.dart';
 import 'package:water_jar/view/widget/Drivers/CustomTextFormDriver.dart';
 
-class EditDriver extends StatelessWidget {
-  const EditDriver({super.key});
+class AdminLogin extends StatelessWidget {
+  const AdminLogin({super.key});
 
   @override
   Widget build(BuildContext context) {
-     Get.lazyPut(() =>EditDriverController());
-    EditDriverController controller = Get.put(EditDriverController());
+     Get.lazyPut(() =>LoginController());
+
+    
     return Scaffold(appBar: AppBar(
 
-      title: const Text("Update Driver"),
+      title: const Text("Admin Login"),
       centerTitle: true,
     ),
 
-    body: GetBuilder<EditDriverController>(builder: ((controller) => 
-    
-    
-    HandlingDataRequest(
-                         statusRequest: controller.statusRequest,
-                         
-           widget:      Form(
+    body:
+          GetBuilder<LoginController>(builder: (controller) => 
+
+          HandlingDataRequest(
+            
+            statusRequest: controller.statusRequest,
+            
+            
+             widget:                Form(
       key: controller.formState,
        child: ListView(children: [
      
-        CustomTextFormDriver(
-                             label_: "name",
-                             hintText_: "Enter Driver name",
-                             icon_:Icons.person_3,
-                            // onTap_: (){},
-                             isNumber: false,
-                               validation: (val){
-                            return  valiInput(val!, 8, 12, "name");
-                             },
-                             obscureText_: false,
-                             mycontroller: controller.name,
-                             ),
-     
+
+     Container(
+                 margin: const EdgeInsets.only(top: 10.0),
+      child: Image.asset(AppImageAsset.adminLogin, height: 105.0 )),
      
        CustomTextFormDriver(
                              label_: "Phone",
-                             hintText_: "Enter Driver phone",
+                             hintText_: "Enter phone number",
                              icon_:Icons.phone_iphone_outlined,
                             // onTap_: (){},
                              isNumber: true,
@@ -59,10 +56,10 @@ class EditDriver extends StatelessWidget {
      
      
      
-            GetBuilder<EditDriverController>(builder: (controller){
+            GetBuilder<LoginController>(builder: (controller){
               return        CustomTextFormDriver(
                              label_: "Password",
-                             hintText_: "Enter Driver password",
+                             hintText_: "Enter password",
                              icon_:Icons.lock,
                              onTap_: (){
                               controller.showPassword();
@@ -79,21 +76,31 @@ class EditDriver extends StatelessWidget {
      
      
      
-     CustomButton(onPressed_: (){controller.updateData(controller.driversModel!.id.toString());}, text_: "update"),
+     CustomButton(
+                  onPressed_: (){
+                    controller.loginData();
+                    }, 
+                  text_: "Submit",
+                  ),
+
+
+         
+                 CustomTextRegisterORLogin(
+                                  textOne: "Not Registered yet, ",
+                                  textTwo: "SignUp",
+                                  onTap: (){Get.offAllNamed(AppRoute.adminregister);}
+                                  ),
+
+
          
      
          ],),
-     ),
-    
-    ))
-    
-    
-    
-    
-    
-    )
-    );
+     ),)
+
+          ),
     
 
+    
+    );
   }
 }

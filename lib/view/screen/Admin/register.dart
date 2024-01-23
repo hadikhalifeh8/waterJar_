@@ -1,38 +1,52 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:water_jar/controller/Admin/registerController.dart';
 import 'package:water_jar/controller/Drivers/addController.dart';
-import 'package:water_jar/controller/Drivers/editController.dart';
 import 'package:water_jar/core/class/handlingDataView.dart';
+import 'package:water_jar/core/constant/imageasset.dart';
+import 'package:water_jar/core/constant/routes.dart';
 import 'package:water_jar/core/functions/validationinput.dart';
+import 'package:water_jar/view/widget/Admin/CustomTextFormRegsiterLogin.dart';
+import 'package:water_jar/view/widget/Admin/CustomTextRegisterORLogin.dart';
 import 'package:water_jar/view/widget/Drivers/CustomButton.dart';
 import 'package:water_jar/view/widget/Drivers/CustomTextFormDriver.dart';
 
-class EditDriver extends StatelessWidget {
-  const EditDriver({super.key});
+class AdminRegister extends StatelessWidget {
+  const AdminRegister({super.key});
 
   @override
   Widget build(BuildContext context) {
-     Get.lazyPut(() =>EditDriverController());
-    EditDriverController controller = Get.put(EditDriverController());
+     Get.lazyPut(() =>RegisterController());
+
+    
     return Scaffold(appBar: AppBar(
 
-      title: const Text("Update Driver"),
+      title: const Text("Register"),
       centerTitle: true,
     ),
 
-    body: GetBuilder<EditDriverController>(builder: ((controller) => 
-    
-    
-    HandlingDataRequest(
-                         statusRequest: controller.statusRequest,
-                         
-           widget:      Form(
+    body:
+          GetBuilder<RegisterController>(builder: (controller) => 
+
+          HandlingDataRequest(
+            
+            statusRequest: controller.statusRequest,
+            
+            
+             widget:                Form(
       key: controller.formState,
        child: ListView(children: [
-     
-        CustomTextFormDriver(
+
+
+             Container(
+                 margin: const EdgeInsets.only(top: 10.0),
+      child: Image.asset(AppImageAsset.AdminRegister, height: 105.0 )),
+
+
+
+        CustomTextFormRegsiterLogin(
                              label_: "name",
-                             hintText_: "Enter Driver name",
+                             hintText_: "Enter admin name",
                              icon_:Icons.person_3,
                             // onTap_: (){},
                              isNumber: false,
@@ -41,12 +55,14 @@ class EditDriver extends StatelessWidget {
                              },
                              obscureText_: false,
                              mycontroller: controller.name,
+                             inputFormatters_: false,
+
                              ),
      
      
-       CustomTextFormDriver(
+       CustomTextFormRegsiterLogin(
                              label_: "Phone",
-                             hintText_: "Enter Driver phone",
+                             hintText_: "Enter admin phone",
                              icon_:Icons.phone_iphone_outlined,
                             // onTap_: (){},
                              isNumber: true,
@@ -55,14 +71,15 @@ class EditDriver extends StatelessWidget {
                              },
                              obscureText_: false,
                              mycontroller: controller.phone,
+                             inputFormatters_: true,
                              ),
      
      
      
-            GetBuilder<EditDriverController>(builder: (controller){
-              return        CustomTextFormDriver(
+            GetBuilder<RegisterController>(builder: (controller){
+              return        CustomTextFormRegsiterLogin(
                              label_: "Password",
-                             hintText_: "Enter Driver password",
+                             hintText_: "Enter admin password",
                              icon_:Icons.lock,
                              onTap_: (){
                               controller.showPassword();
@@ -73,27 +90,36 @@ class EditDriver extends StatelessWidget {
                              },
                              obscureText_: controller.isShowPassword,
                              mycontroller: controller.password,
+                             inputFormatters_: false,
+
                              );
                              
             }),
      
      
      
-     CustomButton(onPressed_: (){controller.updateData(controller.driversModel!.id.toString());}, text_: "update"),
+     CustomButton(
+                  onPressed_: (){
+                    controller.registerData();
+                    }, 
+                  text_: "Submit",
+                  ),
+
+
+         CustomTextRegisterORLogin(
+                                  textOne: "Already Register, ",
+                                  textTwo: "SignIn",
+                                  onTap: (){Get.toNamed(AppRoute.adminlogin);}
+                                  ),
          
      
          ],),
-     ),
-    
-    ))
-    
-    
-    
-    
-    
-    )
-    );
+     ),)
+
+          ),
     
 
+    
+    );
   }
 }

@@ -4,6 +4,7 @@ import 'package:water_jar/controller/Company/viewCompany.dart';
 
 import 'package:water_jar/controller/Towns/viewController.dart';
 import 'package:water_jar/core/class/handlingDataView.dart';
+import 'package:water_jar/core/constant/routes.dart';
 import 'package:water_jar/view/widget/Company/CustomListTileCompany.dart';
 
 import 'package:water_jar/view/widget/Town/CustomListTileTown.dart';
@@ -18,6 +19,8 @@ class ViewCompanies extends StatelessWidget {
       appBar: AppBar(
                title: const Text("Companies"),
                centerTitle: true,
+                leading: IconButton(onPressed: (){Get.offAllNamed(AppRoute.home);}, icon: const Icon(Icons.arrow_back)),
+
       ),
 
       body: 

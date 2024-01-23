@@ -2,15 +2,17 @@ class AppRoute {
 
   // Admin Home Page
   static const String home = "/home";
+  static const String adminlogin = "/adminlogin";
+  static const String adminregister = "/adminregister";
+
+
 
 
   // Days Page
   static const String viewdays = "/viewdays";
 
-  static const String test1 = "/test1";
 
-  // Orders Page
-  static const String orderadd = "/orderadd";
+  static const String test1 = "/test1";
 
 
   // Drivers
@@ -48,6 +50,12 @@ class AppRoute {
   static const String bottelsedit = "/bottelsedit";
   static const String bottelsview = "/bottelsview";
 
+
+
+   // Orders
+  static const String driverLogin = "/driverLogin";
+  static const String orderadd = "/orderadd";
+    static const String ordersViewBydriverid = "/ordersViewBydriverid";
 
 
 

@@ -1,7 +1,10 @@
 import 'package:get/get_navigation/src/routes/get_route.dart';
 import 'package:water_jar/core/constant/routes.dart';
 import 'package:water_jar/core/middleware/myMiddleware.dart';
+
 import 'package:water_jar/view/screen/Admin/home.dart';
+import 'package:water_jar/view/screen/Admin/login.dart';
+import 'package:water_jar/view/screen/Admin/register.dart';
 import 'package:water_jar/view/screen/Bottels/add.dart';
 import 'package:water_jar/view/screen/Bottels/edit.dart';
 import 'package:water_jar/view/screen/Bottels/view.dart';
@@ -11,6 +14,7 @@ import 'package:water_jar/view/screen/Company/view.dart';
 import 'package:water_jar/view/screen/Customers/add.dart';
 import 'package:water_jar/view/screen/Customers/edit.dart';
 import 'package:water_jar/view/screen/Customers/view.dart';
+import 'package:water_jar/view/screen/Days/view.dart';
 import 'package:water_jar/view/screen/Districts/add.dart';
 import 'package:water_jar/view/screen/Districts/edit.dart';
 import 'package:water_jar/view/screen/Districts/view.dart';
@@ -19,6 +23,8 @@ import 'package:water_jar/view/screen/Drivers/add.dart';
 import 'package:water_jar/view/screen/Drivers/edit.dart';
 import 'package:water_jar/view/screen/Drivers/view.dart';
 import 'package:water_jar/view/screen/Order/add.dart';
+import 'package:water_jar/view/screen/Order/login-Driver.dart';
+import 'package:water_jar/view/screen/Order/view.dart';
 import 'package:water_jar/view/screen/Towns/add.dart';
 import 'package:water_jar/view/screen/Towns/edit.dart';
 
@@ -29,14 +35,22 @@ import 'package:water_jar/view/screen/test1.dart';
 
 List<GetPage<dynamic>>? routes = [
 
-   GetPage(name:  "/", page: () => const HomeAdminPage(), middlewares: [MyMidlleware()]),
+   GetPage(name:  "/", page: () => const  DriverLogin(), middlewares: [MyMidlleware()]),
+ 
 
     GetPage(name:  AppRoute.test1, page: () => const Test1(),),
+
+    // Days
+    GetPage(name:  AppRoute.viewdays, page: () => const ViewDays(),),
+
+
     
+     // Admin
     GetPage(name:  AppRoute.home, page: () => const HomeAdminPage(),),
+    GetPage(name:  AppRoute.adminlogin, page: () => const AdminLogin(),),
+    GetPage(name:  AppRoute.adminregister, page: () => const AdminRegister(),),
 
 
-    GetPage(name:  AppRoute.orderadd, page: () => const AddOrder(),),
     
     // DRIVERS
     GetPage(name:  AppRoute.driveradd, page: () => const AddDriver(),),
@@ -73,6 +87,15 @@ List<GetPage<dynamic>>? routes = [
     GetPage(name:  AppRoute.bottelsadd, page: () => const AddBottels(),),
     GetPage(name:  AppRoute.bottelsedit, page: () => const EditBottels(),),
     GetPage(name:  AppRoute.bottelsview, page: () => const ViewBottels(),),
+
+
+
+    // Orders
+    GetPage(name: AppRoute.driverLogin, page: () => const DriverLogin()),
+    GetPage(name: AppRoute.orderadd, page: () => const AddOrder()),
+    GetPage(name: AppRoute.ordersViewBydriverid, page: () => const ViewOrdersByDrivers()),
+
+
 
 
 

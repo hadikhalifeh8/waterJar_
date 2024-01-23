@@ -2,7 +2,7 @@ import 'package:drop_down_list/drop_down_list.dart';
 import 'package:drop_down_list/model/selected_list_item.dart';
 import 'package:flutter/material.dart';
 
-class CustomDropDownSearch extends StatefulWidget {
+class CustomDropDownSearchOrders extends StatefulWidget {
 
 final String? label;
 final String? title;
@@ -18,13 +18,15 @@ final void Function(String?)? onTownChanged;
 final void Function(String?)? districtFirstappearInedit;
 
 
+//final bool? readOnly_;
 
 
 
 
 
 
-  CustomDropDownSearch({
+
+  CustomDropDownSearchOrders({
     Key? key,
        required this.label,
        required this.title,
@@ -33,18 +35,22 @@ final void Function(String?)? districtFirstappearInedit;
        required this.dropDownSelectedID,
         this.onTownChanged,
         this.districtFirstappearInedit,
+         
+      // this.readOnly_,
 
+      
+      
+        }) : super(key: key);
 
         
 
-
-        }) : super(key: key);
-
   @override
-  State<CustomDropDownSearch> createState() => _CustomDropDownSearchState();
+  State<CustomDropDownSearchOrders> createState() => _CustomDropDownSearchOrdersState();
 }
 
-class _CustomDropDownSearchState extends State<CustomDropDownSearch> {
+class _CustomDropDownSearchOrdersState extends State<CustomDropDownSearchOrders> {
+ 
+
 
 
   // from controller
@@ -119,9 +125,13 @@ class _CustomDropDownSearchState extends State<CustomDropDownSearch> {
   Widget build(BuildContext context) {
     return
       Container(
-           margin: const EdgeInsets.only(top: 15.0, left: 20.0, right: 20.0),
+           margin: const EdgeInsets.only(top: 15.0, left: 5.0, right: 5.0),
 
         child: TextFormField(
+         
+ // readOnly: widget.readOnly_ == true ? true : false  ,
+
+
             controller: widget.dropDownSelectedName,
             cursorColor: Colors.black,
             
@@ -141,10 +151,10 @@ class _CustomDropDownSearchState extends State<CustomDropDownSearch> {
       
                               decoration: InputDecoration(
                 floatingLabelBehavior: FloatingLabelBehavior.always ,
-                contentPadding: const EdgeInsets.symmetric(vertical: 5.0, horizontal: 30),
+                contentPadding: const EdgeInsets.symmetric(vertical: 5.0, horizontal: 7),
           
                 border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(50.0),
+                  borderRadius: BorderRadius.only(bottomRight: Radius.circular(15.0)),
                 ),
       
                 label: Container(
@@ -157,13 +167,22 @@ class _CustomDropDownSearchState extends State<CustomDropDownSearch> {
                           InkWell(onTap: (){
                             FocusScope.of(context).unfocus();
                     // onTextFieldTap();
-                    if (widget.onTownChanged != null) {
-  widget.onTownChanged!(widget.dropDownSelectedID.text);
-}
+
+
+           //district dropdown بيمحي ال  town dropdown مجرد ما إكبس على ال          
+//   if (widget.onTownChanged != null) { 
+//   widget.onTownChanged!(widget.dropDownSelectedID.text);
+// }
+
+// بينما
+// district dropdownجديد بيمحي ال town dropdown هيدي بس نقي 
+  if (widget.districtFirstappearInedit != null) {
+    widget.onTownChanged!(widget.dropDownSelectedID.text);
+  }
                     
                     showDropDownSearch();
                           }, 
-                         child:const Icon(Icons.arrow_drop_down_circle_outlined),
+                         child:const Icon(Icons.arrow_drop_down_circle),
                 ),
 
                 hintText: widget.dropDownSelectedName.text == "" ? widget.title! : widget.dropDownSelectedName.text ,

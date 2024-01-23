@@ -7,7 +7,7 @@ class SqlDb{
 
 
 
-static Database? _db; // variable  private 
+static  Database? _db; // variable  private 
 
 // eza n3amal initial ma bade heye ten3amal marra tanye {bs marra we7de}
   Future<Database?> get db async {
@@ -21,19 +21,29 @@ static Database? _db; // variable  private
    
    
   }
-
-
-
-
-  initialDB() async{
-
-    String databasePath = await getDatabasesPath(); // e5teyar lmasar
-    String path = join(databasePath, 'jar.db'); //'databasePath/eccomerce_app.db' =>rabot esm l db ma3 l path
-    Database mydb = await openDatabase(path, onCreate: _onCreate, version: 1, onUpgrade: _onUpgrade); // b2anshe2 l db;
-    // version: eza bade zeed table msh b7aje kel sa3a em7e l db , bs b3adel 3al version
-    // wb7ot lonUpgrade
+Future<Database?> initialDB() async {
+  try {
+    String databasePath = await getDatabasesPath();
+    String path = join(databasePath, 'jar.db');
+    Database mydb = await openDatabase(path, onCreate: _onCreate, version: 1, onUpgrade: _onUpgrade);
     return mydb;
+  } catch (e) {
+    print('Error initializing database: $e');
+    return null;
   }
+}
+
+
+
+  // initialDB() async{
+
+  //   String databasePath = await getDatabasesPath(); // e5teyar lmasar
+  //   String path = join(databasePath, 'jar.db'); //'databasePath/eccomerce_app.db' =>rabot esm l db ma3 l path
+  //   Database mydb = await openDatabase(path, onCreate: _onCreate, version: 2, onUpgrade: _onUpgrade); // b2anshe2 l db;
+  //   // version: eza bade zeed table msh b7aje kel sa3a em7e l db , bs b3adel 3al version
+  //   // wb7ot lonUpgrade
+  //   return mydb;
+  // }
 
 
 
@@ -70,6 +80,8 @@ static Database? _db; // variable  private
       CREATE TABLE "towns" ( 
         "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT ,
         "name" TEXT NOT NULL UNIQUE
+       
+        
         
       )
      ''');
@@ -124,6 +136,61 @@ static Database? _db; // variable  private
       )
      ''');
 
+                     // الأدمن
+            batch.execute('''  
+      CREATE TABLE "admin" ( 
+        "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT ,
+        "name" TEXT NOT NULL UNIQUE,
+         "phone" TEXT NOT NULL UNIQUE,
+         "password" TEXT NOT NULL,
+         "status" INTEGER BY DEFAULT "0" NOT NULL 
+        
+      )
+     ''');
+
+
+                 // الفاتوره
+          batch.execute('''  
+      CREATE TABLE "orders" (
+        "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT ,
+        "day_id" INTEGER NOT NULL,
+        "driver_id" INTEGER NOT NULL,
+        "customer_id" INTEGER NOT NULL,
+        "town_id" INTEGER NOT NULL,
+        "district_id" INTEGER NOT NULL,
+        "company_id" INTEGER NOT NULL,
+        "bottle_id" INTEGER NOT NULL,
+        "qty_of_bottles" INTEGER NOT NULL DEFAULT 0,
+        "price_per_bottel" FLOAT NOT NULL DEFAULT 0.0,
+        "tolal_price_bottel" FLOAT NOT NULL DEFAULT 0.0,
+
+        "qty_jar_in" INTEGER NOT NULL DEFAULT "0",
+        "qty_jar_out" INTEGER NOT NULL DEFAULT "0",
+        "qty_previous_jars" INTEGER NOT NULL DEFAULT "0",
+
+        "total_jar" INTEGER NOT NULL DEFAULT "0",
+
+        "price_per_jar" FLOAT NOT NULL DEFAULT "0.0",
+        "total_price_jars" FLOAT NOT NULL DEFAULT "0.0",
+
+
+        "total_price" FLOAT NOT NULL DEFAULT "0.0",
+
+
+
+
+
+
+         "FOREIGN KEY (day_id) REFERENCES days (id) ON DELETE NO ACTION ON UPDATE NO ACTION,"
+         "FOREIGN KEY (driver_id) REFERENCES drivers (id) ON DELETE NO ACTION ON UPDATE NO ACTION,"
+         "FOREIGN KEY (customer_id) REFERENCES customers (id) ON DELETE NO ACTION ON UPDATE NO ACTION,"
+         "FOREIGN KEY (town_id) REFERENCES towns (id) ON DELETE NO ACTION ON UPDATE NO ACTION,"
+         "FOREIGN KEY (district_id) REFERENCES district (id) ON DELETE NO ACTION ON UPDATE NO ACTION,"
+         "FOREIGN KEY (company_id) REFERENCES company (id) ON DELETE NO ACTION ON UPDATE NO ACTION,"
+         "FOREIGN KEY (bottle_id) REFERENCES bottels (id) ON DELETE NO ACTION ON UPDATE NO ACTION,"
+      )
+     ''');
+
   
 
      await batch.commit();
@@ -142,9 +209,11 @@ _onUpgrade(Database db, int oldVersion, int newVersion)async {
 
     //             //  إسم البلده
     //        await db.execute('''  
-    //   CREATE TABLE "company" ( 
+    //   CREATE TABLE "admin" ( 
     //     "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT ,
-    //     "name" TEXT NOT NULL UNIQUE
+    //     "name" TEXT NOT NULL UNIQUE,
+    //      "phone" TEXT NOT NULL UNIQUE,
+    //      "password" TEXT NOT NULL
         
     //   )
     //  ''');
@@ -169,6 +238,40 @@ _onUpgrade(Database db, int oldVersion, int newVersion)async {
 //      await db.execute('''
 //   CREATE UNIQUE INDEX "unique_phone" ON "drivers" ("phone")
 // ''');
+
+
+
+    //         // الفاتوره
+    //       await  db.execute('''  
+    //   CREATE TABLE "orders" (
+    //     "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT ,
+    //     "day_id" INTEGER NOT NULL,
+    //     "driver_id" INTEGER NOT NULL,
+    //     "customer_id" INTEGER NOT NULL,
+    //     "town_id" INTEGER NOT NULL,
+    //     "district_id" INTEGER NOT NULL,
+    //     "company_id" INTEGER NOT NULL,
+    //     "bottle_id" INTEGER NOT NULL,
+    //     "qty_of_bottles" INTEGER BY DEFAULT "0" NOT NULL,
+    //     "price" FLOAT BY DEFAULT "0" NOT NULL,
+    //     "qty_jar_in" INTEGER BY DEFAULT "0" NOT NULL,
+    //     "qty_jar_out" INTEGER BY DEFAULT "0" NOT NULL,
+    //     "total_jar" INTEGER BY DEFAULT "0" NOT NULL,
+    //     "total_price" FLOAT BY DEFAULT "0" NOT NULL,
+
+
+
+
+
+    //      "FOREIGN KEY (day_id) REFERENCES days (id) ON DELETE NO ACTION ON UPDATE NO ACTION,"
+    //      "FOREIGN KEY (driver_id) REFERENCES drivers (id) ON DELETE NO ACTION ON UPDATE NO ACTION,"
+    //      "FOREIGN KEY (customer_id) REFERENCES customers (id) ON DELETE NO ACTION ON UPDATE NO ACTION,"
+    //      "FOREIGN KEY (town_id) REFERENCES towns (id) ON DELETE NO ACTION ON UPDATE NO ACTION,"
+    //      "FOREIGN KEY (district_id) REFERENCES district (id) ON DELETE NO ACTION ON UPDATE NO ACTION,"
+    //      "FOREIGN KEY (company_id) REFERENCES company (id) ON DELETE NO ACTION ON UPDATE NO ACTION,"
+    //      "FOREIGN KEY (bottle_id) REFERENCES bottels (id) ON DELETE NO ACTION ON UPDATE NO ACTION,"
+    //   )
+    //  ''');
 }
 
 
@@ -218,6 +321,10 @@ myDeleteDataBase() async {
   String path = join(databasePath, 'jar.db'); //'databasePath/eccomerce_app.db' =>rabot esm l db ma3 l path
   await deleteDatabase(path);
 }
+
+
+
+
 
 
 

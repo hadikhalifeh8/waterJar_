@@ -116,7 +116,8 @@ if (companyId == null || companyId!.text.isEmpty) {
              {
                ViewBottelsController controller = Get.put(ViewBottelsController());
                controller.readData();
-               Get.offAllNamed(AppRoute.bottelsview);
+              //  Get.offAllNamed(AppRoute.bottelsview);
+              Get.back();
 
                   Get.rawSnackbar(
               titleText: const Text("Success", style: TextStyle(color: Colors.white)),

@@ -5,6 +5,7 @@ import 'package:water_jar/controller/Company/viewCompany.dart';
 
 
 import 'package:water_jar/core/class/handlingDataView.dart';
+import 'package:water_jar/core/constant/routes.dart';
 import 'package:water_jar/view/widget/Bottels/CustomListTileBottels.dart';
 import 'package:water_jar/view/widget/Company/CustomListTileCompany.dart';
 
@@ -20,6 +21,8 @@ class ViewBottels extends StatelessWidget {
       appBar: AppBar(
                title: const Text("Bottels"),
                centerTitle: true,
+                leading: IconButton(onPressed: (){Get.offAllNamed(AppRoute.home);}, icon: const Icon(Icons.arrow_back)),
+
       ),
 
       body: 

@@ -30,31 +30,35 @@ class CustomListTileBottels extends StatelessWidget {
       
       
         child: Card(
-                  child: ListTile(
+                
+                    child: ListTile(
+                                  
+                        //  leading:  Container(padding: const EdgeInsets.only(top: 5.0),child: Text(leading_)),
+                        
+                         title: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                   Container(padding: const EdgeInsets.only(right: 15.0),child: Text(leading_)),
+                                    
+                                     Container(padding: const EdgeInsets.only(right: 10.0, left: 10),child: Text(name_)),
+                        
+                                    Container(padding: const EdgeInsets.only(right: 10.0, left: 10),child: Text(company_)),
+                  
+                                   Container(padding: const EdgeInsets.only( left: 10),child: Text(price_)),
+                  
+                        
+                                  ],
+                                ),
                                 
-                       leading: Container(padding: const EdgeInsets.only(top: 5.0),child: Text(leading_)),
-      
-                       title: Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Expanded(flex: 2,child: Text(name_)),
-      
-                                  Expanded(flex: 3,child: Text(company_)),
-
-                                  Expanded(child: Text(price_)),
-
-      
-                                ],
-                              ),
-                              
-                              
-                        trailing: 
-                                 IconButton(onPressed: onDelete,
-                                  icon:  Icon(iconDelete, color: Colors.red,)
-                                  ),
-                              
-                                                  ),
-                            ),
+                                
+                          trailing: 
+                                   IconButton(onPressed: onDelete,
+                                    icon:  Icon(iconDelete, color: Colors.red,)
+                                    ),
+                                
+                                                    ),
+                  ),
+                            
       
     );
   }

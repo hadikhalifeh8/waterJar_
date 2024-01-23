@@ -59,7 +59,8 @@ class AddCompanyController extends GetxController {
                   {
                      ViewCompaniesController controller = Get.put(ViewCompaniesController());
                     controller.readData();
-                    Get.offAllNamed(AppRoute.companyview);
+                    // Get.offAllNamed(AppRoute.companyview);
+                    Get.back();
 
             Get.rawSnackbar(
               titleText: const Text("Success", style: TextStyle(color: Colors.white)),

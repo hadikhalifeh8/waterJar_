@@ -81,7 +81,8 @@ class EditTownController extends GetxController {
             ViewTownsController controller = Get.put(ViewTownsController());
              controller.readData();
              print("Update readData");
-            Get.offAllNamed(AppRoute.townview);
+            // Get.offAllNamed(AppRoute.townview);
+            Get.back();
 
              Get.rawSnackbar(
               titleText: const Text("Success", style: TextStyle(color: Colors.white)),
@@ -98,7 +99,9 @@ class EditTownController extends GetxController {
        print("The Same Data");
       ViewTownsController controller = Get.put(ViewTownsController());
       controller.readData();
-      Get.offAllNamed(AppRoute.townview);
+      // Get.offAllNamed(AppRoute.townview);
+      Get.back();
+      
       
       Get.rawSnackbar(
               titleText: const Text("Success", style: TextStyle(color: Colors.white)),

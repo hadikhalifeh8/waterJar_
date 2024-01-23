@@ -8,9 +8,9 @@ class Myservices extends GetxService{
   late SharedPreferences sharedPreferences;
 
   Future<Myservices> init() async{
-    // await Firebase.initializeApp();
-
-
+    
+   //await Firebase.initializeApp();
+   
     sharedPreferences = await SharedPreferences.getInstance();
     return this;
   }

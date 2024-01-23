@@ -63,7 +63,7 @@ class EditCompanyController extends GetxController {
 
      
       // If either name or phone has changed, perform the update
-      if (nameChanged) {
+      if (nameChanged == true) {
         int response = await sqlDb.updateData('''
           UPDATE company SET
             name = "${name.text}"
@@ -77,23 +77,35 @@ class EditCompanyController extends GetxController {
             print("Update Successful");
             ViewCompaniesController controller = Get.put(ViewCompaniesController());
             controller.readData();
-            Get.offAllNamed(AppRoute.companyview);
+            // Get.offAllNamed(AppRoute.companyview);
+            Get.back();
+
+                  Get.rawSnackbar(
+              titleText: const Text("Success", style: TextStyle(color: Colors.white)),
+              messageText: const Text("Data Updated Successfully", style: TextStyle(color: Colors.white)),
+              backgroundColor: Colors.green.shade400,
+            );
+
           } else {
             print("Update Failed");
           }
         }
        
       }
-      print("jkjkk");
+else if (nameChanged == false) {
+        print("jkjkk");
       ViewCompaniesController controller = Get.put(ViewCompaniesController());
       controller.readData();
-      Get.offAllNamed(AppRoute.companyview);
+      // Get.offAllNamed(AppRoute.companyview);
+      Get.back();
       
       Get.rawSnackbar(
               titleText: const Text("Success", style: TextStyle(color: Colors.white)),
-              messageText: const Text("Data Updated Successfully", style: TextStyle(color: Colors.white)),
+              messageText: const Text("Data the same", style: TextStyle(color: Colors.white)),
               backgroundColor: Colors.green.shade400,
             );
+}
+update();
     }
     update();
   }

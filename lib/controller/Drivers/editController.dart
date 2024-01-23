@@ -13,7 +13,7 @@ class EditDriverController extends GetxController{
   SqlDb sqlDb = SqlDb();
   List<DriversModel> driver = [];
   DriversModel? driversModel;
-  StatusRequest? statusRequest;
+  StatusRequest statusRequest = StatusRequest.none;
 
   String? id;
 
@@ -33,63 +33,7 @@ class EditDriverController extends GetxController{
 
 
 
-      //   updateData(id) async {
 
-      //      if(formState.currentState!.validate()){
-      //   statusRequest =StatusRequest.loading;
-      //   update();
-
-      //      // Check if the phone number or name already exists
-      // List<Map> existingRecords = await sqlDb.readData('''
-      //   SELECT * FROM drivers WHERE name = "${name.text}" OR phone = "${phone.text}"
-      // ''');
-
-
-      //        if (existingRecords.isNotEmpty) {
-      //   statusRequest = StatusRequest.failure;
-      //   Get.defaultDialog(title: "Warning", middleText: "Phone number or name already exists");
-      // } else {
-
-      //   int response = await sqlDb.updateData
-                 
-      //            ('''
-      //               UPDATE drivers SET
-      //                             name = "${name.text}",
-      //                             phone = "${phone.text}",
-      //                             password = "${password.text}"
-      //                             WHERE id = "${id.toString()}"
-                
-                  
-      //           ''');  
-
-      //              statusRequest = handlingData("// $response //");
-              
-      //          if(StatusRequest.success == statusRequest)
-      //          {
-
-
-      //           if(response > 0) {
-      //         print("Update Yessssss");
-      //          ViewDriversController controller = Get.put(ViewDriversController());
-      //             controller.readData();
-                  
-      //             Get.offAllNamed(AppRoute.driversview);
-
-      //              print("response update note ========**////============");
-      //           print("$response");
-      //           }else{
-      //             print("*/****************ffffailed*********");
-
-      //           }
-               
-                
-      //           // print("response update note ========**////============");
-      //           // print("$response");
-      // }
-      //   }
-      //   update();
-      //   }
-      //   }
 
 
       updateData(id) async {
@@ -121,12 +65,12 @@ class EditDriverController extends GetxController{
       // Check if the name or phone has changed
       bool nameChanged = name.text != existingName;
       bool phoneChanged = phone.text != existingPhone;
-      bool passwordChanged = phone.text != existingPassword;
+      bool passwordChanged = password.text != existingPassword;
 
 
      
       // If either name or phone has changed, perform the update
-      if (nameChanged || phoneChanged || passwordChanged) {
+      if (nameChanged || phoneChanged || passwordChanged == true) {
         int response = await sqlDb.updateData('''
           UPDATE drivers SET
             name = "${name.text}",
@@ -142,26 +86,40 @@ class EditDriverController extends GetxController{
             print("Update Successful");
             ViewDriversController controller = Get.put(ViewDriversController());
             controller.readData();
-            Get.offAllNamed(AppRoute.driversview);
-          } else {
-            print("Update Failed");
-          }
+            //  Get.toNamed(AppRoute.driversview);
+            Get.back();
+
+                   Get.rawSnackbar(
+              titleText: const Text("Success", style: TextStyle(color: Colors.white)),
+              messageText: const Text("Data Updated Successfully", style: TextStyle(color: Colors.white)),
+              backgroundColor: Colors.blue.shade400,
+            );
+        
+          } 
         }
        
       }
-      print("jkjkk");
+      else if (nameChanged || phoneChanged || passwordChanged == false){
+                  print("jkjkk");
       ViewDriversController controller = Get.put(ViewDriversController());
       controller.readData();
-      Get.offAllNamed(AppRoute.driversview);
+      //  Get.toNamed(AppRoute.driversview);
+      Get.back();
+      
+
       
       Get.rawSnackbar(
               titleText: const Text("Success", style: TextStyle(color: Colors.white)),
-              messageText: const Text("Data Updated Successfully", style: TextStyle(color: Colors.white)),
-              backgroundColor: Colors.green.shade400,
+              messageText: const Text("Data the same", style: TextStyle(color: Colors.white)),
+              backgroundColor: Colors.blue.shade400,
             );
+      }
+
+
     }
     update();
   }
+ 
 }
 
 

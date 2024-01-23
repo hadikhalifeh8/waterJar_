@@ -260,7 +260,8 @@ Future getDistrictsData(String townId) async {
             ViewCustomerController controller = Get.put(ViewCustomerController());
              controller.readData();
              print("Update readData");
-            Get.offAllNamed(AppRoute.customerview);
+            // Get.offAllNamed(AppRoute.customerview);
+            Get.back();
 
              Get.rawSnackbar(
               titleText: const Text("Success", style: TextStyle(color: Colors.white)),

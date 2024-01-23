@@ -1,24 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:water_jar/controller/Districts/viewController.dart';
+import 'package:water_jar/controller/Orders/viewController.dart';
 import 'package:water_jar/core/class/handlingDataView.dart';
 import 'package:water_jar/core/constant/routes.dart';
-import 'package:water_jar/view/widget/Districts/CustomListTile.dart';
+import 'package:water_jar/view/widget/Orders/CustomListTileOrder.dart';
 
 
-class ViewDistreicts extends StatelessWidget {
+class ViewOrdersByDrivers extends StatelessWidget {
   
-  const ViewDistreicts({Key? key}) : super(key: key);
+  const ViewOrdersByDrivers({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
 
     
-   ViewDistreictsController controller = Get.put(ViewDistreictsController());
+   ViewOrdersController controller = Get.put(ViewOrdersController());
  
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text("View All Districts"),
+        title: const Text("View All Orders"),
         centerTitle: true,
          leading: IconButton(onPressed: (){Get.offAllNamed(AppRoute.home);}, icon: const Icon(Icons.arrow_back)),
 
@@ -28,7 +29,7 @@ class ViewDistreicts extends StatelessWidget {
          // CustomTitlesOFNames(),
 
 
-        GetBuilder<ViewDistreictsController>(builder: (controller) => 
+        GetBuilder<ViewOrdersController>(builder: (controller) => 
 
 
       HandlingDataView(
@@ -44,19 +45,19 @@ class ViewDistreicts extends StatelessWidget {
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
 
-          itemCount: controller.district.length,
+          itemCount: controller.orders.length,
           itemBuilder: (context, index) => 
-            CustomListTile(
+            CustomListTileOrder(
             
-            id: controller.district[index].id.toString(),
-             districtName: controller.district[index].name.toString(), 
-             townName: controller.district[index].townName.toString(), 
+            id: controller.orders[index].id.toString(),
+             districtName: controller.orders[index].customerName.toString(), 
+             townName: controller.orders[index].townName.toString(), 
           // iconDataEdit: Icons.edit, 
            iconDataDelete: Icons.delete_forever_rounded,
            
-            onEdit: () { controller.goToEditPage(controller.district[index]); }, 
+          //  onEdit: () { controller.goToEditPage(controller.district[index]); }, 
 
-            onDelete: () {  controller.removeData(controller.district[index].id.toString());},
+          //  onDelete: () {  controller.removeData(controller.orders[index].id.toString());},
             
             ), 
          ),

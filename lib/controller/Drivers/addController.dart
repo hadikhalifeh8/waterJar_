@@ -59,10 +59,14 @@ class AddDriverController extends GetxController{
 
         if (StatusRequest.success == statusRequest) {
           if (response > 0) {
+           
             ViewDriversController controller = Get.put(ViewDriversController());
             print("*---------=== success + $response");
             controller.readData();
-            Get.offAllNamed(AppRoute.driversview);
+           //  Get.offNamed(AppRoute.driversview);
+             Get.back();
+
+
             Get.rawSnackbar(
               titleText: const Text("Success", style: TextStyle(color: Colors.white)),
               messageText: const Text("Data added Successfully", style: TextStyle(color: Colors.white)),
@@ -99,6 +103,7 @@ class AddDriverController extends GetxController{
     super.onInit();
   }
 
+
   @override
   void dispose() {
    name.dispose();
@@ -108,7 +113,6 @@ class AddDriverController extends GetxController{
 
     super.dispose();
   }
-
 
 
 }

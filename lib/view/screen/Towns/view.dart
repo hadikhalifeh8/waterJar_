@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:water_jar/controller/Drivers/viewController.dart';
 import 'package:water_jar/controller/Towns/viewController.dart';
 import 'package:water_jar/core/class/handlingDataView.dart';
+import 'package:water_jar/core/constant/routes.dart';
 import 'package:water_jar/view/widget/Drivers/CustomListTileDrivers.dart';
 import 'package:water_jar/view/widget/Town/CustomListTileTown.dart';
 
@@ -16,6 +17,8 @@ class ViewTowns extends StatelessWidget {
       appBar: AppBar(
                title: const Text("View All Towns"),
                centerTitle: true,
+                leading: IconButton(onPressed: (){Get.offAllNamed(AppRoute.home);}, icon: const Icon(Icons.arrow_back)),
+
       ),
 
       body: 

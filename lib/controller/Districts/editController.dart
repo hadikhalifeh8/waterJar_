@@ -132,7 +132,8 @@ class EditDistrictController extends GetxController{
             ViewDistreictsController controller = Get.put(ViewDistreictsController());
              controller.readData();
              print("Update readData");
-            Get.offAllNamed(AppRoute.districtview);
+            // Get.offAllNamed(AppRoute.districtview);
+            Get.back();
 
              Get.rawSnackbar(
               titleText: const Text("Success", style: TextStyle(color: Colors.white)),

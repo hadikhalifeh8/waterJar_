@@ -114,7 +114,8 @@ if (townsId == null || townsId!.text.isEmpty) {
              {
                ViewDistreictsController controller = Get.put(ViewDistreictsController());
                controller.readData();
-               Get.offAllNamed(AppRoute.districtview);
+              //  Get.offAllNamed(AppRoute.districtview);
+              Get.back();
 
                   Get.rawSnackbar(
               titleText: const Text("Success", style: TextStyle(color: Colors.white)),

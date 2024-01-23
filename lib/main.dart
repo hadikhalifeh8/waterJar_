@@ -1,14 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:water_jar/bindings/initialBinding.dart';
+import 'package:water_jar/core/functions/sqldb.dart';
 import 'package:water_jar/core/services/services.dart';
 import 'package:water_jar/routes.dart';
 
 void main() async {
 
    WidgetsFlutterBinding.ensureInitialized();
+    await SqlDb().initialDB();
    await initialServices();
-  
+
+   
+//  final myServices = await Myservices().init(); // Call init here
+
   runApp(const MyApp());
 }
 

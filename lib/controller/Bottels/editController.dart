@@ -147,7 +147,8 @@ class EditBottelController extends GetxController{
             ViewBottelsController controller = Get.put(ViewBottelsController());
              controller.readData();
              print("Update readData");
-            Get.offAllNamed(AppRoute.bottelsview);
+            // Get.offAllNamed(AppRoute.bottelsview);
+            Get.back();
 
              Get.rawSnackbar(
               titleText: const Text("Success", style: TextStyle(color: Colors.white)),

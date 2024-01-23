@@ -6,22 +6,33 @@ import 'package:get/get.dart';
 class MyMidlleware extends GetMiddleware{
 
   @override
-  int? priority = 0;
+  int? get priority => 1;
   
   Myservices myservices = Get.find();
 
 
   @override
   RouteSettings? redirect(String? route) {
-    //step 2 الأولويه لل 
-     if(myservices.sharedPreferences.getString("step") == "2"){
-         return const RouteSettings(name: AppRoute.viewdays);
-        
 
+
+        if(myservices.sharedPreferences.getString("step") == "4"){
+        return const RouteSettings(name: AppRoute.viewdays);
+    }
+
+        if(myservices.sharedPreferences.getString("step") == "3"){
+        return const RouteSettings(name: AppRoute.driverLogin);
+    }
+
+
+
+
+    // step 2 الأولويه لل 
+     if(myservices.sharedPreferences.getString("step") == "2"){
+        return const RouteSettings(name: AppRoute.home);
     }
   
     if(myservices.sharedPreferences.getString("step") == "1"){
-        return const RouteSettings(name: AppRoute.viewdays);
+        return const RouteSettings(name: AppRoute.adminlogin);
     }
 
     
@@ -29,3 +40,4 @@ class MyMidlleware extends GetMiddleware{
   return null;
   }
 }
+
