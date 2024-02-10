@@ -3,13 +3,15 @@ import 'package:drop_down_list/model/selected_list_item.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get/get_connect/http/src/utils/utils.dart';
+import 'package:water_jar/controller/Orders/viewController.dart';
 import 'package:water_jar/core/class/statusRequest.dart';
 import 'package:water_jar/core/constant/routes.dart';
 import 'package:water_jar/core/functions/handlingDataController.dart';
 import 'package:water_jar/core/functions/sqldb.dart';
 import 'package:water_jar/core/services/services.dart';
 import 'package:water_jar/data/model/bottelsModel.dart';
-import 'package:water_jar/data/model/companyModels.dart';
+import 'package:water_jar/data/model/jarModels.dart';
 import 'package:water_jar/data/model/customersModel.dart';
 import 'package:water_jar/data/model/daysModel.dart';
 import 'package:water_jar/data/model/districtsModel.dart';
@@ -61,7 +63,8 @@ List<DriversModel> drivers = [];
   List<DistrictsModel> districts = [];
 
 
-  List<CompanyModels> companies = [];
+  List<JarModels> jar = [];
+  JarModels? jarModels;
 
   List<BottelsModel> bottels = [];
    BottelsModel? bottelsModel;
@@ -89,17 +92,17 @@ List<DriversModel> drivers = [];
   TextEditingController dropdownCustomersName = TextEditingController();
   TextEditingController dropdownCustomersId = TextEditingController();
 
-  TextEditingController dropdownTownsName = TextEditingController();
-  TextEditingController dropdownTownsId = TextEditingController();
+  // TextEditingController dropdownTownsName = TextEditingController();
+  // TextEditingController dropdownTownsId = TextEditingController();
 
 
-  TextEditingController dropdownDistrictsName = TextEditingController();
-  TextEditingController dropdownDistrictsId = TextEditingController();
+  // TextEditingController dropdownDistrictsName = TextEditingController();
+  // TextEditingController dropdownDistrictsId = TextEditingController();
 
 
 
-  TextEditingController dropdownCompaniesName = TextEditingController();
-  TextEditingController dropdownCompaniesId = TextEditingController();
+  // TextEditingController dropdownCompaniesName = TextEditingController();
+  // TextEditingController dropdownCompaniesId = TextEditingController();
 
   TextEditingController dropdownBottelsName = TextEditingController();
   TextEditingController dropdownBottelsId = TextEditingController();
@@ -116,8 +119,8 @@ List<DriversModel> drivers = [];
   TextEditingController districtName = TextEditingController();
 
 
-  TextEditingController companiesName = TextEditingController();
-  TextEditingController companiesId = TextEditingController();
+  TextEditingController jarsName = TextEditingController();
+  TextEditingController jarsId = TextEditingController();
 
   TextEditingController  bottelsName = TextEditingController();
   TextEditingController  bottelsId = TextEditingController();
@@ -138,6 +141,9 @@ List<DriversModel> drivers = [];
   TextEditingController pricePerJar = TextEditingController();
   TextEditingController totalPriceJars = TextEditingController();
 
+    TextEditingController debt = TextEditingController();
+  TextEditingController paid = TextEditingController();
+
   TextEditingController totalPrice = TextEditingController();
 
 
@@ -146,195 +152,40 @@ List<DriversModel> drivers = [];
 
 
 
+ bool showContainerA = false;
+ bool showContainerB = false;
 
-
-
-
-
-
-
-
-
-
-
-
-    // get Towns Data
- Future getTownsData() async{
-
-
-List<Map> response = await sqlDb.readData('''
-  SELECT * FROM towns
-  
-  ''');
-
-      print("***************##############************* Towns Controler $response ");
-
-       statusRequest = handlingData(response); 
-
-             if(StatusRequest.success == statusRequest)
-     {       
-            if(response.length > 0)
-            {
-               towns.clear(); // Clear the list before adding town data
-              List listTowns = response;
-            towns.addAll(listTowns.map((e) => TownsModel.fromJson(e)));  
-            update();
-
-             for(int i = 0; i < towns.length; i++)
-       {
-          dropdownListOFTowns.add(SelectedListItem(
-                                            name: towns[i].name.toString(),
-                                            value: towns[i].id.toString(),
-                                            )  
-                                            );
-       }
-            print("yes has Town data");
-            return response;
-            }
-     }
-     else{
-        print("No data");
-        update();
-    return  statusRequest = StatusRequest.failure; 
-     }
-     update();
-     print("======= = =fails");
-      return  statusRequest = StatusRequest.failure;
-  }
-
-
-
-  void resetDistrictANDCustomerDropDown() {
-districtName.text = "";
-districtId.text = ""; // Set the ID to an appropriate default value or an empty string
-
-customerName.text = "";
-      customerId.text = "";
-}
-
-
-
-
-    // Add this function to update districts based on the selected town
-   onTownChanged(String? townId) async {
-    if (townId != null && townId.isNotEmpty) {
-      dropdownListOFDistricts.clear(); // Clear existing districts
-      dropdownListOFCustomers.clear(); // Clear existing Customers
-
-      
-      resetDistrictANDCustomerDropDown();
-      
-
-      update(); // Update the UI
-     
-      
-
-      // Call getDistrictsData with the selected townId
-      await getDistrictsData();
-      
-      
-    }
+  void toggleContainers(bool showA, bool showB) {
+   
+      showContainerA = showA;
+      showContainerB = showB;
+      update();
+   
   }
 
 
 
 
-
-    // get Districts Data
-      Future getDistrictsData() async{
-
-
-
-            List<Map> response = await sqlDb.readData('''
-
-SELECT id, name  FROM district WHERE town_id = "${townId.text}"
-                        ''');
-                        print("townsId is = ${townId.text}");
-                        
-
-      print("***************##############************* Districts Controler $response ");
-
-       statusRequest = handlingData(response); 
-
-             if(StatusRequest.success == statusRequest)
-     {       
-            if(response.length > 0)
-            {
-              // to not get duplicate data for gettownsdata & getdistrictsdata
-              districts.clear(); // Clear the list before adding district data
-
-              List listDistricts = response;
-            districts.addAll(listDistricts.map((e) => DistrictsModel.fromJson(e)));  
-            update();
-
-             for(int i = 0; i < districts.length; i++)
-       {
-          dropdownListOFDistricts.add(SelectedListItem(
-                                            name: districts[i].name.toString(),
-                                            value: districts[i].id.toString(),
-                                            )  
-                                            );
-       }
-       
-       update();
-
-            print("yes has districts data");
-            return response;
-            }
-     }
-     else{
-        print("No data");
-        update();
-    return  statusRequest = StatusRequest.failure; 
-     }
-     update();
-     print("======= = =fails");
-      return  statusRequest = StatusRequest.failure;
-  }
-
-
-  
-void resetCustomerDropDown() {
-      customerName.text = "";
-      customerId.text = ""; // Set the ID to an appropriate default value or an empty string
-}
-
-       // For Customer 
-    // Add this function to update districts based on the selected town
-   onDistrictChanged( String? districtId) async {
-    
-    
-    
-    if (districtId != null && districtId.isNotEmpty) {
-      dropdownListOFCustomers.clear(); // Clear existing districts
-      resetCustomerDropDown();
-      
-
-      update(); // Update the UI
-     
-      
-
-      // Call getDistrictsData with the selected townId
-      // await getTownsData();
-      // await getDistrictsData();
-      await getCustomersData();
-      
-      
-    }
-  }
-
-
-
-
-
-      // get Customers Data
+ // get Customers Data
  Future getCustomersData() async{
+
 
        List<Map> response = await sqlDb.readData('''
 
-SELECT id, name  FROM customers WHERE town_id = "${townId.text}" and district_id = "${districtId.text}"
+  SELECT customers.id, customers.name, customers.phone, customers.town_id, customers.district_id,
+         towns.id as town_id, towns.name as town_name,
+         district.id as district_id, district.name as district_name, district.town_id as town_id
+         
+
+  FROM customers
+  JOIN towns ON customers.town_id = towns.id
+  JOIN district ON customers.district_id =  district.id
+
+ 
+  
+
                         ''');
-                        print("townsId is = ${townId.text}, &&  the districtId is = ${districtId.text}");
+                        
                         
 
       print("***************##############************* Districts Controler $response ");
@@ -360,6 +211,23 @@ SELECT id, name  FROM customers WHERE town_id = "${townId.text}" and district_id
                                             )  
                                             );
        }
+
+
+       
+  if (listCustomers.isNotEmpty) {
+        int selectedIndex = dropdownListOFCustomers.indexWhere(
+            (element) => element.value == customerId.text);
+
+        if (selectedIndex != -1) {
+          townId.text = customers[selectedIndex].townId.toString();
+          townName.text = customers[selectedIndex].townName.toString();
+
+          districtId.text = customers[selectedIndex].districtId.toString();
+          districtName.text = customers[selectedIndex].districtName.toString();
+
+        }
+      }
+       print("townsId is = ${townId.text}, &&  the districtId is = ${districtId.text}");
        
        update();
 
@@ -379,93 +247,30 @@ SELECT id, name  FROM customers WHERE town_id = "${townId.text}" and district_id
 
 
 
-  //get Companies Data
- Future getCompaniesData() async{
 
-
-List<Map> response = await sqlDb.readData('''
-  SELECT * FROM company
-  
-  ''');
-
-      print("***************##############************* Towns Controler $response ");
-
-       statusRequest = handlingData(response); 
-
-             if(StatusRequest.success == statusRequest)
-     {       
-            if(response.length > 0)
-            {
-               companies.clear(); // Clear the list before adding town data
-              List listCompanies = response;
-            companies.addAll(listCompanies.map((e) => CompanyModels.fromJson(e)));  
-            update();
-
-             for(int i = 0; i < companies.length; i++)
-       {
-          dropdownListOFCompanies.add(SelectedListItem(
-                                            name: companies[i].name.toString(),
-                                            value: companies[i].id.toString(),
-                                            )  
-                                            );
-       }
-            print("yes has Companies data");
-            return response;
-            }
-     }
-     else{
-        print("No data");
-        update();
-    return  statusRequest = StatusRequest.failure; 
-     }
-     update();
-     print("======= = =fails");
-      return  statusRequest = StatusRequest.failure;
-  }
-
-
-  
-
-  // resetBottelsDropDown
-  void resetBottelsDropDown() {
-      bottelsName.text = "";
-      bottelsId.text = ""; // Set the ID to an appropriate default value or an empty string
-}
-
-
-
-       // For Bottels 
-    // Add this function to update Company based on the selected town
-
-    //ON Company Changed
-   onCompanyChanged( String? companiesId) async {
+    // Add this function to update districts based on the selected town
+   onCustomerChanged( String? customerId) async {
     
-    if (companiesId != null && companiesId.isNotEmpty) {
-     
-      dropdownListOFBottels.clear(); // Clear existing districts
-      resetBottelsDropDown();
-
-
-      resetBottelPerPrice();
-      resetTotalPriceANDQTYOFBottels();
-
-      resetJarPerPrice();
-      resetTotalPriceANDQTYSOFJARS();
-      
-      
-
+    
+    
+    if (customerId != null && customerId.isNotEmpty) {
+      dropdownListOFCustomers.clear(); // Clear existing districts
+      // resetCustomerDropDown();
       update(); // Update the UI
-     
-      
-
       // Call getDistrictsData with the selected townId
       // await getTownsData();
       // await getDistrictsData();
-      await getBottelsData();
+      await getCustomersData();
       
       
     }
   }
+
+
+
+
+
+
 
 
 
@@ -476,9 +281,9 @@ List<Map> response = await sqlDb.readData('''
 
             List<Map> response = await sqlDb.readData('''
 
-SELECT id, name, price  FROM bottels WHERE company_id = "${companiesId.text}"
+SELECT * FROM bottels
                         ''');
-                        print("company_id is = ${companiesId.text}");
+                        // print("company_id is = ${companiesId.text}");
                         
 
       print("***************##############************* Companies Controler $response ");
@@ -524,32 +329,41 @@ SELECT id, name, price  FROM bottels WHERE company_id = "${companiesId.text}"
 
   // Insert Order Data
    insertData() async {
+
+        if (customerId.text.isEmpty) {
+  return Get.snackbar("warning", "select a customer",backgroundColor: Colors.red, colorText: Colors.white);
+}
+
+     if (bottelsId.text.isEmpty && jarsId.text.isEmpty) {
+  return Get.snackbar("warning", "choose bottles OR jars",backgroundColor: Colors.red, colorText: Colors.white);
+}
+
   if (formState.currentState!.validate()) {
     statusRequest = StatusRequest.loading;
     update();
 
  
  int response = await sqlDb.insertData(''' INSERT INTO orders (
-        'day_id', 'driver_id', 'customer_id', 'town_id', 'district_id','company_id', 'bottle_id',
+        'day_id', 'driver_id', 'customer_id', 'town_id', 'district_id','jar_id', 'bottle_id',
          'qty_of_bottles', 'price_per_bottel', 'tolal_price_bottel', 'qty_jar_in', 'qty_jar_out', 'qty_previous_jars', 'total_jar',
-         'price_per_jar', 'total_price_jars', 'total_price')
-          VALUES("${daysModel!.id.toString()}", "${myservices.sharedPreferences.getString("id").toString()}", "${customerId.text}", "${townId.text}", "${districtId.text}", "${companiesId.text}", "${bottelsId.text}",
+         'price_per_jar', 'total_price_jars', 'debt', 'paid', 'total_price')
+          VALUES("${daysModel!.id.toString()}", "${myservices.sharedPreferences.getString("id").toString()}", "${customerId.text}", "${townId.text}", "${districtId.text}", "${jarsId.text}", "${bottelsId.text.toString()}",
           "${qtyOfBottles.text}" , "${pricePerBottel.text}", "${totalPriceBottel.text}" ,
-           "${jarIn.text}" , "${jarOut.text}", "${qtyPreviousOFJars.text}", "${totalJars.text}",
-           "${pricePerJar.text}" , "${totalPriceJars.text}" ,"${totalPrice.text}"
+           "${jarIn.text}", "${jarOut.text}", "${qtyPreviousOFJars.text}", "${totalJars.text}",
+           "${pricePerJar.text}", "${totalPriceJars.text}", "${debt.text}", "${paid.text}","${totalPrice.text}"
           )
         ''');
 
-        statusRequest = handlingData("// $response //");
+        statusRequest = handlingData("// $response //"); 
 
         if (StatusRequest.success == statusRequest) {
           if (response > 0) {
            
-          //   ViewDriversController controller = Get.put(ViewDriversController());
-          //   print("*---------=== success + $response");
-          //   controller.readData();
-            Get.offNamed(AppRoute.viewdays);
-          //    Get.back();
+            ViewOrdersController controller = Get.put(ViewOrdersController());
+            print("*---------=== success + $response");
+          //  controller.readData();
+        //    Get.offNamed(AppRoute.ordersViewBydriverid);
+              Get.back();
 
 
             Get.rawSnackbar(
@@ -566,68 +380,60 @@ SELECT id, name, price  FROM bottels WHERE company_id = "${companiesId.text}"
       
       update();
     } 
-    // catch (e) {
-    //   print("Error: $e");
-    //   update();
-    //   statusRequest = StatusRequest.failure;
-    //   Get.defaultDialog(title: "Error", middleText: "An error occurred while adding data");
-    // }
- // }
+  
 }
 
 
 //**************************************START FOR BOTTELS CALCULATIONS*********************************** */
 
+//   void resetBottelPerPrice() {
+// //      if(pricePerBottel.text.isEmpty || bottelsId.text.isEmpty)
+// //  {
+// // pricePerBottel.text = "0";
+// //  }else{
+// //   pricePerBottel.text = pricePerBottel.text;
+// //  }
+// pricePerBottel.text = "0";
 
-  void resetBottelPerPrice() {
-pricePerBottel.text = "0";
-
-}
+// }
   void resetTotalPriceANDQTYOFBottels() {
-  totalPriceBottel.text = "0";
- // qtyOfBottles.text = "0";
- if(qtyOfBottles.text.isEmpty || bottelsId.text.isEmpty)
+
+ if(qtyOfBottles.text.isEmpty && totalPriceBottel.text.isEmpty && bottelsId.text.isEmpty)
  {
     qtyOfBottles.text = "0";
+    totalPriceBottel.text = "0";
  }else{
   qtyOfBottles.text = qtyOfBottles.text;
+  totalPriceBottel.text = totalPriceBottel.text;
  }
 
 }
 
 
-    // Add this function to update the price based on the selected bottle
-   onBottlesChanged(String? bottelsId) async {
-    if (bottelsId != null && bottelsId.isNotEmpty) {
-     
 
-      
-      resetBottelPerPrice();
-      resetTotalPriceANDQTYOFBottels();
-      
-
-      update(); // Update the UI
-     
-
-      getPricePerBottelData();
-      getTotalPriceOfBottelData();
-     
+  onBottlesChanged(String? bottelsId) async {
     
-      
-      
-    }
-  }
+  if (bottelsId != null && bottelsId.isNotEmpty) {
 
-    Future getPricePerBottelData() async {
+    resetTotalPriceANDQTYOFBottels();
+    getPricePerBottelData();
+    getTotalPriceOfBottelData();
+    getTotalPriceOrder();
+    getDebtValue();
+     
+
+    update();
+  }
+}
+
+
+
+Future getPricePerBottelData() async {
   update();
     List<Map> response = await sqlDb.readData('''
-      SELECT bottels.id, bottels.price, bottels.company_id, 
-      company.id as company_id, company.name as company_name
-           
-           FROM bottels
+      SELECT * FROM bottels
          
-         JOIN company ON bottels.company_id = company.id
-         WHERE bottels.id = ${bottelsId.text} AND company.name LIKE 'tan%'
+         WHERE bottels.id = ${bottelsId.text} 
       ''');
 
   if (response.length>0) {
@@ -656,19 +462,12 @@ update();
 
 
 
-
-
-
       Future getTotalPriceOfBottelData() async {
   update();
     List<Map> response = await sqlDb.readData('''
-      SELECT bottels.id, bottels.price, bottels.company_id, 
-      company.id as company_id, company.name as company_name
-           
-           FROM bottels
-         
-         JOIN company ON bottels.company_id = company.id
-         WHERE bottels.id = ${bottelsId.text} AND company.name LIKE 'tan%'
+      SELECT * FROM bottels
+                 
+         WHERE bottels.id = ${bottelsId.text}
       ''');
 
   if (response.length>0) {
@@ -680,16 +479,21 @@ update();
        
          for(int i = 0; i < bottels.length ; i++)
          {
-        //  pricePerBottel.text =bottels[i].price.toString();
- if(qtyOfBottles.text.isEmpty)
- {
 
-totalPriceBottel.text ="0";
- }else{
-       totalPriceBottel.text = (int.parse(qtyOfBottles.text) * double.parse(pricePerBottel.text)).toString();
-            print("yesssss has bottels totalPriceBottel");
+      //  totalPriceBottel.text = (int.parse(qtyOfBottles.text) * double.parse(pricePerBottel.text)).toString();
+      //       print("yesssss has bottels totalPriceBottel");
 
- }
+      if (qtyOfBottles.text != null && qtyOfBottles.text.isNotEmpty) {
+  int quantity = int.parse(qtyOfBottles.text);
+  if (quantity != null) {
+    double price = double.parse(pricePerBottel.text);
+    if (price != null) {
+      totalPriceBottel.text = (quantity * price).toString();
+    } 
+  } 
+} 
+
+//  }
 
 
 
@@ -707,6 +511,7 @@ update();
 
   }
 
+
 //**************************************END FOR BOTTELS CALCULATIONS************************************* */
 
 
@@ -715,57 +520,108 @@ update();
 //**************************************START FOR JARS CALCULATIONS************************************** */
 
 
+
+  Future getJarsData() async {
+    jar.clear();
+    update();
+    statusRequest =StatusRequest.loading;
+     
+
+    List<Map> response = await sqlDb.readData("SELECT * FROM jars");
+       
+
+      print("***************##############************* Controler $response ");
+    
+     statusRequest = handlingData(response); 
+
+
+     if(StatusRequest.success == statusRequest)
+     {
+       
+            if(response.length > 0)
+
+       {
+            List listJars = response;
+    jar.addAll(listJars.map((e) => JarModels.fromJson(e)));
+     update();
+  print("yes has jars data");
+    return response;
+    
+        
+       }else{
+        print("No data for jars");
+        update();
+    return  statusRequest = StatusRequest.failure;
+  
+
+     }
+     
+     }
+     print("=======nos datas");
+  update();
+
+   
+  }
+
+
+
+
+
+
+
+
   void resetTotalPriceANDQTYSOFJARS() {
-  totalPriceJars.text = "0";
- // qtyOfBottles.text = "0";
- if(jarIn.text.isEmpty || jarOut.text.isEmpty || bottelsId.text.isEmpty)
+
+ if(jarIn.text.isEmpty && jarOut.text.isEmpty && qtyPreviousOFJars.text.isEmpty)
+
  {
     jarIn.text = "0";
     jarOut.text = "0";
     qtyPreviousOFJars.text = "0";
 
+   // totalPriceJars.text = "0";
+    
  }else{
 
       jarIn.text = jarIn.text;
       jarOut.text = jarOut.text;
       qtyPreviousOFJars.text = qtyPreviousOFJars.text ;
 
- }
+    //  totalPriceJars.text =totalPriceJars.text;
+     }
 
-}
+    
+  }
 
 
 
 
-  void resetJarPerPrice() {
-pricePerJar.text = "0";
+//   void resetJarPerPrice() {
+// pricePerJar.text = "0";
 
-}
+// }
 
 
 
     // Add this function to update the price based on the selected bottle
-   onBottlesFORJARChanged(String? bottelsId) async {
-    if (bottelsId != null && bottelsId.isNotEmpty) {
-     
+    onBottlesFORJARChanged(String jarid) async {
+
+    if (jarid != null && jarid.isNotEmpty) {
 
       
-      resetBottelPerPrice();
+    //  resetBottelPerPrice();
       resetTotalPriceANDQTYSOFJARS();
-      
-
-      update(); // Update the UI
-     
-
       getPricePerJarData();
-      getTotalPriceOfJARData();
+      
       getTotalQTYOFJARSSData();
-      getTotalPrice();
+      getTotalPriceOfJARData();
+      getTotalPriceOrder();
+       getDebtValue();
      
-    
+    // getJarsData();
+       update(); // Update the UI
       
-      
-    }
+     }
   }
 
 
@@ -774,28 +630,31 @@ pricePerJar.text = "0";
     Future getPricePerJarData() async {
   update();
     List<Map> response = await sqlDb.readData('''
-      SELECT bottels.id, bottels.price, bottels.company_id, 
-      company.id as company_id, company.name as company_name
-           
-           FROM bottels
+      SELECT * FROM jars
+      
          
-         JOIN company ON bottels.company_id = company.id
-         WHERE bottels.id = ${bottelsId.text} AND company.name LIKE 'ser%'
       ''');
+      // WHERE bottels.id = ${bottelsId.text} 
 
-  if (response.length>0) {
-    bottels.clear();
+  if (response.isNotEmpty) {
+    jar.clear();
 
-    List listbottels = response;
-    bottels.addAll(listbottels.map((e) => BottelsModel.fromJson(e)));
+    List listJars = response;
+    jar.addAll(listJars.map((e) => JarModels.fromJson(e)));
   
        
-         for(int i = 0; i < bottels.length ; i++)
+         for(int i = 0; i < jar.length ; i++)
          {
-          pricePerJar.text =bottels[i].price.toString();
-            print("yehoooo has jar prices");
+           jarsId.text =jar[i].id.toString();
+
+          pricePerJar.text =jar[i].price.toString();
+
+             print("the JarId.text is = ${jarsId.text}");
+
+            print("the pricePerJar.text is = ${pricePerJar.text}");
+
          }
-      update();
+     
       }else{
         print("noooo hasn't jar prices");
        // pricePerBottel.text ="0";
@@ -813,34 +672,47 @@ update();
   Future getTotalPriceOfJARData() async {
     update();
     List<Map> response = await sqlDb.readData('''
-      SELECT bottels.id, bottels.price, bottels.company_id, 
-      company.id as company_id, company.name as company_name
-           
-           FROM bottels
-         
-         JOIN company ON bottels.company_id = company.id
-         WHERE bottels.id = ${bottelsId.text} AND company.name LIKE 'ser%'
+      SELECT * FROM jars
+        
       ''');
 
-  if (response.length>0) {
-    bottels.clear();
+      // WHERE bottels.id = ${bottelsId.text}
 
-    List listbottels = response;
-    bottels.addAll(listbottels.map((e) => BottelsModel.fromJson(e)));
+  if (response.isNotEmpty) {
+    jar.clear();
+
+    List listJars = response;
+    jar.addAll(listJars.map((e) => JarModels.fromJson(e)));
   
        
-         for(int i = 0; i < bottels.length ; i++)
+         for(int i = 0; i < jar.length ; i++)
          {
-        //  pricePerBottel.text =bottels[i].price.toString();
+          jarsId.text =jar[i].id.toString();
+          jarsName.text = jar[i].name.toString();
 
-     totalPriceJars.text = (int.parse(jarIn.text) * double.parse(pricePerJar.text)).toString();
-            print("yesssss has jars totalPriceJar");
+    //  totalPriceJars.text = (int.parse(jarIn.text) * double.parse(pricePerJar.text)).toString();
+    //         print("yesssss has jars totalPriceJar");
+
+
+      if (jarIn.text.isNotEmpty && pricePerJar.text.isNotEmpty) {
+      
+      int jrIns_ = int.parse(jarIn.text);
+
+     double pricePerJarS_ = double.parse(pricePerJar.text);
+
+     totalPriceJars.text = (jrIns_ * pricePerJarS_).toString();
+  
+
+
+     print("the totalPriceJars.text is = ${totalPriceJars.text}");
+ 
+         } 
 
          }
       update();
       }else{
-        print("noooo hasn't jars totalPriceJar");
-        totalPriceJars.text ="0";
+        print("noooo hasn't totalPriceJar");
+        totalPriceJars.text ="044";
       }
     
 
@@ -855,32 +727,44 @@ update();
    Future getTotalQTYOFJARSSData() async {
     update();
     List<Map> response = await sqlDb.readData('''
-      SELECT bottels.id, bottels.price, bottels.company_id, 
-      company.id as company_id, company.name as company_name
-           
-           FROM bottels
-         
-         JOIN company ON bottels.company_id = company.id
-         WHERE bottels.id = ${bottelsId.text} AND company.name LIKE 'ser%'
+      SELECT * FROM jars
+
       ''');
+      
+        //  WHERE bottels.id = ${bottelsId.text}
 
   if (response.length>0) {
-    bottels.clear();
+    jar.clear();
 
-    List listbottels = response;
-    bottels.addAll(listbottels.map((e) => BottelsModel.fromJson(e)));
+    List listJars = response;
+    jar.addAll(listJars.map((e) => JarModels.fromJson(e)));
   
        
-         for(int i = 0; i < bottels.length ; i++)
+         for(int i = 0; i < jar.length ; i++)
          {
-        //  pricePerBottel.text =bottels[i].price.toString();
+        //  pricePerBottel.text =jar[i].price.toString();
 
-     totalJars.text = (int.parse(jarIn.text) + int.parse(qtyPreviousOFJars.text)- int.parse(jarOut.text)).toString();
-            print("yesssss has jars totalJars");
+    //  totalJars.text = (int.parse(jarIn.text) + int.parse(qtyPreviousOFJars.text)- int.parse(jarOut.text)).toString();
+    //         print("yesssss has jars totalJars");
+
+  if (jarIn.text.isNotEmpty && jarOut.text.isNotEmpty && qtyPreviousOFJars.text.isNotEmpty) {
+     
+      int jrIns = int.parse(jarIn.text);
+
+      int jrOuts = int.parse(jarOut.text);
+
+      int prevJars = int.parse(qtyPreviousOFJars.text);
+
+      totalJars.text = (jrIns - jrOuts + prevJars).toString();
+
+
+        
+          } 
 
          }
       update();
-      }else{
+      }
+      else{
         print("noooo hasn't jars totalJars");
         totalPriceJars.text ="0";
       }
@@ -895,44 +779,124 @@ update();
 
 
 
-     Future getTotalPrice() async {
+     Future getTotalPriceOrder() async {
     update();
     List<Map> response = await sqlDb.readData('''
-      SELECT bottels.id, bottels.price, bottels.company_id, 
-      company.id as company_id, company.name as company_name
-           
-           FROM bottels
+      SELECT 
+      jars.id, jars.name, jars.price,
+      bottels.id, bottels.name, bottels.price
+
+
+       FROM jars, bottels
+      
          
-         JOIN company ON bottels.company_id = company.id
-         WHERE bottels.id = ${bottelsId.text} AND company.name LIKE 'ser%'
       ''');
+        //  WHERE bottels.id = ${bottelsId.text} 
+        //  WHERE bottels.id = "${bottelsId.text}" AND jars.id = "${jarsId.text}"
 
   if (response.length>0) {
-    bottels.clear();
+    jar.clear();
 
-    List listbottels = response;
-    bottels.addAll(listbottels.map((e) => BottelsModel.fromJson(e)));
+    List listJars = response;
+    jar.addAll(listJars.map((e) => JarModels.fromJson(e)));
   
        
-         for(int i = 0; i < bottels.length ; i++)
-         {
+        //  for(int i = 0; i < listJars.length ; i++)
+        //  {
         //  pricePerBottel.text =bottels[i].price.toString();
 
-     totalPrice.text = (double.parse(totalPriceBottel.text) + double.parse(totalPriceJars.text)).toString();
-            print("yesssss has jars totalJars");
+    //  totalPrice.text = (double.parse(totalPriceBottel.text) + double.parse(totalPriceJars.text)).toString();
+    //         print("yesssss has jars totalJars");
+if (totalPriceBottel.text.isNotEmpty && totalPriceJars.text.isNotEmpty) {
+    double totalPriceBottels_ = double.parse(totalPriceBottel.text);
+    double totalPriceJars_ = double.parse(totalPriceJars.text);
 
-         }
-      update();
+    totalPrice.text = (totalPriceBottels_ + totalPriceJars_).toString();
+    print("the totalPrice.text is = ${totalPrice.text}");
+    update();
+} else if (totalPriceJars.text.isNotEmpty) {
+    double totalPriceJars_ = double.parse(totalPriceJars.text);
+    totalPrice.text = (totalPriceJars_).toString();
+    update();
+} else if (totalPriceBottel.text.isNotEmpty) {
+    double totalPriceBottels_ = double.parse(totalPriceBottel.text);
+    totalPrice.text = (totalPriceBottels_).toString();
+    update();
+}
+      // update();
       }else{
-        print("noooo hasn't jars totalJars");
-        totalPriceJars.text ="0";
+        print("noooo Total Price");
+        totalPrice.text ="0";
       }
     
 
-update();
+    update();
      return response;
 
   } 
+//**************************************End FOR JARS CALCULATIONS************************************** */
+
+
+
+ Future getDebtValue() async{
+ //debt.text = "78";
+
+    update();
+    List<Map> response = await sqlDb.readData('''
+     SELECT 
+     orders.id, orders.jar_id, orders.bottle_id, orders.paid, orders.total_price,
+      jars.id,
+      bottels.id
+
+       FROM orders, jars, bottels
+      
+         
+      ''');
+      
+ if (response.isNotEmpty) {
+
+    orders.clear();
+
+    List listOrders = response;
+    orders.addAll(listOrders.map((e) => OrdersModel.fromJson(e)));
+
+    
+
+    if (totalPrice.text.isNotEmpty && paid.text.isNotEmpty) {
+
+       double totalPrice_ = double.parse(totalPrice.text);
+       double paid_= double.parse(paid.text);
+
+       debt.text = (totalPrice_ - paid_).toString();
+       print("the debt is = ${debt.text}");
+       update();
+
+        } 
+        else if(totalPrice.text.isNotEmpty) {
+
+          double totalPrice_ = double.parse(totalPrice.text);
+          debt.text = (totalPrice_ - totalPrice_).toString();
+
+        }
+        else if(paid.text.isNotEmpty) {
+           
+          double paid_= double.parse(paid.text);
+          debt.text = (paid_ - paid_).toString();
+
+        }
+
+
+ }else{
+   print("noooo hasnt debt");
+        debt.text ="0";
+
+ }
+ update();
+ return response;
+ }
+
+
+ 
 
 
 
@@ -944,7 +908,7 @@ update();
 
   //       int response = await sqlDb.deleteData
   //                ('''
-  //                   DELETE  FROM orders WHERE id = 1
+  //                   DELETE * FROM orders 
                    
   //               ''');
   //            if(response > 0) {
@@ -955,7 +919,7 @@ update();
 
 
   //          //   print("========***** DELETED $response + $id_");
-  //           //   readData();
+  //          //    readData();
               
               
   //             Get.snackbar("success", "Data Deleted", backgroundColor: Colors.red,colorText: Colors.white);
@@ -967,12 +931,12 @@ update();
 
   //            } 
   
-  //  update();
-  //    return  statusRequest = StatusRequest.failure;
+  // //  update();
+  // //    return  statusRequest = StatusRequest.failure;
 
             
              
-  // }
+  //  }
   
 
 
@@ -983,16 +947,18 @@ update();
   @override
   void onInit() {
    daysModel = Get.arguments['daysModel_'];
+
+
    // customersModel = Get.arguments['customersModel_']; // From View Customer
 
-   getTownsData();
-   getDistrictsData();
    getCustomersData();
-   getCompaniesData();
+  //  getCompaniesData();
    getBottelsData();
+    getJarsData();
+
 
    
-  // removeData();
+  //  removeData();
 
   
 
@@ -1029,26 +995,29 @@ update();
 
 
 
-    dropdownTownsId = TextEditingController();
-    dropdownTownsName = TextEditingController();
+    // dropdownTownsId = TextEditingController();
+    // dropdownTownsName = TextEditingController();
 
-    dropdownDistrictsId = TextEditingController();
-    dropdownDistrictsName = TextEditingController();
+    // dropdownDistrictsId = TextEditingController();
+    // dropdownDistrictsName = TextEditingController();
 
     dropdownCustomersName = TextEditingController();
     dropdownCustomersId = TextEditingController();
 
-    dropdownCompaniesName = TextEditingController();
-    dropdownCompaniesId = TextEditingController();
+    // dropdownCompaniesName = TextEditingController();
+    // dropdownCompaniesId = TextEditingController();
 
-    companiesName= TextEditingController();
-    companiesId= TextEditingController();
+    jarsName= TextEditingController();
+    jarsId= TextEditingController();
 
     dropdownBottelsName = TextEditingController();
     dropdownBottelsId = TextEditingController();
 
     bottelsName= TextEditingController();
     bottelsId= TextEditingController();
+
+    debt= TextEditingController();
+    paid= TextEditingController();
 
 
 

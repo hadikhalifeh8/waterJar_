@@ -2,22 +2,26 @@
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:water_jar/controller/Company/viewCompany.dart';
-import 'package:water_jar/controller/Towns/viewController.dart';
+import 'package:water_jar/controller/Jars/viewCompany.dart';
+
 import 'package:water_jar/core/class/statusRequest.dart';
-import 'package:water_jar/core/constant/routes.dart';
+
 import 'package:water_jar/core/functions/handlingDataController.dart';
 import 'package:water_jar/core/functions/sqldb.dart';
-import 'package:water_jar/data/model/companyModels.dart';
-import 'package:water_jar/data/model/townsModel.dart';
+import 'package:water_jar/data/model/jarModels.dart';
 
-class EditCompanyController extends GetxController {
+
+
+
+
+
+class EditJarController extends GetxController {
   
   SqlDb sqlDb = SqlDb();
   
-  List<CompanyModels> company = [];
+  List<JarModels> jar = [];
 
-  CompanyModels? companyModels;
+JarModels? jarModels;
 
 
 
@@ -27,6 +31,8 @@ class EditCompanyController extends GetxController {
  final formState = GlobalKey<FormState>();
 
   TextEditingController name =TextEditingController();
+  TextEditingController price =TextEditingController();
+
 
    String? id;
 
@@ -39,7 +45,7 @@ class EditCompanyController extends GetxController {
     
     // Check if the phone number or name already exists
     List<Map> existingRecords = await sqlDb.readData('''
-      SELECT * FROM company WHERE id != "${id}" AND (name = "${name.text}" )
+      SELECT * FROM jars WHERE id != "${id}" AND (name = "${name.text}" )
     ''');
 
     if (existingRecords.isNotEmpty) {
@@ -49,7 +55,7 @@ class EditCompanyController extends GetxController {
      
       // Fetch the existing values if needed
       List<Map> existingDriverData = await sqlDb.readData('''
-        SELECT name FROM company WHERE id = "${id.toString()}"
+        SELECT name FROM jars WHERE id = "${id.toString()}"
       ''');
       String existingName = existingDriverData[0]['name'];
 
@@ -58,15 +64,19 @@ class EditCompanyController extends GetxController {
      
       // Check if the name or phone has changed
       bool nameChanged = name.text != existingName;
+      bool priceChanged = price.text != existingName;
+
 
 
 
      
       // If either name or phone has changed, perform the update
-      if (nameChanged == true) {
+      if (nameChanged  || priceChanged) {
         int response = await sqlDb.updateData('''
-          UPDATE company SET
-            name = "${name.text}"
+          UPDATE jars SET
+            name = "${name.text}",
+            price = "${price.text}"
+
           WHERE id = "${id.toString()}"
         ''');
 
@@ -75,7 +85,7 @@ class EditCompanyController extends GetxController {
         if (StatusRequest.success == statusRequest) {
           if (response > 0) {
             print("Update Successful");
-            ViewCompaniesController controller = Get.put(ViewCompaniesController());
+            ViewJarsController controller = Get.put(ViewJarsController());
             controller.readData();
             // Get.offAllNamed(AppRoute.companyview);
             Get.back();
@@ -94,7 +104,7 @@ class EditCompanyController extends GetxController {
       }
 else if (nameChanged == false) {
         print("jkjkk");
-      ViewCompaniesController controller = Get.put(ViewCompaniesController());
+      ViewJarsController controller = Get.put(ViewJarsController());
       controller.readData();
       // Get.offAllNamed(AppRoute.companyview);
       Get.back();
@@ -114,15 +124,20 @@ update();
   @override
   void onInit() {
 
-  companyModels =Get.arguments["companyModel_"];
+  jarModels =Get.arguments["jarModel_"];
 
 
      name= TextEditingController();
+     price= TextEditingController();
+
 
 
   // get data from db view to texts in edit
-    id = companyModels!.id.toString();
-    name.text =  companyModels!.name.toString();
+
+    id = jarModels!.id.toString();
+    name.text = jarModels!.name.toString();
+    price.text = jarModels!.price.toString();
+
 
     super.onInit();
   }
@@ -130,6 +145,8 @@ update();
   @override
   void dispose() {
    name.dispose();
+   price.dispose();
+
     super.dispose();
   }
 

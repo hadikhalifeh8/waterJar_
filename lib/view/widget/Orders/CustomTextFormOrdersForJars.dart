@@ -44,6 +44,9 @@ class CustomTextFormOrdersForJars extends StatelessWidget {
     // if (mycontroller != null && mycontroller!.text.isEmpty) {
     //   mycontroller!.text = "0"; // Set default value
     // }
+    // else{
+    //    mycontroller!.text =  mycontroller!.text;
+    // }
 
 
 
@@ -62,9 +65,9 @@ class CustomTextFormOrdersForJars extends StatelessWidget {
                             ? []
                             : [FilteringTextInputFormatter.deny(RegExp('[,/.+-]')), // deny to write , / 
                             
-        //                      FilteringTextInputFormatter.allow(
-        //                      RegExp(r'^\d+\.?\d{0,2}'), // allow 2 number after dot
-        // ),
+                             FilteringTextInputFormatter.allow(
+                             RegExp(r'^\d+\.?\d{0,2}'), // allow 2 number after dot
+        ),
         FilteringTextInputFormatter.singleLineFormatter
                                ],
 

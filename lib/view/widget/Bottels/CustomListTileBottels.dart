@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class CustomListTileBottels extends StatelessWidget {
       final String name_;
-  final String company_;
+  // final String company_;
   final String price_;
   final String leading_;
 
@@ -14,7 +14,7 @@ class CustomListTileBottels extends StatelessWidget {
 
   const CustomListTileBottels({super.key, 
   required this.name_,
-   required this.company_,
+  //  required this.company_,
    required this.price_,
 
    required this.leading_,
@@ -42,7 +42,7 @@ class CustomListTileBottels extends StatelessWidget {
                                     
                                      Container(padding: const EdgeInsets.only(right: 10.0, left: 10),child: Text(name_)),
                         
-                                    Container(padding: const EdgeInsets.only(right: 10.0, left: 10),child: Text(company_)),
+                                    // Container(padding: const EdgeInsets.only(right: 10.0, left: 10),child: Text(company_)),
                   
                                    Container(padding: const EdgeInsets.only( left: 10),child: Text(price_)),
                   

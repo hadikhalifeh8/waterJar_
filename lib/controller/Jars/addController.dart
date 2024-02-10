@@ -2,20 +2,17 @@
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:water_jar/controller/Company/viewCompany.dart';
-import 'package:water_jar/controller/Towns/viewController.dart';
+import 'package:water_jar/controller/Jars/viewCompany.dart';
 import 'package:water_jar/core/class/statusRequest.dart';
-import 'package:water_jar/core/constant/routes.dart';
 import 'package:water_jar/core/functions/handlingDataController.dart';
 import 'package:water_jar/core/functions/sqldb.dart';
-import 'package:water_jar/data/model/companyModels.dart';
-import 'package:water_jar/data/model/townsModel.dart';
+import 'package:water_jar/data/model/jarModels.dart';
 
-class AddCompanyController extends GetxController {
+class AddJarController extends GetxController {
   
   SqlDb sqlDb = SqlDb();
   
-  List<CompanyModels> company = [];
+  List<JarModels> jar = [];
 
 
   StatusRequest statusRequest = StatusRequest.none;
@@ -24,6 +21,8 @@ class AddCompanyController extends GetxController {
  final formState = GlobalKey<FormState>();
 
   TextEditingController name =TextEditingController();
+  TextEditingController price=TextEditingController();
+
  
 
 
@@ -37,7 +36,7 @@ class AddCompanyController extends GetxController {
      // Check if the name already exists
       List<Map> existingRecords = await sqlDb.readData('''
                                
-                        SELECT * FROM company WHERE name = "${name.text}"                                  
+                        SELECT * FROM jars WHERE name = "${name.text}"                                  
                      
                                   ''');
         if(existingRecords.isNotEmpty)
@@ -47,8 +46,8 @@ class AddCompanyController extends GetxController {
            }else{
 
            int response =await sqlDb.insertData('''
-                                           INSERT INTO company ('name')                   
-                                           VALUES("${name.text}")        
+                                           INSERT INTO jars ('name', 'price')                   
+                                           VALUES("${name.text}", "${price.text}")        
                                        ''');
             print("=*//*--================ $response");                           
 
@@ -57,7 +56,7 @@ class AddCompanyController extends GetxController {
                  {
                   if(response > 0)
                   {
-                     ViewCompaniesController controller = Get.put(ViewCompaniesController());
+                     ViewJarsController controller = Get.put(ViewJarsController());
                     controller.readData();
                     // Get.offAllNamed(AppRoute.companyview);
                     Get.back();
@@ -68,7 +67,7 @@ class AddCompanyController extends GetxController {
               backgroundColor: Colors.green.shade400,
             );    
                  
-       print("SUCCESS TO Add Company");
+       print("SUCCESS TO Add Jar");
                    
                   }else {
             print("Status.FAILED");
@@ -92,12 +91,16 @@ class AddCompanyController extends GetxController {
   @override
   void onInit() {
      name= TextEditingController();
+     price= TextEditingController();
+
     super.onInit();
   }
 
   @override
   void dispose() {
    name.dispose();
+   price.dispose();
+
     super.dispose();
   }
 

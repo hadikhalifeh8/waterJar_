@@ -25,14 +25,14 @@ class AddBottelController extends GetxController {
    TextEditingController price = TextEditingController();
 
 
-  TextEditingController? companyName;
-  TextEditingController? companyId;
+  // TextEditingController? companyName;
+  // TextEditingController? companyId;
 
 
 
 
-  TextEditingController dropdownCompanyName = TextEditingController();
-  TextEditingController dropdownCompanyId = TextEditingController();
+  // TextEditingController dropdownCompanyName = TextEditingController();
+  // TextEditingController dropdownCompanyId = TextEditingController();
 
 
 
@@ -82,9 +82,9 @@ class AddBottelController extends GetxController {
 
 
     insertData() async{
-if (companyId == null || companyId!.text.isEmpty) {
-  return Get.snackbar("warning", "select a company",backgroundColor: Colors.red, colorText: Colors.white);
-}
+// if (companyId == null || companyId!.text.isEmpty) {
+//   return Get.snackbar("warning", "select a company",backgroundColor: Colors.red, colorText: Colors.white);
+// }
 
     if(formState.currentState!.validate())
     {
@@ -102,8 +102,8 @@ if (companyId == null || companyId!.text.isEmpty) {
         Get.defaultDialog(title: "Warning", middleText: "name already exists");
           }else{
                   int response =await sqlDb.insertData('''
-                 INSERT INTO bottels('name', 'company_id', 'price')
-                 VALUES('${name.text}', '${companyId!.text}', '${price.text}')
+                 INSERT INTO bottels('name', 'price')
+                 VALUES('${name.text}', '${price.text}')
               ''');
               
 
@@ -151,12 +151,12 @@ if (companyId == null || companyId!.text.isEmpty) {
     getCompaniesData();
        name = TextEditingController();
 
-   companyName =TextEditingController();
-   companyId =TextEditingController();
+  //  companyName =TextEditingController();
+  //  companyId =TextEditingController();
 
 
-   dropdownCompanyId =TextEditingController();
-   dropdownCompanyName =TextEditingController();
+  //  dropdownCompanyId =TextEditingController();
+  //  dropdownCompanyName =TextEditingController();
 
     super.onInit();
   }

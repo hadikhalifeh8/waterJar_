@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 
-class CustomListTileCompany extends StatelessWidget {
-      final String companyName;
+class CustomListTileJars extends StatelessWidget {
+      final String jarName;
+      final String price;
+
       final String leading_;
 
 
@@ -10,8 +12,10 @@ class CustomListTileCompany extends StatelessWidget {
   final IconData? iconDelete;
 
 
-  const CustomListTileCompany({super.key, 
-  required this.companyName,
+  const CustomListTileJars({super.key, 
+  required this.jarName,
+  required this.price,
+
    required this.leading_,
   required this.onEdit,
   required this.onDelete, 
@@ -29,7 +33,15 @@ class CustomListTileCompany extends StatelessWidget {
                                 
                        leading: Container(padding: const EdgeInsets.only(top: 5.0),child: Text(leading_)),
       
-                       title: Text(companyName),
+                       title: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                         children: [
+                           Text(jarName),
+                          const SizedBox(width: 80.0,),
+                           Text(price),
+
+                         ],
+                       ),
       
                               
                               

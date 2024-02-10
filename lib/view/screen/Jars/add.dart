@@ -1,29 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:water_jar/controller/Company/addController.dart';
-import 'package:water_jar/controller/Company/editController.dart';
+import 'package:water_jar/controller/Jars/addController.dart';
 import 'package:water_jar/controller/Towns/addController.dart';
 import 'package:water_jar/core/class/handlingDataView.dart';
 import 'package:water_jar/core/functions/validationinput.dart';
-import 'package:water_jar/view/widget/Company/CustomTextFormCompany.dart';
+import 'package:water_jar/view/widget/Jars/CustomTextFormJars.dart';
 import 'package:water_jar/view/widget/Drivers/CustomButton.dart';
 
 
 
-class EditCompany  extends StatelessWidget {
-  const EditCompany ({super.key});
+class AddJar  extends StatelessWidget {
+  const AddJar ({super.key});
 
   @override
   Widget build(BuildContext context) {
-     Get.lazyPut(() =>EditCompanyController());
+     Get.lazyPut(() =>AddJarController());
     return Scaffold(appBar: AppBar(
 
-      title: const Text("Update Company"),
+      title: const Text("Add Jar"),
       centerTitle: true,
     ),
 
     body:
-          GetBuilder<EditCompanyController>(builder: (controller)
+          GetBuilder<AddJarController>(builder: (controller)
           =>
 
 
@@ -37,18 +36,32 @@ class EditCompany  extends StatelessWidget {
       key: controller.formState,
        child: ListView(children: [
      
-    CustomTextFormCompany(
+    CustomTextFormJars(
                                  label_: "name", 
-                                 hintText_: "Enter company Name", 
+                                 hintText_: "Enter jar Name", 
                                  validation: (val){
-                                  return valiInput(val!, 4, 20, "name");
+                                  return valiInput(val!, 2, 20, "name");
                                  }, 
                                  mycontroller: controller.name,
                                  icon_: Icons.home_work, 
                                  isNumber: false, 
+                                 inputFormatters_: false,
                                  
                                  //onTap_: () { }, 
                                  ),
+
+        CustomTextFormJars(
+                            label_: "price", 
+                                 hintText_: "Enter jar price", 
+                                 validation: (val){
+                                  return valiInput(val!, 1, 20, "");
+                                 }, 
+                                 mycontroller: controller.price,
+                                 icon_: Icons.home_work, 
+                                 isNumber: true, 
+                                 inputFormatters_: true,
+
+                             ),
      
      
 
@@ -61,7 +74,7 @@ class EditCompany  extends StatelessWidget {
      
      CustomButton(
                   onPressed_: (){
-                    controller.updateData(controller.companyModels!.id.toString());
+                    controller.insertData();
                     }, 
                   text_: "Submit",
                   ),

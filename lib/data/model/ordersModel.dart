@@ -10,8 +10,8 @@ class OrdersModel {
   String? townName;
   int? districtId;
   String? districtName;
-  int? companyId;
-  String? companyName;
+  int? jarId;
+  String? jarName;
   int? bottelId;
   String? bottelName;
   int? qtyOfBottels;
@@ -24,7 +24,12 @@ class OrdersModel {
   double? pricePerJar;
   double? totalpriceOfJars;
 
-  double? totalPrice;
+  String? status;
+
+  double? debt; // ==> ديون سابقه
+  double? paid; // ==>أدي دفع
+  double? totalPrice; // ==> المجموع
+
 
   String? createdAt;
   String? updatedAt;
@@ -42,8 +47,8 @@ class OrdersModel {
       this.townName,
       this.districtId,
       this.districtName,
-      this.companyId,
-      this.companyName,
+      this.jarId,
+      this.jarName,
       this.bottelId,
       this.bottelName,
       this.pricePerBottel,
@@ -57,7 +62,15 @@ class OrdersModel {
       this.pricePerJar,
       this.totalpriceOfJars,
 
+      this.status,
+
+
+      this.debt,
+      this.paid,
       this.totalPrice,
+
+
+
 
       this.createdAt,
       this.updatedAt,
@@ -75,25 +88,33 @@ class OrdersModel {
     townName = json['town_name'];
     districtId = json['district_id'];
     districtName = json['district_name'];
-    companyId = json['company_id'];
-    companyName = json['company_name'];
+    jarId = json['jar_id'] != null ? int.tryParse(json['jar_id'].toString()) : null;
+    jarName = json['jar_name'];
 
-    bottelId = json['bottle_id'];
+    bottelId = json['bottle_id'] != null ? int.tryParse(json['bottle_id'].toString()) : null;
+    // bottelId = json['bottle_id'];
     bottelName = json['bottle_name'];
 
-    pricePerBottel = json['price_per_bottel'];
-    qtyOfBottels = json['qty_of_bottles'];
-    totalpriceOfBottels = json['tolal_price_bottel'];
+    
+    pricePerBottel = json['price_per_bottel'] != null ? double.tryParse(json['price_per_bottel'].toString()) : null;
+    qtyOfBottels =  json['qty_of_bottles'] != null ? int.tryParse(json['qty_of_bottles'].toString()) : null;
+    totalpriceOfBottels = json['tolal_price_bottel'] != null ? double.tryParse(json['tolal_price_bottel'].toString()) : null;
 
-    qtyJarIn = json['qty_jar_in'];
-    qtyJarOut = json['qty_jar_out'];
-    qtyPreviousJars = json['qty_previous_jars'];
+    qtyJarIn = json['qty_jar_in'] != null ? int.tryParse(json['qty_jar_in'].toString()) : null;
+    qtyJarOut = json['qty_jar_out'] != null ? int.tryParse(json['qty_jar_out'].toString()) : null;
+    qtyPreviousJars = json['qty_previous_jars'] != null ? int.tryParse(json['qty_previous_jars'].toString()) : null;
 
-    totalJar = json['total_jar'];
-    pricePerJar = json['price_per_jar'];
-    totalpriceOfJars = json['total_price_jars'];
+    totalJar = json['total_jar'] != null ? int.tryParse(json['total_jar'].toString()) : null;
+    pricePerJar = json['price_per_jar'] != null ? double.tryParse(json['price_per_jar'].toString()) : null;
+    totalpriceOfJars = json['total_price_jars'] != null ? double.tryParse(json['total_price_jars'].toString()) : null;
 
-    totalPrice = json['total_price'];
+
+    
+    debt = json['debt'] != null ? double.tryParse(json['debt'].toString()) : null;
+    paid = json['paid'] != null ? double.tryParse(json['paid'].toString()) : null;
+    totalPrice = json['total_price'] != null ? double.tryParse(json['total_price'].toString()) : null;
+   
+
 
 
 
@@ -111,7 +132,7 @@ class OrdersModel {
 
     data['town_id'] = this.townId;
     data['district_id'] = this.districtId;
-    data['company_id'] = this.companyId;
+    data['jar_id'] = this.jarId;
     data['bottle_id'] = this.bottelId;
     data['price_per_bottel'] = this.pricePerBottel;
     data['qty_of_bottles'] = this.qtyOfBottels;
@@ -123,7 +144,13 @@ class OrdersModel {
     data['price_per_jar'] = this.pricePerJar;
     data['total_price_jars'] = this.totalpriceOfJars;
 
+    data['status'] = this.status;
+
+
+    data['debt'] = this.debt;
+    data['paid'] = this.paid;
     data['total_price'] = this.totalPrice;
+
 
 
     data['created_at'] = this.createdAt;

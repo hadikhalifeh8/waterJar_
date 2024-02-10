@@ -1,23 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:water_jar/controller/Company/viewCompany.dart';
+import 'package:water_jar/controller/Jars/viewCompany.dart';
 
-import 'package:water_jar/controller/Towns/viewController.dart';
+
 import 'package:water_jar/core/class/handlingDataView.dart';
 import 'package:water_jar/core/constant/routes.dart';
-import 'package:water_jar/view/widget/Company/CustomListTileCompany.dart';
+import 'package:water_jar/view/widget/Jars/CustomListTileJars.dart';
 
-import 'package:water_jar/view/widget/Town/CustomListTileTown.dart';
 
-class ViewCompanies extends StatelessWidget {
-  const ViewCompanies({super.key});
+class ViewJars extends StatelessWidget {
+  const ViewJars({super.key});
 
   @override
   Widget build(BuildContext context) {
-    ViewCompaniesController controller = Get.put(ViewCompaniesController());
+    ViewJarsController controller = Get.put(ViewJarsController());
     return Scaffold(
       appBar: AppBar(
-               title: const Text("Companies"),
+               title: const Text("Jars"),
                centerTitle: true,
                 leading: IconButton(onPressed: (){Get.offAllNamed(AppRoute.home);}, icon: const Icon(Icons.arrow_back)),
 
@@ -26,7 +25,7 @@ class ViewCompanies extends StatelessWidget {
       body: 
        
        
-            GetBuilder<ViewCompaniesController>(builder: (controller) =>
+            GetBuilder<ViewJarsController>(builder: (controller) =>
             
             HandlingDataView(
               
@@ -47,24 +46,27 @@ class ViewCompanies extends StatelessWidget {
                                                       shrinkWrap: true,
                                                       physics: const NeverScrollableScrollPhysics(),
                                                       
-                                                      itemCount: controller.company.length,
+                                                      itemCount: controller.jar.length,
                                                       itemBuilder: (context, index) =>
-                        CustomListTileCompany(
+                        CustomListTileJars(
                                     
-                                    companyName: controller.company[index].name.toString(), 
+                                    jarName: controller.jar[index].name.toString(), 
+                                    price: controller.jar[index].price.toString(), 
+
+                                    
                                   
-                                    leading_: controller.company[index].id.toString(),
+                                    leading_: controller.jar[index].id.toString(),
 
 
 
 
-                                    onEdit: (){controller.goToEditPage(controller.company[index]);},
+                                    onEdit: (){controller.goToEditPage(controller.jar[index]);},
           
 
 
                                       iconDelete: Icons.delete_forever, 
                                        onDelete: () { 
-                                        controller.deleteData(controller.company[index].id.toString());
+                                        controller.deleteData(controller.jar[index].id.toString());
                                         },
                                           ),
                                         

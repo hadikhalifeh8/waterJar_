@@ -13,6 +13,8 @@ class AppRoute {
 
 
   static const String test1 = "/test1";
+  static const String testu = "/testu";
+
 
 
   // Drivers
@@ -39,9 +41,9 @@ class AppRoute {
 
 
     // Company
-  static const String companyadd = "/companyadd";
-  static const String companyedit = "/companyedit";
-  static const String companyview = "/companyview";
+  static const String jaradd = "/jaradd";
+  static const String jaredit = "/jaredit";
+  static const String jarview = "/jarview";
 
 
 

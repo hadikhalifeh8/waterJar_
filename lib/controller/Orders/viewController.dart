@@ -13,8 +13,8 @@ class ViewOrdersController extends GetxController {
   List<OrdersModel> orders = [];
   StatusRequest statusRequest = StatusRequest.none;
 
- 
-
+ OrdersModel? ordersModel;
+String? id;
 
 
 
@@ -28,50 +28,56 @@ class ViewOrdersController extends GetxController {
    
 
     // List<Map> response = await sqlDb.readData("SELECT * FROM district WHERE id = ");
-    List<Map> response = await sqlDb.readData('''
-  SELECT
-   orders.id, orders.day_id, orders.driver_id, 
-   orders.customer_id, orders.town_id, orders.district_id, orders.company_id, orders.bottle_id,
-   orders.qty_of_bottles, orders.price_per_bottel, orders.tolal_price_bottel,
-   orders.qty_jar_in, orders.qty_jar_out,  orders.qty_previous_jars, orders.total_jar,
-   orders.price_per_jar, orders.total_price_jars, orders.total_price,
+    List<Map> response = await sqlDb.readData(''' SELECT * FROM orders
 
-   days.id as day_id, days.name as day_name,
-   drivers.id as driver_id, drivers.name as driver_name,
-   customers.id as customer_id, customers.name as customer_name,
-   towns.id as town_id, towns.name as town_name,
-   district.id as district_id, district.name as district_name,
-   company.id as company_id, company.name as company_name,
-   bottels.id as bottle_id, bottels.name as bottle_name
+   
+    
+   
 
-
-
-
-  FROM orders
-  JOIN days ON orders.day_id = days.id
-  JOIN drivers ON orders.driver_id = drivers.id
-  JOIN customers ON orders.customer_id = customers.id
-  JOIN towns ON orders.town_id = towns.id
-  JOIN district ON orders.district_id = district.id
-  JOIN company ON orders.company_id = company.id
-  JOIN bottels ON orders.bottle_id = bottels.id;
 
 
         ''');
 
+  //  orders.id, orders.day_id, orders.driver_id, 
+  //  orders.customer_id, orders.town_id, orders.district_id, orders.jar_id, orders.bottle_id,
+  //  orders.qty_of_bottles, orders.price_per_bottel, orders.tolal_price_bottel,
+  //  orders.qty_jar_in, orders.qty_jar_out,  orders.qty_previous_jars, orders.total_jar,
+  //  orders.price_per_jar, orders.total_price_jars, orders.debt, orders.paid, orders.total_price,
+   
+
+  //  days.id as day_id, days.name as day_name,
+  //  drivers.id as driver_id, drivers.name as driver_name,
+  //  customers.id as customer_id, customers.name as customer_name,
+  //  towns.id as town_id, towns.name as town_name,
+  //  district.id as district_id, district.name as district_name,
+  //  jars.id as jar_id, jars.name as jar_name,
+  //  bottels.id as bottle_id, bottels.name as bottle_name
+
+
+
+  // FROM orders
+  // JOIN days ON orders.day_id = days.id
+  // JOIN drivers ON orders.driver_id = drivers.id
+  // JOIN customers ON orders.customer_id = customers.id
+  // JOIN towns ON orders.town_id = towns.id
+  // JOIN district ON orders.district_id = district.id
+  // JOIN jars ON orders.jar_id = jars.id
+  // JOIN bottels ON orders.bottle_id = bottels.id;
       print("***************##############************* Controler $response ");
 
 
            statusRequest = handlingData(response);
            if(StatusRequest.success == statusRequest)
            {
-             if(response.length > 0)
+             if(response.isNotEmpty)
              {
-                    List listDistrict  = response;
+                    List listOrders  = response;
             
-            orders.addAll(listDistrict.map((e) => OrdersModel.fromJson(e)));
+            orders.addAll(listOrders.map((e) => OrdersModel.fromJson(e)));
                      
                      update();
+                     Get.toNamed(AppRoute.ordersViewBydriverid);
+
                       print("yes has data");
                         return response;
              }else{
@@ -96,7 +102,7 @@ class ViewOrdersController extends GetxController {
 
   //       int response = await sqlDb.deleteData
   //                ('''
-  //                   DELETE * FROM orders 
+  //                   DELETE  FROM orders 
                    
   //               ''');
   //            if(response > 0) {
@@ -107,7 +113,7 @@ class ViewOrdersController extends GetxController {
 
 
   //          //   print("========***** DELETED $response + $id_");
-  //              readData();
+  //            //  readData();
               
               
   //             Get.snackbar("success", "Data Deleted", backgroundColor: Colors.red,colorText: Colors.white);
@@ -153,7 +159,7 @@ class ViewOrdersController extends GetxController {
    
    @override
   void onInit() {
-    readData();
+  //  readData();
     // removeData();
     super.onInit();
   }

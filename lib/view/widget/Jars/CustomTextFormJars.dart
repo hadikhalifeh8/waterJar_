@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
-class CustomTextFormCompany extends StatelessWidget {
+class CustomTextFormJars extends StatelessWidget {
   final String label_;
   final String hintText_;
   final String? Function(String?)? validation; 
@@ -9,9 +10,11 @@ class CustomTextFormCompany extends StatelessWidget {
   final void Function()? onTap_;
   final bool isNumber;
   final bool? obscureText_ ;
+  final bool inputFormatters_ ;
+
    
 
-  const CustomTextFormCompany({
+  const CustomTextFormJars({
     super.key,
      required this.label_, 
      required this.hintText_, 
@@ -21,6 +24,8 @@ class CustomTextFormCompany extends StatelessWidget {
      this.onTap_, 
      required this.isNumber, 
      this.obscureText_,
+    required this.inputFormatters_,
+
 
       });
 
@@ -37,6 +42,17 @@ class CustomTextFormCompany extends StatelessWidget {
                     
               keyboardType: isNumber ?const TextInputType.numberWithOptions(decimal: true) 
                                      :   TextInputType.text, 
+
+
+                      inputFormatters: inputFormatters_ == false
+                            ? []
+                            : [FilteringTextInputFormatter.deny(RegExp('[,/+-]')), // deny to write , / 
+                            
+                              FilteringTextInputFormatter.allow(
+                              RegExp(r'^\d+\.?\d{0,2}'), // allow 2 number after dot
+         ),
+        FilteringTextInputFormatter.singleLineFormatter
+                               ],                  
  
 
                     decoration:

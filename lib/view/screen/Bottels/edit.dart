@@ -56,15 +56,15 @@ class EditBottels extends StatelessWidget {
 
 
 
-             CustomDropDownSearchCompanies(
-                    label: "company",
-                    title: "Choose Company",
-                           listdata: controller.dropdownList,
-                dropDownSelectedName: controller.companyName!,
-                 dropDownSelectedID: controller.companyId!, 
+            //  CustomDropDownSearchCompanies(
+            //         label: "company",
+            //         title: "Choose Company",
+            //                listdata: controller.dropdownList,
+            //     dropDownSelectedName: controller.companyName!,
+            //      dropDownSelectedID: controller.companyId!, 
                 
                  
-                 ),                       
+            //      ),                       
      
      
 

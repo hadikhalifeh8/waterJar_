@@ -28,9 +28,8 @@ class ViewBottelsController extends GetxController {
 
     // List<Map> response = await sqlDb.readData("SELECT * FROM district WHERE id = ");
     List<Map> response = await sqlDb.readData('''
-  SELECT bottels.id, bottels.name, bottels.company_id, bottels.price, company.id as company_id, company.name as company_name
-  FROM bottels
-  JOIN company ON bottels.company_id = company.id;
+  SELECT *FROM bottels
+ 
         ''');
 
       print("***************##############************* Controler $response ");

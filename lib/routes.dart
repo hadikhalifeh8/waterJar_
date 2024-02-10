@@ -8,9 +8,9 @@ import 'package:water_jar/view/screen/Admin/register.dart';
 import 'package:water_jar/view/screen/Bottels/add.dart';
 import 'package:water_jar/view/screen/Bottels/edit.dart';
 import 'package:water_jar/view/screen/Bottels/view.dart';
-import 'package:water_jar/view/screen/Company/add.dart';
-import 'package:water_jar/view/screen/Company/edit.dart';
-import 'package:water_jar/view/screen/Company/view.dart';
+import 'package:water_jar/view/screen/Jars/add.dart';
+import 'package:water_jar/view/screen/Jars/edit.dart';
+import 'package:water_jar/view/screen/Jars/view.dart';
 import 'package:water_jar/view/screen/Customers/add.dart';
 import 'package:water_jar/view/screen/Customers/edit.dart';
 import 'package:water_jar/view/screen/Customers/view.dart';
@@ -29,7 +29,9 @@ import 'package:water_jar/view/screen/Towns/add.dart';
 import 'package:water_jar/view/screen/Towns/edit.dart';
 
 import 'package:water_jar/view/screen/Towns/view.dart';
+import 'package:water_jar/view/screen/test/testu.dart';
 import 'package:water_jar/view/screen/test1.dart';
+
 
 
 
@@ -39,6 +41,8 @@ List<GetPage<dynamic>>? routes = [
  
 
     GetPage(name:  AppRoute.test1, page: () => const Test1(),),
+    GetPage(name:  AppRoute.testu, page: () =>  MyForm(),),
+
 
     // Days
     GetPage(name:  AppRoute.viewdays, page: () => const ViewDays(),),
@@ -77,9 +81,9 @@ List<GetPage<dynamic>>? routes = [
 
 
     // Company
-    GetPage(name:  AppRoute.companyadd, page: () => const AddCompany(),),
-    GetPage(name:  AppRoute.companyedit, page: () => const EditCompany(),),
-    GetPage(name:  AppRoute.companyview, page: () => const ViewCompanies(),),
+    GetPage(name:  AppRoute.jaradd, page: () => const AddJar(),),
+    GetPage(name:  AppRoute.jaredit, page: () => const EditJar(),),
+    GetPage(name:  AppRoute.jarview, page: () => const ViewJars(),),
 
 
 

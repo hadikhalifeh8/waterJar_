@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:water_jar/controller/Bottels/viewController.dart';
-import 'package:water_jar/controller/Company/viewCompany.dart';
+import 'package:water_jar/controller/Jars/viewCompany.dart';
 
 
 import 'package:water_jar/core/class/handlingDataView.dart';
 import 'package:water_jar/core/constant/routes.dart';
 import 'package:water_jar/view/widget/Bottels/CustomListTileBottels.dart';
-import 'package:water_jar/view/widget/Company/CustomListTileCompany.dart';
+import 'package:water_jar/view/widget/Jars/CustomListTileJars.dart';
 
 
 
@@ -56,7 +56,7 @@ class ViewBottels extends StatelessWidget {
                                    
                                     leading_: controller.bottels[index].id.toString(),
                                     name_: controller.bottels[index].name.toString(),                              
-                                    company_: controller.bottels[index].companyName.toString(),
+                                    // company_: controller.bottels[index].companyName.toString(),
                                     price_: controller.bottels[index].price!.toStringAsFixed(2),
 
 

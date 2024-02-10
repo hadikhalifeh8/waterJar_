@@ -25,7 +25,7 @@ Future<Database?> initialDB() async {
   try {
     String databasePath = await getDatabasesPath();
     String path = join(databasePath, 'jar.db');
-    Database mydb = await openDatabase(path, onCreate: _onCreate, version: 1, onUpgrade: _onUpgrade);
+    Database mydb = await openDatabase(path, onCreate: _onCreate, version: 9, onUpgrade: _onUpgrade);
     return mydb;
   } catch (e) {
     print('Error initializing database: $e');
@@ -124,15 +124,22 @@ Future<Database?> initialDB() async {
       )
      ''');
 
+              // أنواع جرار المياه
+          batch.execute('''  
+      CREATE TABLE "jars" (
+        "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT ,
+        "name" TEXT NOT NULL UNIQUE,
+        "price" FLOAT BY DEFAULT "0" NOT NULL
+      )
+     ''');
+
          // أنواع جرار المياه
           batch.execute('''  
       CREATE TABLE "bottels" (
         "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT ,
         "name" TEXT NOT NULL UNIQUE,
-        "company_id" INTEGER NOT NULL,
-        "price" FLOAT BY DEFAULT "0" NOT NULL,
-
-         "FOREIGN KEY (company_id) REFERENCES company (id) ON DELETE NO ACTION ON UPDATE NO ACTION,"
+        "price" FLOAT BY DEFAULT "0" NOT NULL
+       
       )
      ''');
 
@@ -158,27 +165,30 @@ Future<Database?> initialDB() async {
         "customer_id" INTEGER NOT NULL,
         "town_id" INTEGER NOT NULL,
         "district_id" INTEGER NOT NULL,
-        "company_id" INTEGER NOT NULL,
-        "bottle_id" INTEGER NOT NULL,
-        "qty_of_bottles" INTEGER NOT NULL DEFAULT 0,
-        "price_per_bottel" FLOAT NOT NULL DEFAULT 0.0,
-        "tolal_price_bottel" FLOAT NOT NULL DEFAULT 0.0,
+         
+        "jar_id" INTEGER NULL REFERENCES jars (id),
+        "bottle_id" INTEGER NULL REFERENCES bottels (id) ,
+        
+        "qty_of_bottles" INTEGER DEFAULT 0,
+        "price_per_bottel" FLOAT DEFAULT 0.0,
+        "tolal_price_bottel" FLOAT DEFAULT 0.0,
 
-        "qty_jar_in" INTEGER NOT NULL DEFAULT "0",
-        "qty_jar_out" INTEGER NOT NULL DEFAULT "0",
-        "qty_previous_jars" INTEGER NOT NULL DEFAULT "0",
+        "qty_jar_in" INTEGER DEFAULT "0",
+        "qty_jar_out" INTEGER DEFAULT "0",
+        "qty_previous_jars" INTEGER  DEFAULT "0",
 
-        "total_jar" INTEGER NOT NULL DEFAULT "0",
-
-        "price_per_jar" FLOAT NOT NULL DEFAULT "0.0",
-        "total_price_jars" FLOAT NOT NULL DEFAULT "0.0",
-
-
-        "total_price" FLOAT NOT NULL DEFAULT "0.0",
+        "total_jar" INTEGER DEFAULT "0",
 
 
+        "price_per_jar" FLOAT DEFAULT "0.0",
+        "total_price_jars" FLOAT DEFAULT "0.0",
+       
+        
 
 
+        "debt" FLOAT  DEFAULT "0.0",
+        "paid" FLOAT  DEFAULT "0.0",
+        "total_price" FLOAT DEFAULT "0.0",
 
 
          "FOREIGN KEY (day_id) REFERENCES days (id) ON DELETE NO ACTION ON UPDATE NO ACTION,"
@@ -186,11 +196,19 @@ Future<Database?> initialDB() async {
          "FOREIGN KEY (customer_id) REFERENCES customers (id) ON DELETE NO ACTION ON UPDATE NO ACTION,"
          "FOREIGN KEY (town_id) REFERENCES towns (id) ON DELETE NO ACTION ON UPDATE NO ACTION,"
          "FOREIGN KEY (district_id) REFERENCES district (id) ON DELETE NO ACTION ON UPDATE NO ACTION,"
-         "FOREIGN KEY (company_id) REFERENCES company (id) ON DELETE NO ACTION ON UPDATE NO ACTION,"
-         "FOREIGN KEY (bottle_id) REFERENCES bottels (id) ON DELETE NO ACTION ON UPDATE NO ACTION,"
+        
       )
      ''');
 
+    //    batch.execute('''
+    //                UPDATE orders set jar_id=0 WHERE jar_id IS NULL;
+
+    //  ''');
+
+//"status"  TEXT , =>0 for bottels / 1 for jars
+// debt => ديون
+// paid => أدي فع
+// total price => المجموع
   
 
      await batch.commit();
@@ -217,9 +235,13 @@ _onUpgrade(Database db, int oldVersion, int newVersion)async {
         
     //   )
     //  ''');
+           await db.execute('''
+                   UPDATE orders set jar_id=0 WHERE jar_id IS NULL;
+
+     ''');
 
       // await db.execute(
-      //           "ALTER TABLE test ADD COLUMN mobile TEXT");
+      //           "ALTER TABLE bottels ADD COLUMN status TEXT");
 
 
     //        // أنواع جرار المياه

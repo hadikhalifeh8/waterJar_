@@ -64,8 +64,8 @@ List<Map> response = await sqlDb.readData('''
       //  {
         myservices.sharedPreferences.setString("id", response[0]['id'].toString());
        myservices.sharedPreferences.setString("name", response[0]['name'].toString());
-       myservices.sharedPreferences.setString("email", response[0]['phone'].toString());
-       myservices.sharedPreferences.setString("phone", response[0]['password'].toString());
+       myservices.sharedPreferences.setString("phone", response[0]['phone'].toString());
+       myservices.sharedPreferences.setString("password", response[0]['password'].toString());
 
        myservices.sharedPreferences.setString("step", "2");
 

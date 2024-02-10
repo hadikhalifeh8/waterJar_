@@ -21,7 +21,7 @@ class ViewOrdersByDrivers extends StatelessWidget {
       appBar: AppBar(
         title: const Text("View All Orders"),
         centerTitle: true,
-         leading: IconButton(onPressed: (){Get.offAllNamed(AppRoute.home);}, icon: const Icon(Icons.arrow_back)),
+      //   leading: IconButton(onPressed: (){Get.offAllNamed(AppRoute.home);}, icon: const Icon(Icons.arrow_back)),
 
       ),
       body:   
@@ -51,7 +51,7 @@ class ViewOrdersByDrivers extends StatelessWidget {
             
             id: controller.orders[index].id.toString(),
              districtName: controller.orders[index].customerName.toString(), 
-             townName: controller.orders[index].townName.toString(), 
+             townName: controller.orders[index].totalPrice.toString(), 
           // iconDataEdit: Icons.edit, 
            iconDataDelete: Icons.delete_forever_rounded,
            
@@ -76,10 +76,10 @@ class ViewOrdersByDrivers extends StatelessWidget {
       
       
 
-        floatingActionButton: FloatingActionButton(onPressed: (){
-                                   controller.goToaddPage();
-                },
-                child: Icon(Icons.add)),
+        // floatingActionButton: FloatingActionButton(onPressed: (){
+        //                            controller.goToaddPage();
+        //         },
+        //         child: Icon(Icons.add)),
          
     );
   }

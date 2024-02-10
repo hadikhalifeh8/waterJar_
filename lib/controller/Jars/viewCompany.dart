@@ -4,27 +4,27 @@ import 'package:water_jar/core/class/statusRequest.dart';
 import 'package:water_jar/core/constant/routes.dart';
 import 'package:water_jar/core/functions/handlingDataController.dart';
 import 'package:water_jar/core/functions/sqldb.dart';
-import 'package:water_jar/data/model/companyModels.dart';
-import 'package:water_jar/data/model/townsModel.dart';
+import 'package:water_jar/data/model/jarModels.dart';
 
-class ViewCompaniesController extends GetxController{
+
+class ViewJarsController extends GetxController{
  
   SqlDb sqlDb = SqlDb();
-    List<CompanyModels> company = [];
+    List<JarModels> jar= [];
   StatusRequest statusRequest = StatusRequest.none;
 
-  CompanyModels? companyModels;
+  JarModels? jarModels;
 
 
 
 
 
  Future readData() async {
-      company.clear();
+      jar.clear();
        update();
     statusRequest = StatusRequest.loading;
 
-    List<Map> response = await sqlDb.readData("SELECT * FROM company");
+    List<Map> response = await sqlDb.readData("SELECT * FROM jars");
 
       print("***************##############************* Controler $response ");
 
@@ -36,7 +36,7 @@ class ViewCompaniesController extends GetxController{
             if(response.length > 0)
             {
               List listCompanies = response;
-            company.addAll(listCompanies.map((e) => CompanyModels.fromJson(e)));  
+            jar.addAll(listCompanies.map((e) => JarModels.fromJson(e)));  
 
             update();
             print("yes has companies data");
@@ -59,11 +59,11 @@ class ViewCompaniesController extends GetxController{
 
  deleteData(String id_) async {
 
-  int response = await sqlDb.deleteData("DELETE  FROM company WHERE id = ${id_.toString()}");
+  int response = await sqlDb.deleteData("DELETE  FROM jars WHERE id = ${id_.toString()}");
 
     if(response > 0) {
 
-              company.removeWhere((element) => element.id.toString() == id_.toString() );
+              jar.removeWhere((element) => element.id.toString() == id_.toString() );
              
              update();
 
@@ -87,17 +87,17 @@ class ViewCompaniesController extends GetxController{
 
   goToaddPage()
   {
-    Get.toNamed(AppRoute.companyadd);
+    Get.toNamed(AppRoute.jaradd);
     
   }
 
 
 
-    goToEditPage(CompanyModels companyModels)
+    goToEditPage(JarModels jarModels)
   {
-    Get.toNamed(AppRoute.companyedit, 
+    Get.toNamed(AppRoute.jaredit, 
                    arguments: {
-                    "companyModel_" : companyModels,
+                    "jarModel_" : jarModels,
                    }
                       );
   }

@@ -35,7 +35,7 @@ class HomeAdminPage extends StatelessWidget {
               CustomHomeGridView(image: (AppImageAsset.town), title: "Town",onClick: (){Get.toNamed(AppRoute.townview);}),
               CustomHomeGridView(image: (AppImageAsset.district), title: "District", onClick: (){Get.toNamed(AppRoute.districtview);}),
               CustomHomeGridView(image: (AppImageAsset.customer), title: "Customer",onClick: (){Get.toNamed(AppRoute.customerview);}),
-              CustomHomeGridView(image: (AppImageAsset.company), title: "Company", onClick: (){Get.toNamed(AppRoute.companyview);}),
+              CustomHomeGridView(image: (AppImageAsset.company), title: "Jars", onClick: (){Get.toNamed(AppRoute.jarview);}),
               CustomHomeGridView(image: (AppImageAsset.bottel), title: "Bottels", onClick: (){Get.toNamed(AppRoute.bottelsview);}),
 
             ],

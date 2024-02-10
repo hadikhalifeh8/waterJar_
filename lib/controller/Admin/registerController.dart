@@ -68,8 +68,14 @@ class RegisterController extends GetxController{
                  statusRequest = handlingData("response");
                  if(StatusRequest.success == statusRequest)
                  {
-                  if(response > 0)
+                 if(response > 0)
                   {
+       myservices.sharedPreferences.setString("id", id.toString());
+       myservices.sharedPreferences.setString("name",name.text);
+       myservices.sharedPreferences.setString("phone", phone.text);
+       myservices.sharedPreferences.setString("password", password.text);
+
+       myservices.sharedPreferences.setString("step", "2");
 
            
                      Get.offNamed(AppRoute.home);
@@ -83,7 +89,9 @@ class RegisterController extends GetxController{
                  
        print("SUCCESS Registration");
                    
-                  }else {
+       }
+                  
+                  else {
             print("Status.FAILED");
             statusRequest = StatusRequest.failure;
             Get.defaultDialog(title: "Warning", middleText: "An error occurred while adding data");
