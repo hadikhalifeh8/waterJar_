@@ -23,6 +23,8 @@ import 'package:water_jar/view/screen/Drivers/add.dart';
 import 'package:water_jar/view/screen/Drivers/edit.dart';
 import 'package:water_jar/view/screen/Drivers/view.dart';
 import 'package:water_jar/view/screen/Order/add.dart';
+import 'package:water_jar/view/screen/Order/edit.dart';
+import 'package:water_jar/view/screen/Order/homePage.dart';
 import 'package:water_jar/view/screen/Order/login-Driver.dart';
 import 'package:water_jar/view/screen/Order/view.dart';
 import 'package:water_jar/view/screen/Towns/add.dart';
@@ -37,7 +39,7 @@ import 'package:water_jar/view/screen/test1.dart';
 
 List<GetPage<dynamic>>? routes = [
 
-   GetPage(name:  "/", page: () => const  DriverLogin(), middlewares: [MyMidlleware()]),
+   GetPage(name:  "/", page: () => const DriverLogin(), middlewares: [MyMidlleware()]),
  
 
     GetPage(name:  AppRoute.test1, page: () => const Test1(),),
@@ -95,8 +97,12 @@ List<GetPage<dynamic>>? routes = [
 
 
     // Orders
-    GetPage(name: AppRoute.driverLogin, page: () => const DriverLogin()),
+     GetPage(name: AppRoute.driverLogin, page: () => const DriverLogin()),
+
+    GetPage(name: AppRoute.ordersHomePage, page: () => const OrdersHomePage()),
+
     GetPage(name: AppRoute.orderadd, page: () => const AddOrder()),
+    GetPage(name: AppRoute.orderedit, page: () => const EditOrder()),
     GetPage(name: AppRoute.ordersViewBydriverid, page: () => const ViewOrdersByDrivers()),
 
 

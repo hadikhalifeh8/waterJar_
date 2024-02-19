@@ -1,9 +1,7 @@
-import 'package:dartz/dartz.dart';
 import 'package:drop_down_list/model/selected_list_item.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_connect/http/src/utils/utils.dart';
 import 'package:water_jar/controller/Orders/viewController.dart';
 import 'package:water_jar/core/class/statusRequest.dart';
 import 'package:water_jar/core/constant/routes.dart';
@@ -19,40 +17,27 @@ import 'package:water_jar/data/model/driversModel.dart';
 import 'package:water_jar/data/model/ordersModel.dart';
 import 'package:water_jar/data/model/townsModel.dart';
 
-class AddOrderController extends GetxController {
+class EditOrderController extends GetxController {
 
  SqlDb sqlDb = SqlDb();
   Myservices myservices = Get.find();
 
  List<DaysModel> day = [];
- DaysModel? daysModel;
-   String? dayid;
+  DaysModel? daysModel;
+
 
 List<DriversModel> drivers = [];
  DriversModel? driversModel;
-    String? driverid;
 
-
- TextEditingController qtyOfBottels_ = TextEditingController(text: "0");
- TextEditingController pricePerBottel_ = TextEditingController(text: "0");
- String? totalPriceOfBottels_= "0";
-
- String? qtyOfJarIn_= "0";
- String? qtyOfJarOut_= "0";
- String? taltalQtyOfJars_= "0";
- String? pricePerJar_= "0";
- String? totalPriceOfJars_= "0";
-
- 
-
-
-
+ String? id;
+   
 
 
 
   GlobalKey<FormState> formState = GlobalKey<FormState>();
 
   List<OrdersModel> orders = [];
+  OrdersModel? ordersModel;
 
   List<CustomersModel> customers = [];
   CustomersModel? customersModel;
@@ -71,12 +56,10 @@ List<DriversModel> drivers = [];
   
 
   List<SelectedListItem> dropdownListOFCustomers = [];
-   List<SelectedListItem> dropdownListOFTowns = [];
-  List<SelectedListItem> dropdownListOFDistricts = [];
+  //  List<SelectedListItem> dropdownListOFTowns = [];
+  // List<SelectedListItem> dropdownListOFDistricts = [];
 
 
- 
-  List<SelectedListItem> dropdownListOFCompanies = [];
   List<SelectedListItem> dropdownListOFBottels = [];
 
 
@@ -86,23 +69,14 @@ List<DriversModel> drivers = [];
 
 
 
+  // TextEditingController dropdownCustomersName = TextEditingController();
+  // TextEditingController dropdownCustomersId = TextEditingController();
+
+    TextEditingController dayId = TextEditingController();  
+  TextEditingController dayName = TextEditingController();
+  
 
 
-
-  TextEditingController dropdownCustomersName = TextEditingController();
-  TextEditingController dropdownCustomersId = TextEditingController();
-
-  // TextEditingController dropdownTownsName = TextEditingController();
-  // TextEditingController dropdownTownsId = TextEditingController();
-
-
-  // TextEditingController dropdownDistrictsName = TextEditingController();
-  // TextEditingController dropdownDistrictsId = TextEditingController();
-
-
-
-  // TextEditingController dropdownCompaniesName = TextEditingController();
-  // TextEditingController dropdownCompaniesId = TextEditingController();
 
   TextEditingController dropdownBottelsName = TextEditingController();
   TextEditingController dropdownBottelsId = TextEditingController();
@@ -329,12 +303,12 @@ SELECT * FROM bottels
   }
 
 
-  // Insert Order Data
-   insertData() async {
+  // Update Order Data
+   updateData(id) async {
 
-        if (customerId.text.isEmpty) {
-  return Get.snackbar("warning", "select a customer",backgroundColor: Colors.red, colorText: Colors.white);
-}
+//         if (customerId.text.isEmpty) {
+//   return Get.snackbar("warning", "select a customer",backgroundColor: Colors.red, colorText: Colors.white);
+// }
 
      if (bottelsId.text.isEmpty && jarsId.text.isEmpty) {
   return Get.snackbar("warning", "choose bottles OR jars",backgroundColor: Colors.red, colorText: Colors.white);
@@ -345,16 +319,32 @@ SELECT * FROM bottels
     update();
 
  
- int response = await sqlDb.insertData(''' INSERT INTO orders (
-        'day_id', 'driver_id', 'customer_id', 'town_id', 'district_id','jar_id', 'bottle_id',
-         'qty_of_bottles', 'price_per_bottel', 'tolal_price_bottel', 'qty_jar_in', 'qty_jar_out', 'qty_previous_jars', 'total_jar',
-         'price_per_jar', 'total_price_jars', 'old_debt', 'new_debt', 'paid', 'total_price')
-          VALUES("${daysModel!.id.toString()}", "${myservices.sharedPreferences.getString("id").toString()}", "${customerId.text}", "${townId.text}", "${districtId.text}", "${jarsId.text}", "${bottelsId.text.toString()}",
-          "${qtyOfBottles.text}" , "${pricePerBottel.text}", "${totalPriceBottel.text}" ,
-           "${jarIn.text}", "${jarOut.text}", "${qtyPreviousOFJars.text}", "${totalJars.text}",
-           "${pricePerJar.text}", "${totalPriceJars.text}", "${oldDebt.text}", "${newDebt.text}", 
-           "${paid.text}","${totalPrice.text}"
-          )
+ int response = await sqlDb.updateData('''
+ UPDATE orders SET 
+                  day_id = "${ordersModel!.dayId}",
+                  driver_id = "${myservices.sharedPreferences.getString("id")}",
+                  customer_id = "${customerId.text}",
+                  town_id = "${townId.text}",
+                  district_id = "${districtId.text}",
+                  jar_id = "${jarsId.text}",
+                  bottle_id = "${bottelsId.text}",
+                  qty_of_bottles = "${qtyOfBottles.text}",
+                  price_per_bottel = "${pricePerBottel.text}",
+                  tolal_price_bottel = "${totalPriceBottel.text}",
+                  qty_jar_in =  "${jarIn.text}",
+                  qty_jar_out = "${jarOut.text}",
+                  qty_previous_jars = "${qtyPreviousOFJars.text}",
+                  total_jar = "${totalJars.text}",
+                  price_per_jar = "${pricePerJar.text}",
+                  total_price_jars = "${totalPriceJars.text}",
+                  old_debt = "${oldDebt.text}",
+                  new_debt = "${newDebt.text}",
+
+                  paid = "${paid.text}",
+                  total_price = "${totalPrice.text}"
+                  
+                  WHERE id = ${id.toString()}
+          
         ''');
 
         statusRequest = handlingData("// $response //"); 
@@ -362,16 +352,18 @@ SELECT * FROM bottels
         if (StatusRequest.success == statusRequest) {
           if (response > 0) {
            
-            ViewOrdersController controller = Get.put(ViewOrdersController());
+             ViewOrdersController controller = Get.put(ViewOrdersController());
             print("*---------=== success + $response");
-          //  controller.readData();
-        //    Get.offAllNamed(AppRoute.ordersHomePage);
+             controller.readData();
+        //    Get.offNamed(AppRoute.ordersViewBydriverid);
+        
               Get.back();
+              //update();
 
 
             Get.rawSnackbar(
               titleText: const Text("Success", style: TextStyle(color: Colors.white)),
-              messageText: const Text("Data added Successfully", style: TextStyle(color: Colors.white)),
+              messageText: const Text("Order Updated Successfully", style: TextStyle(color: Colors.white)),
               backgroundColor: Colors.green.shade400,
             );
           } else {
@@ -415,7 +407,7 @@ SELECT * FROM bottels
 
 
   onBottlesChanged(String? bottelsId) async {
-    
+
   if (bottelsId != null && bottelsId.isNotEmpty) {
 
     resetTotalPriceANDQTYOFBottels();
@@ -423,7 +415,7 @@ SELECT * FROM bottels
     getTotalPriceOfBottelData();
     getTotalPriceOrder();
     getDebtValue();
-     
+
 
     update();
   }
@@ -619,7 +611,7 @@ update();
       getTotalQTYOFJARSSData();
       getTotalPriceOfJARData();
       getTotalPriceOrder();
-      getDebtValue();
+       getDebtValue();
      
     // getJarsData();
        update(); // Update the UI
@@ -760,9 +752,7 @@ update();
 
       totalJars.text = (jrIns - jrOuts + prevJars).toString();
 
-
-        
-          } 
+          }
 
          }
       update();
@@ -810,22 +800,29 @@ update();
 
     //  totalPrice.text = (double.parse(totalPriceBottel.text) + double.parse(totalPriceJars.text)).toString();
     //         print("yesssss has jars totalJars");
-if (totalPriceBottel.text.isNotEmpty && totalPriceJars.text.isNotEmpty) {
+if (totalPriceBottel.text.isNotEmpty && totalPriceJars.text.isNotEmpty && newDebt.text.isNotEmpty) {
     double totalPriceBottels_ = double.parse(totalPriceBottel.text);
     double totalPriceJars_ = double.parse(totalPriceJars.text);
+    double newDebt_ = double.parse(newDebt.text);
 
-    totalPrice.text = (totalPriceBottels_ + totalPriceJars_).toStringAsFixed(2);
+    totalPrice.text = (totalPriceBottels_ + totalPriceJars_ + newDebt_).toStringAsFixed(2);
     print("the totalPrice.text is = ${totalPrice.text}");
     update();
 
-} else if (totalPriceJars.text.isNotEmpty) {
+} else if (totalPriceJars.text.isNotEmpty &&  newDebt.text.isNotEmpty) {
     double totalPriceJars_ = double.parse(totalPriceJars.text);
-    totalPrice.text = (totalPriceJars_).toStringAsFixed(2);
+    double newDebt_ = double.parse(newDebt.text);
+
+    totalPrice.text = (totalPriceJars_ + newDebt_).toStringAsFixed(2);
+     print("the totalPrice.text is = ${totalPrice.text}");
     update();
 
-} else if (totalPriceBottel.text.isNotEmpty) {
+} else if (totalPriceBottel.text.isNotEmpty && newDebt.text.isNotEmpty) {
     double totalPriceBottels_ = double.parse(totalPriceBottel.text);
-    totalPrice.text = (totalPriceBottels_).toStringAsFixed(2);
+    double newDebt_ = double.parse(newDebt.text);
+
+    totalPrice.text = (totalPriceBottels_ + newDebt_).toStringAsFixed(2);
+     print("the totalPrice.text is = ${totalPrice.text}");
     update();
 }
       // update();
@@ -858,7 +855,7 @@ if (totalPriceBottel.text.isNotEmpty && totalPriceJars.text.isNotEmpty) {
          
       ''');
       
-//  if (response.isNotEmpty) {
+ if (response.isNotEmpty) {
 
     orders.clear();
 
@@ -877,27 +874,25 @@ if (totalPriceBottel.text.isNotEmpty && totalPriceJars.text.isNotEmpty) {
        update();
 
         } 
-        else if(totalPrice.text.isNotEmpty) {
+        // else if(totalPrice.text.isNotEmpty) {
 
-          double totalPrice_ = double.parse(totalPrice.text);
-          // debt.text = (totalPrice_ - totalPrice_).toString();
-          // update();
+        //   double totalPrice_ = double.parse(totalPrice.text);
+        //   debt.text = (totalPrice_ - totalPrice_).toString();
 
-        }
-        else if(paid.text.isNotEmpty) {
+        // }
+        // else if(paid.text.isNotEmpty) {
            
-          double paid_= double.parse(paid.text);
-          // debt.text = (paid_ - paid_).toString();
-          // update();
+        //   double paid_= double.parse(paid.text);
+        //   debt.text = (paid_ - paid_).toString();
 
-        }
+        // }
 
 
-//  }else{
-//    print("noooo hasnt debt");
-//       //  debt.text ="0";
+ }else{
+   print("noooo hasnt debt");
+        // debt.text ="0";
 
-//  }
+ }
  update();
  return response;
  }
@@ -964,21 +959,12 @@ if (totalPriceBottel.text.isNotEmpty && totalPriceJars.text.isNotEmpty) {
 
   @override
   void onInit() {
-   daysModel = Get.arguments['daysModel_'];
+   ordersModel = Get.arguments['ordersModel_'];
 
-
-   // customersModel = Get.arguments['customersModel_']; // From View Customer
-
-   getCustomersData();
-  //  getCompaniesData();
+  //  getCustomersData();
+  
    getBottelsData();
     getJarsData();
-
-
-   
-  //  removeData();
-
-  
 
 
 
@@ -990,30 +976,14 @@ if (totalPriceBottel.text.isNotEmpty && totalPriceJars.text.isNotEmpty) {
 
     jarIn= TextEditingController();
     jarOut = TextEditingController();
-    // qtyPreviousOFJars = TextEditingController();
+     qtyPreviousOFJars = TextEditingController();
+    //qtyPreviousOFJars.text.isNotEmpty ?  TextEditingController() : '0';
 
-    // totalJars= TextEditingController();
-      if (qtyPreviousOFJars.text.isNotEmpty) {
-      qtyPreviousOFJars = TextEditingController();
-    } else {
-      qtyPreviousOFJars = TextEditingController(text: '0');
-    }
-
-
- //   qtyPreviousOFJars = qtyPreviousOFJars.text.isNotEmpty ?  TextEditingController() : '0';
-
-  //  totalJars.text.isNotEmpty ? TextEditingController() : 0;
-    if (totalJars.text.isNotEmpty) {
-      totalJars = TextEditingController();
-    } else {
-      totalJars = TextEditingController(text: '0');
-    }
+     totalJars= TextEditingController();
+    // totalJars.text.isNotEmpty ? TextEditingController() : '0';
 
     pricePerJar= TextEditingController();
     totalPriceJars = TextEditingController();
-
-
-
 
 
     townId = TextEditingController(); 
@@ -1026,19 +996,10 @@ if (totalPriceBottel.text.isNotEmpty && totalPriceJars.text.isNotEmpty) {
     customerId = TextEditingController();
 
 
+    // dropdownCustomersName = TextEditingController();
+    // dropdownCustomersId = TextEditingController();
 
 
-    // dropdownTownsId = TextEditingController();
-    // dropdownTownsName = TextEditingController();
-
-    // dropdownDistrictsId = TextEditingController();
-    // dropdownDistrictsName = TextEditingController();
-
-    dropdownCustomersName = TextEditingController();
-    dropdownCustomersId = TextEditingController();
-
-    // dropdownCompaniesName = TextEditingController();
-    // dropdownCompaniesId = TextEditingController();
 
     jarsName= TextEditingController();
     jarsId= TextEditingController();
@@ -1049,29 +1010,79 @@ if (totalPriceBottel.text.isNotEmpty && totalPriceJars.text.isNotEmpty) {
     bottelsName= TextEditingController();
     bottelsId= TextEditingController();
 
-
-
-    oldDebt = TextEditingController();
-
-    if (newDebt.text.isNotEmpty) {
-      newDebt = TextEditingController();
-    } else {
-      newDebt = TextEditingController(text: '0');
-    }
-
+    oldDebt= TextEditingController();
+    newDebt= TextEditingController();
 
     paid= TextEditingController();
 
-
-
     totalPrice = TextEditingController();
+
+
+
+     // get data from db view to texts in edit
+    id = ordersModel!.id.toString();
+
+    dayId.text =  ordersModel!.dayId.toString();
+    dayName.text =  ordersModel!.dayName.toString();
+
+    customerId.text =  ordersModel!.customerId.toString();
+    customerName.text =  ordersModel!.customerName.toString();
+
+
+    townId.text =  ordersModel!.townId.toString();
+    townName.text =  ordersModel!.townName.toString();
+
+    districtId.text =  ordersModel!.districtId.toString();
+    districtName.text =  ordersModel!.districtName.toString();
+
+    // bottelsId.text =  ordersModel!.bottelId.toString();
+    // bottelsName.text =  ordersModel!.bottelName.toString();
+
+    // pricePerBottel.text =  ordersModel!.pricePerBottel.toString();
+    // qtyOfBottles.text =  ordersModel!.qtyOfBottels.toString();
+    // totalPriceBottel.text =  ordersModel!.totalpriceOfBottels.toString();
+
+    // jarsId.text =  ordersModel!.jarId.toString();
+    // jarsName.text =  ordersModel!.jarName.toString();
+
+
+    // jarIn.text =  ordersModel!.qtyJarIn.toString();
+    // jarOut.text =  ordersModel!.qtyJarOut.toString();
+       
+
+       
+       qtyPreviousOFJars.text = ordersModel!.totalJar.toString();
+ 
+       print("prev Jars Text: ${qtyPreviousOFJars.text}");
+   
+
+    
+        totalJars.text =  ordersModel!.totalJar.toString();
+ 
+         print("Total Jars Text: ${totalJars.text}");
+   
+
+  
+
+
+ //   qtyJarIn = json['qty_jar_in'] != null ? int.tryParse(json['qty_jar_in'].toString()) : null;
+
+    // pricePerJar.text =  ordersModel!.pricePerJar.toString();
+    // totalPriceJars.text =  ordersModel!.totalpriceOfJars.toString();
+
+    // paid.text =  ordersModel!.paid.toString();
+    newDebt.text =  ordersModel!.oldDebt.toString();
+  //  newDebt.text =  ordersModel!.newDebt.toString();
+
+
+    // totalPrice.text =  ordersModel!.totalPrice.toString();
+
+
 
     super.onInit();
   }
 
-
-
-  @override
+   @override
   void dispose() {
     qtyOfBottles.dispose();
     pricePerBottel.dispose();
@@ -1101,8 +1112,7 @@ pricePerJar.dispose();
     customerName.dispose();
     customerId.dispose();
 
-dropdownCustomersName.dispose();
-    dropdownCustomersId.dispose();
+
 jarsName.dispose();
     jarsId.dispose();
 
@@ -1114,7 +1124,6 @@ jarsName.dispose();
 
     oldDebt.dispose();
     newDebt.dispose();
-    
     paid.dispose();
 
 

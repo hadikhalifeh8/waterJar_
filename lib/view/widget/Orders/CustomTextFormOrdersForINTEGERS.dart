@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-class CustomTextFormOrdersForJars extends StatelessWidget {
+class CustomTextFormOrdersForINTEGERS extends StatelessWidget {
   final String label_;
   final String hintText_;
   final IconData? icon_;
@@ -17,7 +17,7 @@ class CustomTextFormOrdersForJars extends StatelessWidget {
  
   
 
-  const CustomTextFormOrdersForJars({
+  const CustomTextFormOrdersForINTEGERS({
          super.key, 
                       required this.label_, 
                       required this.hintText_,

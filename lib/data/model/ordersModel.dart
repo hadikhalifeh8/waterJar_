@@ -26,7 +26,10 @@ class OrdersModel {
 
   String? status;
 
-  double? debt; // ==> ديون سابقه
+  double? oldDebt; // ==> ديون سابقه
+  double? newDebt; // ==> ديون سابقه
+
+
   double? paid; // ==>أدي دفع
   double? totalPrice; // ==> المجموع
 
@@ -65,7 +68,9 @@ class OrdersModel {
       this.status,
 
 
-      this.debt,
+      this.oldDebt,
+      this.newDebt,
+
       this.paid,
       this.totalPrice,
 
@@ -110,7 +115,9 @@ class OrdersModel {
 
 
     
-    debt = json['debt'] != null ? double.tryParse(json['debt'].toString()) : null;
+    oldDebt = json['old_debt'] != null ? double.tryParse(json['old_debt'].toString()) : null;
+    newDebt = json['new_debt'] != null ? double.tryParse(json['new_debt'].toString()) : null;
+
     paid = json['paid'] != null ? double.tryParse(json['paid'].toString()) : null;
     totalPrice = json['total_price'] != null ? double.tryParse(json['total_price'].toString()) : null;
    
@@ -147,7 +154,9 @@ class OrdersModel {
     data['status'] = this.status;
 
 
-    data['debt'] = this.debt;
+    data['old_debt'] = this.oldDebt;
+    data['new_debt'] = this.newDebt;
+
     data['paid'] = this.paid;
     data['total_price'] = this.totalPrice;
 

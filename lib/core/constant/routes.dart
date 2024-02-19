@@ -55,12 +55,14 @@ class AppRoute {
 
 
    // Orders
+  static const String ordersHomePage = "/ordersHomePage";
   static const String driverLogin = "/driverLogin";
   static const String orderadd = "/orderadd";
-    static const String ordersViewBydriverid = "/ordersViewBydriverid";
+  static const String orderedit = "/orderedit";
+  static const String ordersViewBydriverid = "/ordersViewBydriverid";
 
 
-
+  
 
   
 

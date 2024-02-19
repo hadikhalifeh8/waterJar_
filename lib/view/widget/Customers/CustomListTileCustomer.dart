@@ -29,14 +29,21 @@ class CustomListTileCustomers extends StatelessWidget {
         child: Card(
                   child: ListTile(
                                 
-                       leading: Container(padding: const EdgeInsets.only(top: 5.0),child: Text(leading_)),
+                      // leading: Container(padding: const EdgeInsets.only(top: 3.0),child: Text(leading_)),
       
                        title: Row(
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
-                                  Expanded(flex: 2,child: Text(town_)),
+                                  Expanded(flex: 3,child: Text(leading_)),
+                                  Expanded(flex: 3,child: Text(town_, style: TextStyle(color: Colors.green),)),
       
                                   Expanded(flex: 2,child: Text(district_)),
+
+                                  // Expanded(flex: 1,child: IconButton(onPressed: onDelete,
+                                  // icon:  Icon(iconDelete, color: Colors.red)
+                                  // ),),
+                               
+
       
                                 ],
                               ),
@@ -44,7 +51,7 @@ class CustomListTileCustomers extends StatelessWidget {
                               
                         trailing: 
                                  IconButton(onPressed: onDelete,
-                                  icon:  Icon(iconDelete, color: Colors.red,)
+                                  icon:  Icon(iconDelete, color: Colors.red)
                                   ),
                               
                                                   ),

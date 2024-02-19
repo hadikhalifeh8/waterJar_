@@ -34,14 +34,16 @@ class CustomListTile extends StatelessWidget {
             child: Card(
                 child: ListTile(
                  
-                  leading: Text(id,textAlign: TextAlign.start,),
+           //       leading: Text(id,textAlign: TextAlign.start,),
                    
                    title: Row(
                                 mainAxisSize: MainAxisSize.min,
                      children: [
-                                Text(districtName,textAlign: TextAlign.start),
+                      Expanded(child:Text(id,textAlign: TextAlign.start,)),
+                      Expanded(flex: 2,child: Text(districtName,textAlign: TextAlign.start)),
                            const Spacer(),
-                                Text(townName,textAlign: TextAlign.start),
+                       Expanded(flex: 2,child:  Text(townName,textAlign: TextAlign.start)),
+                      
                      ],
                    ),
               

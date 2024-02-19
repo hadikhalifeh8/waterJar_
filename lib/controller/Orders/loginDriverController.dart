@@ -69,7 +69,7 @@ List<Map> response = await sqlDb.readData('''
 
      myservices.sharedPreferences.setString("step", "4");
 
-       Get.offNamed(AppRoute.viewdays);
+       Get.offNamed(AppRoute.ordersHomePage);
       //  }  else{
       //        Get.toNamed(AppRoute.verifyCodeSignup, arguments: { "email": email.text});
       //  }

@@ -39,7 +39,7 @@ class AddDriver extends StatelessWidget {
                             // onTap_: (){},
                              isNumber: false,
                                validation: (val){
-                            return  valiInput(val!, 8, 12, "name");
+                            return  valiInput(val!, 8, 20, "name");
                              },
                              obscureText_: false,
                              mycontroller: controller.name,
@@ -53,7 +53,7 @@ class AddDriver extends StatelessWidget {
                             // onTap_: (){},
                              isNumber: true,
                              validation: (val){
-                            return  valiInput(val!, 8, 12, "phone");
+                            return  valiInput(val!, 8, 16, "phone");
                              },
                              obscureText_: false,
                              mycontroller: controller.phone,

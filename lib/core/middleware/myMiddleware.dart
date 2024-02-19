@@ -16,7 +16,7 @@ class MyMidlleware extends GetMiddleware{
 
 
         if(myservices.sharedPreferences.getString("step") == "4"){
-        return const RouteSettings(name: AppRoute.viewdays);
+        return const RouteSettings(name: AppRoute.ordersHomePage);
     }
 
         if(myservices.sharedPreferences.getString("step") == "3"){

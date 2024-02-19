@@ -38,6 +38,10 @@ class AppImageAsset {
 
 
 
+  // Driver Home Page Orders
+  static const String newOrder ="$rootImages/new-order.jpg";
+  static const String preOrder ="$rootImages/pre-order.png";
+
 
 
 

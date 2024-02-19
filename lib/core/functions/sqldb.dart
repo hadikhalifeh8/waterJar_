@@ -25,7 +25,7 @@ Future<Database?> initialDB() async {
   try {
     String databasePath = await getDatabasesPath();
     String path = join(databasePath, 'jar.db');
-    Database mydb = await openDatabase(path, onCreate: _onCreate, version: 9, onUpgrade: _onUpgrade);
+    Database mydb = await openDatabase(path, onCreate: _onCreate, version: 1, onUpgrade: _onUpgrade);
     return mydb;
   } catch (e) {
     print('Error initializing database: $e');
@@ -173,22 +173,24 @@ Future<Database?> initialDB() async {
         "price_per_bottel" FLOAT DEFAULT 0.0,
         "tolal_price_bottel" FLOAT DEFAULT 0.0,
 
-        "qty_jar_in" INTEGER DEFAULT "0",
-        "qty_jar_out" INTEGER DEFAULT "0",
-        "qty_previous_jars" INTEGER  DEFAULT "0",
+        "qty_jar_in" INTEGER DEFAULT 0,
+        "qty_jar_out" INTEGER DEFAULT 0,
+        "qty_previous_jars" INTEGER  DEFAULT 0,
 
-        "total_jar" INTEGER DEFAULT "0",
+        "total_jar" INTEGER DEFAULT 0,
 
 
-        "price_per_jar" FLOAT DEFAULT "0.0",
-        "total_price_jars" FLOAT DEFAULT "0.0",
+        "price_per_jar" FLOAT DEFAULT 0.0,
+        "total_price_jars" FLOAT DEFAULT 0.0,
        
         
 
 
-        "debt" FLOAT  DEFAULT "0.0",
-        "paid" FLOAT  DEFAULT "0.0",
-        "total_price" FLOAT DEFAULT "0.0",
+        "old_debt" FLOAT DEFAULT 0.0,
+        "new_debt" FLOAT DEFAULT 0.0,
+
+        "paid" FLOAT DEFAULT 0.0,
+        "total_price" FLOAT DEFAULT 0.0,
 
 
          "FOREIGN KEY (day_id) REFERENCES days (id) ON DELETE NO ACTION ON UPDATE NO ACTION,"

@@ -1,41 +1,34 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import 'package:water_jar/controller/Customers/addController.dart';
 import 'package:water_jar/controller/Orders/addController.dart';
-import 'package:water_jar/controller/Orders/viewController.dart';
+import 'package:water_jar/controller/Orders/editController.dart';
 import 'package:water_jar/core/class/handlingDataView.dart';
-import 'package:water_jar/core/constant/imageasset.dart';
-import 'package:water_jar/core/constant/routes.dart';
 import 'package:water_jar/core/functions/validationinput.dart';
-import 'package:water_jar/core/shared/DropDownSearch.dart';
-import 'package:water_jar/data/model/ordersModel.dart';
-import 'package:water_jar/view/widget/Customers/CustomTextFormCustomer.dart';
-import 'package:water_jar/view/widget/Drivers/CustomButton.dart';
 import 'package:water_jar/view/widget/Orders/CustomButton.dart';
 import 'package:water_jar/view/widget/Orders/CustomTextFormOrdersForGetPrices.dart';
 import 'package:water_jar/view/widget/Orders/CustomTextFormOrdersForINTEGERS.dart';
 import 'package:water_jar/view/widget/Orders/DropDownSearchOrders.dart';
 
 
-class AddOrder extends StatelessWidget {
-  const AddOrder({super.key});
+class EditOrder extends StatelessWidget {
+  const EditOrder({super.key});
 
   @override
   Widget build(BuildContext context) {
-     Get.lazyPut(() =>AddOrderController());
+     Get.lazyPut(() =>EditOrderController());
    
 //  ViewOrdersController ordersController =  Get.put(ViewOrdersController());
 
     
     return Scaffold(appBar: AppBar(
 
-      title: const Text("Add Order"),
+      title: const Text("Update Order"),
       centerTitle: true,
     ),
 
     body:
-          GetBuilder<AddOrderController>(builder: (controller) => 
+          GetBuilder<EditOrderController>(builder: (controller) => 
 
           HandlingDataRequest(
             
@@ -58,21 +51,21 @@ class AddOrder extends StatelessWidget {
                 children: [
 
                      Container(
-                    padding: const EdgeInsets.only(),
-                    child: Text("${controller.myservices.sharedPreferences.getString("name").toString()}", style: const TextStyle(fontSize: 20, color:Colors.red)),
+                    padding: const EdgeInsets.only( right: 15.0),
+                    child: Text(controller.myservices.sharedPreferences.getString("name").toString(), style: const TextStyle(fontSize: 20, color:Colors.red)),
                   ),
                  
                   
                   Container(
-                    padding: const EdgeInsets.only(left: 15.0, right: 15.0),
-                    child: Text(controller.daysModel!.name.toString(),style: const TextStyle(fontSize: 20, color: Colors.blue))
+                    padding: const EdgeInsets.only(left: 5.0, right: 15.0),
+                    child: Text(controller.ordersModel!.dayName.toString(),style: const TextStyle(fontSize: 18, color: Colors.blue))
                   ),
                   
                   
                Container(
-                    padding: const EdgeInsets.only(left: 5.0),
+                    padding: const EdgeInsets.only(left: 15.0),
 
-                child: Text(DateFormat('dd-MM-yyyy').format(DateTime.now()),style: TextStyle(fontSize: 14, color: Colors.red))
+                child: Text(DateFormat('dd-MM-yyyy').format(DateTime.now()),style: TextStyle(fontSize: 16, color: Colors.red))
                ),
 
            
@@ -86,22 +79,13 @@ class AddOrder extends StatelessWidget {
      
  Row(
                     children: [
-                      Expanded(flex: 2,
-                        child: CustomDropDownSearchOrders(
-                                             label: "Customers", 
-                                             title: "Enter Customers", 
-                                             listdata: controller.dropdownListOFCustomers,
-                                             dropDownSelectedName: controller.customerName,
-                                             dropDownSelectedID: controller.customerId,
-                                              onTownChanged: controller.onCustomerChanged,
-                                             
-                               ),
-                      ),
+                     Expanded(child: Text(controller.ordersModel!.customerName.toString(), style: const TextStyle(fontSize: 15),)),
+
                       
    
 
-            Expanded(child: Text(controller.townName.text, style: const TextStyle(fontSize: 15),)),
-            Expanded(child: Text(controller.districtName.text, style: const TextStyle(fontSize: 15))),
+            Expanded(child: Text(controller.ordersModel!.townName.toString(), style: const TextStyle(fontSize: 15),)),
+            Expanded(child: Text(controller.ordersModel!.districtName.toString(), style: const TextStyle(fontSize: 15))),
 
                     ],
                   ),
@@ -485,9 +469,10 @@ const SizedBox(height: 40.0,),
 
 
              Expanded(
+              // newDebt is = => oldDebt in AddOrder is = 0
                   child: CustomTextFormOrdersForGetPrices(
-                                         label_: "debt", 
-                                         hintText_: "debt", 
+                                         label_: "New debt", 
+                                         hintText_: "New debt", 
                               //            validation: (val){
                               //  return valiInput(val!, 3, 15, "");
                               // }, 
@@ -511,6 +496,26 @@ const SizedBox(height: 40.0,),
 
 
          ],),
+         Divider(),
+// oldDebt is the ==> newDebt in AddOrder
+         CustomTextFormOrdersForGetPrices(
+                                         label_: "Old debt", 
+                                         hintText_: "Old debt", 
+                              //            validation: (val){
+                              //  return valiInput(val!, 3, 15, "");
+                              // }, 
+                                        mycontroller:controller.newDebt,  
+                                        icon_: Icons.monetization_on, 
+                                        isNumber: true, 
+                                       //  obscureText_: obscureText_, 
+                                        inputFormatters_: true,
+                                        readOnly_: true,
+                                        // onChanged_: ($value){
+                                        //   controller.onBottlesChanged($value);
+                                        //   controller.onBottlesFORJARChanged($value);
+                                        // }
+                                        
+                                    ),
 
     
 const SizedBox(height: 40.0,),
@@ -532,8 +537,10 @@ const SizedBox(height: 40.0,),
 
 
       CustomButtonOrder(
-                       onPressed_: (){controller.insertData();},
-                       text_: "Order Now",
+                       onPressed_: (){
+                        controller.updateData(controller.ordersModel!.id.toString());
+                        },
+                       text_: "Update Order",
                        ),
 
                   

@@ -43,7 +43,7 @@ class AddCustomer extends StatelessWidget {
                             // onTap_: (){},
                              isNumber: false,
                                validation: (val){
-                            return  valiInput(val!, 8, 12, "name");
+                            return  valiInput(val!, 8, 20, "name");
                              },
                              obscureText_: false,
                              mycontroller: controller.name,

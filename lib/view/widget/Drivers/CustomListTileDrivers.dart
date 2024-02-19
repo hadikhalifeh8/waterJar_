@@ -24,11 +24,16 @@ class CustomListTileDrivers extends StatelessWidget {
       onTap: onEdit,
       child: Card(
                             child: ListTile(
-                            title: Text(title_),
-                            leading: (Container(padding: EdgeInsets.only(top:4),child: Text(leading_))),
+                            // title: Text(title_),
+                            // leading: (Container(padding: EdgeInsets.only(top:4),child: Text(leading_))),
+                            
+                          title: Row(children: [
+                            Expanded(flex: 2,child: Text(leading_),),
+                            Expanded(flex:3,child: Text(title_),),
+
+                          ],),
                             
                             trailing: 
-    
     
                                IconButton(onPressed: onDelete,
                                
